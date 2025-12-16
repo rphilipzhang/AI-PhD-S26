@@ -62,32 +62,32 @@ Most of the code in this course will be distributed through the [Google CoLab](h
 If you have any feedback on this course, please directly contact Philip at philipzhang@cuhk.edu.hk and we will try our best to address it.
 
 ## 📚 Previous Offerings
-- **🗂️ GitHub Repos:** [Spring 2024@CUHK](https://github.com/rphilipzhang/AI-PhD-S24), [Summer 2024@SJTU Antai](https://github.com/rphilipzhang/AI-PhD-Antai-Su2024)
-- **🎥 Video Recordings (You need to apply for access):** [Spring 2024@CUHK](https://docs.google.com/document/d/1wUy9zWQHBI4gouM9x-xW0pqhqRD5WgLXPLRT9A1iCPA/edit?usp=sharing), [Summer 2024@SJTU Antai](https://docs.google.com/document/d/15nrUMEhW-Le3N8AJwxWrH1UFxWc0G1w2ZeGbbDwELQc/edit?usp=sharing)
-- **📝 Scribed Notes:** [Spring 2024@CUHK](https://github.com/rphilipzhang/AI-PhD-S24/blob/main/Notes/Scribed_Notes-AI-PhD-S24.pdf)
+- **🗂️ GitHub Repos:** [Spring 2025@CUHK](https://github.com/rphilipzhang/AI-PhD-S25), [Summer 2024@SJTU Antai](https://github.com/rphilipzhang/AI-PhD-Antai-Su2024), [Spring 2024@CUHK](https://github.com/rphilipzhang/AI-PhD-S24)
+- **🎥 Video Recordings (You need to apply for access):** [Spring 2025@CUHK](https://docs.google.com/document/d/1J3OA4_QlxACGxiffoXjRhj7t4mV3KiHKOfeuVt48fsA/edit?usp=sharing), [Summer 2024@SJTU Antai](https://docs.google.com/document/d/15nrUMEhW-Le3N8AJwxWrH1UFxWc0G1w2ZeGbbDwELQc/edit?usp=sharing), [Spring 2024@CUHK](https://docs.google.com/document/d/1wUy9zWQHBI4gouM9x-xW0pqhqRD5WgLXPLRT9A1iCPA/edit?usp=sharing)
+- **📝 Scribed Notes:** [Spring 2025@CUHK](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Spring 2024@CUHK](https://github.com/rphilipzhang/AI-PhD-S24/blob/main/Notes/Scribed_Notes-AI-PhD-S24.pdf)
 
 ## 📅 Brief Schedule
-Subject to modifications. All classes start at 12:30pm and end at 3:15pm.
+Subject to modifications. All classes start at 9:30am and end at 12:15pm.
 |Session|Date |Topic|Key Words|
 |:-------:|:-------------:|:----:|:-:|
-|1|1.14|AI/ML in a Nutshell|Course Intro, Prediction in Biz Research|
-|2|1.21|Intro to DL|ML Model Evaluations, DL Intro, Neural Nets|
-|3|2.04|LLM (I)|DL Computations, Attention Mechanism| 
-|4|2.11|LLM (II)|Transformer, ViT, DiT|
-|5|2.18|LLM (III)| BERT, GPT|
-|6|2.25|LLM (IV)|LLM Pre-training, DL Computations|
-|7|3.04|LLM (V)|Post-training, Fine-tuning, RLHF, Test-Time Scaling, Inference, Quantization| 
-|8|3.11|LLM (VI)| Agentic AI, AI as Human Simulators, Applications in Business Research| 
-|9|3.18|Causal (I)|Causal Inference Intro, RCT|
-|10|3.25|Causal (II)|IPW, AIPW|
-|11|4.01|Causal (III)|Partial Linear Models, Double Machine Learning|
-|12|4.08|Causal (IV)|Double Machine Learning, Neyman Orthogonality|
-|13|4.15|Causal (V)|Heterogeneous Treatment Effect, Causal Tree, Causal Forest, Course Wrap-up|
-|13+|Summer|Course Remake|Synthetic Control, Matrix Completion, LLM x Causal Inference, Interference, etc.|
+|1|1.06|AI/ML in a Nutshell|Course Intro, Prediction in Biz Research, ML Model Evaluations|
+|2|1.13|Intro to DL|DL Intro, Neural Nets, DL Computations|
+|3|1.20|RL (I)|Tabular MDP, Bellman Equation| 
+|4|1.27|RL (II)|Model-free Prediction & Control, Monte Carlo, Temporal Difference|
+|5|2.03|RL (III)| Value-based DRL, DQN, AlphaGo|
+|6|2.10|RL (IV)|Policy-based DRL, Policy Gradient, PPO, A3C|
+|7|2.24|RL (V)|Off-Policy Evaluation, Off-Policy Learning| 
+|8|3.3|RL (VI)|RLHF, RL with Verifiable Reward, LLM Reasoning, GRPO| 
+|9|3.10|Agentic AI (I)|Building LLM Agents, ReAct, ToT, MCP|
+|10|3.17|Agentic AI (II)|Agent Training, Tool Use, Coding Agent|
+|11|3.24|Agentic AI (III)|Agent Evaluation, Benchmarks|
+|12|3.31|Agentic AI (IV)|Multi-Agent Systems, Agentic Simulations|
+|13|4.14|Agentic AI (V)|Business Applications of Agentic AI|
+|13+|2027|Season 4|More to come...|
 
 ## 📅 Important Dates
 
-All problem sets are due at 12:30pm right before class.
+All problem sets are due at 9:30am right before class.
 
 |Date| Time|Event|Note|
 |:--:|:-:|:---:|:--:|
