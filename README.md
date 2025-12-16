@@ -25,7 +25,7 @@
 
 - 🌐 Website: https://github.com/rphilipzhang/AI-PhD-S26
 - ⏰ Time: Tuesday, 9:30am-12:15pm (Jan 6 - Apr 14, 2026)
-  - *Excluding: Feb 17 (Chinese New Year), April 7 (Easter)*
+  - *Excluding: Feb 17 (Chinese New Year), Apr 7 (Easter)*
 - 📍 Location: Cheng Yu Tung Building (CYT) **209A**, and CYT **LT5** (for March 3 only)
 
 
