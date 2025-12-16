@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Course Banner](https://img.shields.io/badge/DOTE%206635-Spring%202025-blue)
+![Course Banner](https://img.shields.io/badge/DOTE%206635-Spring%202026-blue)
 ![Status](https://img.shields.io/badge/Status-Ongoing-yellow)
 ![PhD Level](https://img.shields.io/badge/Level-PhD-red)
 
