@@ -53,10 +53,10 @@ Most of the code in this course will be distributed through the [Google CoLab](h
 
 - 📚 The **Literature References** discussed in the slides can be found on [this document](https://docs.google.com/document/d/1HlRe79mGW6F6rrb8f-m_KbeRj-4kqc_iTA91khVceao/edit?usp=sharing).
 - 📓 The **CoLab** files of this course can be found at [this folder](https://drive.google.com/drive/folders/19806VHq6Vybrx-z4BbvV01sTMs9G5Hrh?usp=sharing).
-- 📊 The **Google Sheet** to sign up for groups and group tasks can be found [here](https://docs.google.com/spreadsheets/d/1ffRNlSFqki4vomz5UN0OseFNEoEXBY5kptS79wmgWs4/edit?usp=sharing).
-- 📝 The overleaf template for scribing the lecture notes of this course can be found [here](https://www.overleaf.com/read/vjypshwbmnxr#a63c60).
-- 🔬 The replication projects can be found [here](https://docs.google.com/document/d/1dpdvWGdaNWQVVg-osY7tNlv7HkksO66MTDAuIMJwvtI/edit?usp=sharing).
-- 🖥️ The HPC Server compute resource of the CUHK DOT Department can be found [here](https://github.com/QiansiqiHu/DOT-server).
+- 📊 The **Google Sheet** to sign up for groups and group tasks can be found [here](https://docs.google.com/spreadsheets/d/1YIwCR-X8VVLTv-OfGr7DqZJF6YIll-JE3SGI1q7JEus/edit?usp=sharing).
+- 📝 The overleaf template for scribing the lecture notes of this course can be found [here](https://www.overleaf.com/read/bmfygjgsyzrr#a72daa).
+- 🔬 The replication projects can be found [here](https://docs.google.com/document/d/1-VaWKDxdrmoltCEr0QtUUJcubBtTKZB5PPw5kHmN948/edit?usp=sharing).
+- 🖥️ The HPC Server compute resource of the CUHK DOT Department can be found [here](https://github.com/cuhk-fba-server/DOT-server-guide).
 
 
 If you have any feedback on this course, please directly contact Philip at philipzhang@cuhk.edu.hk and we will try our best to address it.
