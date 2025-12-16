@@ -1,4 +1,4 @@
-# 🤖 Artificial Intelligence for Business Research (Spring 2025)
+# 🤖 Artificial Intelligence for Business Research (Spring 2026)
 
 <div align="center">
 
@@ -9,35 +9,35 @@
 </div>
 
 
-- 📚 [Scribed Lecture Notes](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf)
-- 🎥 [Video Recording](https://docs.google.com/document/d/1J3OA4_QlxACGxiffoXjRhj7t4mV3KiHKOfeuVt48fsA/edit?usp=sharing) (You need to apply for the access.)
+- 📚 **Scribed Lecture Notes**: Available soon.
+- 🎥 [**Video Recording**](https://docs.google.com/document/d/14W1XFzDbxxcqzPXEsjM4281AMXAV7Neqbbyp5m2_h5I/edit?usp=sharing) (You need to apply for the access.)
 
 ## 👥 Teaching Team
 
 | Role | Name & Contact |
 |------|----------------|
 | **Instructor** | [Renyu (Philip) Zhang](https://rphilipzhang.github.io/rphilipzhang/index.html)<br>Associate Professor, Department of Decisions, Operations and Technology, CUHK Business School <br>📧 philipzhang@cuhk.edu.hk<br>📍 @911 Cheng Yu Tung Building |
-| **Teaching Assistant** | Leo Cao<br>Full-time TA, Department of Decisions, Operations and Technology, CUHK Business School<br>📧 yinglyucao@cuhk.edu.hk |
+| **Teaching Assistant** | Ignis Jiang<br>Full-time TA, Department of Decisions, Operations and Technology, CUHK Business School<br>📧 ignisjiang@cuhk.edu.hk |
 | **Tutorial Instructor** | [Xinyu Li](https://grad.bschool.cuhk.edu.hk/students/li-xinyu/)<br>PhD Candidate (Management Information Systems), CUHK Business School<br>📧 xinyu.li@link.cuhk.edu.hk |
 
 
 ## 📚 Basic Information
 
-- 🌐 Website: https://github.com/rphilipzhang/AI-PhD-S25
-- ⏰ Time: Tuesday, 12:30pm-3:15pm (Jan 14 - Apr 15, 2025)
-  - *Excluding: Jan 28 (Chinese New Year)*
-- 📍 Location: Wu Ho Man Yuen Building (WMY) **504**
+- 🌐 Website: https://github.com/rphilipzhang/AI-PhD-S26
+- ⏰ Time: Tuesday, 9:30am-12:15pm (Jan 6 - Apr 14, 2026)
+  - *Excluding: Feb 17 (Chinese New Year), April 7 (Easter)*
+- 📍 Location: Cheng Yu Tung Building (CYT) **209A**, and CYT **LT5** (for March 3 only)
 
 
 ## About
 
-Welcome to the mono-repo of DOTE 6635: AI for Business Research at CUHK Business School! 
+Welcome to the mono-repo of DOTE 6635 (Spring 2026 Offering): AI for Business Research at CUHK Business School! 
 
 ### 🎯 Learning Objectives:
 
 - 🧠 Gain fundamental understanding of ML/AI concepts and methods relevant to business research.
 - 💡 Explore applications of ML/AI in business research over the past decade.
-- 🚀 Discover and nuture the taste of cutting-edge AI/ML technologies and their potential in your research domain.
+- 🚀 Discover and nurture the taste of cutting-edge AI/ML technologies and their potential in your research domain.
 
 [Download Syllabus](https://github.com/rphilipzhang/AI-PhD-S25/blob/main/AI-PhD-Syllabus-S2025.pdf)
 
