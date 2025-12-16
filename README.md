@@ -39,7 +39,7 @@ Welcome to the mono-repo of DOTE 6635 (Spring 2026 Offering): AI for Business Re
 - 💡 Explore applications of ML/AI in business research over the past decade.
 - 🚀 Discover and nurture the taste of cutting-edge AI/ML technologies and their potential in your research domain.
 
-[Download Syllabus](https://github.com/rphilipzhang/AI-PhD-S25/blob/main/AI-PhD-Syllabus-S2025.pdf)
+[Download Syllabus](https://github.com/rphilipzhang/AI-PhD-S26/blob/main/AI-PhD-Syllabus-S2026.pdf)
 
 ### Virtual Access
 Need to join remotely? Use our Zoom link (please seek approval from Philip):
