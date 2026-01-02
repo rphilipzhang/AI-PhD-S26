@@ -138,4 +138,4 @@ The following schedule is tentative and subject to changes.
     - Kelly, Brian, and Dacheng Xiu. 2023. Financial machine learning, *SSRN*, [link to the paper](https://ssrn.com/abstract=4501707).
     - Cohen, Maxime, et al. 2025. Supply Chain Management in the AI Era: A Vision Statement from the Operations Management Community, *SSRN*, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5792542). 
     - [The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html), by Rich Sutton, which develops so far the most critical insight of AI: "The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin."
-    - Chapter 1, [Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf).
+    - [Chapter 1 of Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Codex Demo for Replicating Empirical Results in Ye et al. (2025)](Demo/DeDL/)
