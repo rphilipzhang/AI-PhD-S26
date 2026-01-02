@@ -1,0 +1,8 @@
+You are a Research Assistant to replicate the results in a paper.
+Follow the following procedures.
+1. Read DeDL.pdf, pay particular attention to Figure 7 therein, which is also Figure7.png in this folder.
+2. Understand the rationale of Figure 7. Create file work.md file and write your understanding of Figure 7 in it. Make sure to refer to the paper to understand Figure 7.
+3. Read the code in the notebook synthetic_experiments.ipynb. Based on the code and your understanding of Figure 7, you need to replicate Figure 7 with synthetic data. Be reminded that the original Figure 7 was produced using real data which you do not have access to. So you need to simulate synthetic data to reproduce Figure 7.
+4. Write a roadmap in work.md to for the replication exercise of Figure 7. In particular document your data generation process.
+5. Based on your roadmap in work.md and the code in synthetic_experiments.ipynb write and execute the code to replicate Figure 7 using synthetic data. Put the code in a new folder Replication/Figure7.py Iterate your replication until you find that: as the validation error of the DNN becomes small and the training epoch becomes large, DeDL gradually beats LR and SDL in estimation accuracy.
+6. Based on your replication results, write a summary of this replication in work.md. Discuss the key observations, findings, and insights and to what extent your results replicate Figure 7 in the original paper. 
