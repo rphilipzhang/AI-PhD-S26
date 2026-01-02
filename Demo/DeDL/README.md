@@ -4,7 +4,7 @@ Evidence](https://rphilipzhang.github.io/rphilipzhang/DeDL-nonblind.pdf)". Below
 
 ## 1. Preperations
 
-Put [the paper](DeDL.pdf), [Figure 7](Figure7.png), [the open-sourced code](synthetic_experiments.ipynb), and [a text file](instructions.txt) that articulates the step-wise instructions for the replication.
+Put [the paper](DeDL.pdf), [Figure 7](Figure7.png), [the open-sourced code](synthetic_experiments.ipynb), and [a text file](instructions.txt) that articulates the step-wise instructions for the replication in your working folder.
 
 ## 2. Prompting to Codex
 
