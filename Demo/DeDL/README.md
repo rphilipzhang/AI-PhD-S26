@@ -8,7 +8,7 @@ Put [the paper](DeDL.pdf), [Figure 7](Figure7.png), [the open-sourced code](synt
 
 ## 2. Prompting to Codex
 
-I set the model as ```GPT-5.1-Codex-Max``` in ```Agent``` mode and the reasoning ability as ```Extra high```. The prompt is very simple: 
+Set the model as ```GPT-5.1-Codex-Max``` in ```Agent``` mode and the reasoning ability as ```Extra high```. The prompt is very simple: 
 
 ```Read DeDL.pdf and following instructions.txt to replicate Figure 7 therein.```
 
