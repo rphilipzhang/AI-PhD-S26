@@ -92,7 +92,7 @@ All problem sets are due at 9:30am right before class.
 |Date| Time|Event|Note|
 |:--:|:-:|:---:|:--:|
 |1.07| 11:59pm|[Group Sign-up](https://docs.google.com/spreadsheets/d/1YIwCR-X8VVLTv-OfGr7DqZJF6YIll-JE3SGI1q7JEus/edit?usp=sharing)|Each group has at most two students.|
-|1.09| 7:00pm-9:00pm|Python Tutorial|Given by Xinyu Li, [Python Tutorial CoLab](https://colab.research.google.com/drive/1vdqQ4TxyavM6msaaWdBebEwpVwVGi9g_?usp=sharing), [Other Materials](https://drive.google.com/drive/folders/1gppCtLZj0GrJv_XGzfU7eTa5gD4QqrNL?usp=sharing)|
+|1.09| 7:00pm-9:00pm|Python Tutorial|Given by Xinyu Li, [Python Tutorial CoLab](https://colab.research.google.com/drive/1vdqQ4TxyavM6msaaWdBebEwpVwVGi9g_?usp=sharing) and [Other Materials](https://drive.google.com/drive/folders/1gppCtLZj0GrJv_XGzfU7eTa5gD4QqrNL?usp=sharing)|
 |1.16| 7:00pm-9:00pm|[PyTorch](https://pytorch.org/docs/stable/nn.html) and [DOT HPC Server](https://github.com/cuhk-fba-server/DOT-server-guide) Tutorial|Given by Xinyu Li, [PyTorch Tutorial CoLab](https://colab.research.google.com/drive/1LFtJg6fme_BeqQu3dX1mdX1b96fYnikG?usp=drive_link)|
 |Weak of 3.03|9:00am-6:00pm|Final Project Discussion|Please schedule a meeting with Philip.|
 |3.10|9:30am|Final Project Proposal|1-page maximum|
