@@ -123,8 +123,8 @@ The following schedule is tentative and subject to changes.
 
 ### 📚 Session 1. Artificial Intelligence and Machine Learning in a Nutshell (Jan/6/2026)
 - 🔑 **Keywords**: Course Introduction, Prediction in Biz Research, Basic ML Models
-- 📊 **Slides**: [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [Course Intro](Slides/AI-PhD-S2026-1-Intro.pdf), [Prediction in Business](Slides/AI-PhD-S2026-2-Prediction.pdf), [ML Intro](Slides/AI-PhD-S2026-3-Intro2ML.pdf)
-- 💻 **CoLab Notebook Demos**: [Bootstrap](https://colab.research.google.com/drive/1DVnyz5K6eTL0HtwK_9COgKlwCsSwwWgh?usp=drive_link), [k-Nearest Neighbors](https://colab.research.google.com/drive/1vDFV8Yf028bwA7WXmIMIEyDhgkOsMyEi?usp=drive_link), [Decision Tree](https://colab.research.google.com/drive/1TAFe-vC-9ZD_yhehAQuY91VfTZqENSUD?usp=drive_link), [Random Forest](https://colab.research.google.com/drive/1-s8tmLhfDupKBaWHwsyaSQfRqroyDLuD?usp=drive_link), [Gradient Boosting Tree](https://colab.research.google.com/drive/1PMnhHYp9FK6PvoZg-OdL_utc1p9vMUMA?usp=drive_link)
+- 📊 **Slides**: [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [Course Intro](Slides/AI-PhD-S2026-1-Intro.pdf), [Prediction in Business](Slides/AI-PhD-S2026-2-Prediction.pdf)
+- 💻 **CoLab Notebook Demos**: [Paper Replication](Demo/DeDL) 
 - ✍️ **Homework**: [Problem Set 1 - Kaggle Competition](https://colab.research.google.com/drive/1e1rMNpo5qHu4ueGP0SM_Pnr5FzaAJNzb?usp=sharing), due at 9:30am, Jan/20/2026
 - 🎓 **Online Python Tutorial**: [Python Tutorial CoLab](https://colab.research.google.com/drive/1vdqQ4TxyavM6msaaWdBebEwpVwVGi9g_?usp=sharing) and [Other Materials](https://drive.google.com/drive/folders/1gppCtLZj0GrJv_XGzfU7eTa5gD4QqrNL?usp=sharing), 7:00pm-9:00pm, Jan/9/2026 (Friday), given by Xinyu Li, xinyu.li@link.cuhk.edu.hk. [Zoom Link](https://cuhk.zoom.us/j/92651271173?pwd=4uA6vMgADTzjtR5Dg6P3Xwf1Dwl7Gs.1), Meeting ID: 926 5127 1173, Passcode: 291311
 - 📚 **References**:
@@ -141,20 +141,20 @@ The following schedule is tentative and subject to changes.
     - [Chapter 1 of Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Codex Demo for Replicating Empirical Results in Ye et al. (2025)](Demo/DeDL/)
 
 ### 📚 Session 2. Model Selection and Deep Learning Basics (Jan/13/2026)
-- 🔑 **Keywords**: Bias-Variance Trade-off, Cross Validation, Bootstrap, Neural Nets, Computational Issues of Deep Learning
-- 📊 **Slides**: [ML Intro](Slides/AI-PhD-S2026-3-Intro2ML.pdf), [DL Intro](Slides/AI-PhD-S2025-4-Intro2DL.pdf)
-- 💻 **CoLab Notebook Demos**: [Gradient Descent](https://colab.research.google.com/drive/1bgwzNd0u2cCshELSxxg-9QMA2OMrXEui), [Chain Rule](https://colab.research.google.com/drive/1gzYErH1tAOWaKb-sqCUgNLNQ8Ww4iV7t), [He Innitialization](https://colab.research.google.com/drive/1KuZHvgAVA2nKSkVdVsWzSCKgOoRuX_hF)
-- ✍️ **Homework**: [Problem Set 2: Implementing Neural Nets](https://colab.research.google.com/drive/1mwte7tn0R68Hj3ZZCvUA5RoUqcdQpja5), due at 12:30pm, Feb/11/2025
-- 🎓 **Online PyTorch and [DOT HPC Server](https://github.com/QiansiqiHu/DOT-server) Tutorial**: [PyTorch Tutorial CoLab](https://drive.google.com/drive/folders/19iL1wYT2zeaYeIY7QyxQz7QQsZGrq7Nk?usp=sharing), 7:00pm-9:00pm, Jan/24/2025 (Friday), given by Xinyu Li, xinyu.li@link.cuhk.edu.hk. [Zoom Link](https://cuhk.zoom.us/j/93944864920?pwd=KAPcowZbwJj0YYOHertGqyKChCP0bv.1), Meeting ID: 939 4486 4920, Passcode: 456911
+- 🔑 **Keywords**: Bias-Variance Trade-off, Cross Validation, Bootstrap, Neural Nets
+- 📊 **Slides**: [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [ML Intro](Slides/AI-PhD-S2026-3-Intro2ML.pdf), [DL Intro](Slides/AI-PhD-S2025-4-Intro2DL.pdf)
+- 💻 **CoLab Notebook Demos**: [Bootstrap](https://colab.research.google.com/drive/1DVnyz5K6eTL0HtwK_9COgKlwCsSwwWgh?usp=drive_link), [k-Nearest Neighbors](https://colab.research.google.com/drive/1vDFV8Yf028bwA7WXmIMIEyDhgkOsMyEi?usp=drive_link), [Decision Tree](https://colab.research.google.com/drive/1TAFe-vC-9ZD_yhehAQuY91VfTZqENSUD?usp=drive_link), [Random Forest](https://colab.research.google.com/drive/1-s8tmLhfDupKBaWHwsyaSQfRqroyDLuD?usp=drive_link), [Gradient Boosting Tree](https://colab.research.google.com/drive/1PMnhHYp9FK6PvoZg-OdL_utc1p9vMUMA?usp=drive_link), [Gradient Descent](https://colab.research.google.com/drive/1-gdAIIkYLg6ATlH_NHPoLw6wdYKUuvMd?usp=drive_link), [Chain Rule](https://colab.research.google.com/drive/1Jepjjw0nPzame1YALS37h_RlVTJ6iq5u?usp=drive_link), [He Innitialization](https://colab.research.google.com/drive/1vEIdk-svDhNGs488gbCjrP2jX9xVczbn?usp=drive_link)
+- ✍️ **Homework**: [Problem Set 1 - Kaggle Competition](https://colab.research.google.com/drive/1e1rMNpo5qHu4ueGP0SM_Pnr5FzaAJNzb?usp=sharing), due at 9:30am, Jan/20/2026; [Problem Set 2: Implementing Neural Nets](https://colab.research.google.com/drive/1f48y5MC3H9pYAbvI2sHb2XOE_oxbxYAS?usp=sharing), due at 9:30am, Jan/27/2026
+- 🎓 **Online PyTorch and [CUHK FBA/DOT HPC Server](https://github.com/cuhk-fba-server/DOT-server-guide) Tutorial**: [PyTorch Tutorial CoLab](https://colab.research.google.com/drive/1LFtJg6fme_BeqQu3dX1mdX1b96fYnikG?usp=sharing), 7:00pm-9:00pm, Jan/16/2026 (Friday), given by Xinyu Li, xinyu.li@link.cuhk.edu.hk. [Zoom Link](https://cuhk.zoom.us/j/92651271173?pwd=4uA6vMgADTzjtR5Dg6P3Xwf1Dwl7Gs.1), Meeting ID: 926 5127 1173, Passcode: 291311
 - 📚 **References**:
     - *Deep Learning*, 2016, by Ian Goodfellow, Yoshua Bengio and Aaron Courville, [link to DL](https://www.deeplearningbook.org/).
     - *Dive into Deep Learning* (2nd Edition), 2023, by Aston Zhang, Zack Lipton, Mu Li, and Alex J. Smola, [link to d2dl](https://d2l.ai/).
     - *Probabilistic Machine Learning: Advanced Topics*, 2023, by Kevin Murphy, [link to PML2](https://probml.github.io/pml-book/book2.html).
     - *Deep Learning with PyTorch*, 2020, by Eli Stevens, Luca Antiga, and Thomas Viehmann.
-    - Dell, Mellissa. 2024. Deep learning for economists. *Journal of Economic Literature*, forthcoming, [link to the paper](https://arxiv.org/abs/2407.15339).
+    - Dell, Mellissa. 2024. Deep learning for economists. *Journal of Economic Literature*, 63(1), 5-58.
     - Davies, A., Veličković, P., Buesing, L., Blackwell, S., Zheng, D., Tomašev, N., Tanburn, R., Battaglia, P., Blundell, C., Juhász, A. and Lackenby, M., 2021. Advancing mathematics by guiding human intuition with AI. *Nature*, 600(7887), pp.70-74.
-    - Ye, Z., Zhang, Z., Zhang, D., Zhang, H. and Zhang, R.P., 2023. Deep-Learning-Based Causal Inference for Large-Scale Combinatorial Experiments: Theory and Empirical Evidence. Available at *SSRN* 4375327, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4375327).
+    - Ye, Z., Zhang, Z., Zhang, D., Zhang, H. and Zhang, R.P., 2023. Deep-Learning-Based Causal Inference for Large-Scale Combinatorial Experiments: Theory and Empirical Evidence. *Management Science* forthcoming, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4375327).
     - Luyang Chen, Markus Pelger, Jason Zhu (2023) Deep Learning in Asset Pricing. *Management Science* 70(2):714-750.
     - Wang, Z., Gao, R. and Li, S. 2024. Neural-Network Mixed Logit Choice Model: Statistical and Optimality Guarantees. *Working paper*.
     - [Why Does Adam Work So Well? (in Chinese)](https://www.zhihu.com/question/323747423/answer/2576604040), [Overview of gradient descent algorithms](https://arxiv.org/pdf/1609.04747)
-    - Chatpers 1 & 2, [Scribed Notes of Spring 2024 Course Offering](https://github.com/rphilipzhang/AI-PhD-S24/blob/main/Notes/Scribed_Notes-AI-PhD-S24.pdf).
+    - Chatpers 1 & 2, [Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Andy Hall's Replication of Thompson et al. (2020) with Claude Code](https://github.com/andybhall/vbm-replication-extension).
