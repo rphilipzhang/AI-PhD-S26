@@ -139,3 +139,22 @@ The following schedule is tentative and subject to changes.
     - Cohen, Maxime, et al. 2025. Supply Chain Management in the AI Era: A Vision Statement from the Operations Management Community, *SSRN*, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5792542). 
     - [The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html), by Rich Sutton, which develops so far the most critical insight of AI: "The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin."
     - [Chapter 1 of Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Codex Demo for Replicating Empirical Results in Ye et al. (2025)](Demo/DeDL/)
+
+### 📚 Session 2. Model Selection and Deep Learning Basics (Jan/13/2026)
+- 🔑 **Keywords**: Bias-Variance Trade-off, Cross Validation, Bootstrap, Neural Nets, Computational Issues of Deep Learning
+- 📊 **Slides**: [ML Intro](Slides/AI-PhD-S2026-3-Intro2ML.pdf), [DL Intro](Slides/AI-PhD-S2025-4-Intro2DL.pdf)
+- 💻 **CoLab Notebook Demos**: [Gradient Descent](https://colab.research.google.com/drive/1bgwzNd0u2cCshELSxxg-9QMA2OMrXEui), [Chain Rule](https://colab.research.google.com/drive/1gzYErH1tAOWaKb-sqCUgNLNQ8Ww4iV7t), [He Innitialization](https://colab.research.google.com/drive/1KuZHvgAVA2nKSkVdVsWzSCKgOoRuX_hF)
+- ✍️ **Homework**: [Problem Set 2: Implementing Neural Nets](https://colab.research.google.com/drive/1mwte7tn0R68Hj3ZZCvUA5RoUqcdQpja5), due at 12:30pm, Feb/11/2025
+- 🎓 **Online PyTorch and [DOT HPC Server](https://github.com/QiansiqiHu/DOT-server) Tutorial**: [PyTorch Tutorial CoLab](https://drive.google.com/drive/folders/19iL1wYT2zeaYeIY7QyxQz7QQsZGrq7Nk?usp=sharing), 7:00pm-9:00pm, Jan/24/2025 (Friday), given by Xinyu Li, xinyu.li@link.cuhk.edu.hk. [Zoom Link](https://cuhk.zoom.us/j/93944864920?pwd=KAPcowZbwJj0YYOHertGqyKChCP0bv.1), Meeting ID: 939 4486 4920, Passcode: 456911
+- 📚 **References**:
+    - *Deep Learning*, 2016, by Ian Goodfellow, Yoshua Bengio and Aaron Courville, [link to DL](https://www.deeplearningbook.org/).
+    - *Dive into Deep Learning* (2nd Edition), 2023, by Aston Zhang, Zack Lipton, Mu Li, and Alex J. Smola, [link to d2dl](https://d2l.ai/).
+    - *Probabilistic Machine Learning: Advanced Topics*, 2023, by Kevin Murphy, [link to PML2](https://probml.github.io/pml-book/book2.html).
+    - *Deep Learning with PyTorch*, 2020, by Eli Stevens, Luca Antiga, and Thomas Viehmann.
+    - Dell, Mellissa. 2024. Deep learning for economists. *Journal of Economic Literature*, forthcoming, [link to the paper](https://arxiv.org/abs/2407.15339).
+    - Davies, A., Veličković, P., Buesing, L., Blackwell, S., Zheng, D., Tomašev, N., Tanburn, R., Battaglia, P., Blundell, C., Juhász, A. and Lackenby, M., 2021. Advancing mathematics by guiding human intuition with AI. *Nature*, 600(7887), pp.70-74.
+    - Ye, Z., Zhang, Z., Zhang, D., Zhang, H. and Zhang, R.P., 2023. Deep-Learning-Based Causal Inference for Large-Scale Combinatorial Experiments: Theory and Empirical Evidence. Available at *SSRN* 4375327, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4375327).
+    - Luyang Chen, Markus Pelger, Jason Zhu (2023) Deep Learning in Asset Pricing. *Management Science* 70(2):714-750.
+    - Wang, Z., Gao, R. and Li, S. 2024. Neural-Network Mixed Logit Choice Model: Statistical and Optimality Guarantees. *Working paper*.
+    - [Why Does Adam Work So Well? (in Chinese)](https://www.zhihu.com/question/323747423/answer/2576604040), [Overview of gradient descent algorithms](https://arxiv.org/pdf/1609.04747)
+    - Chatpers 1 & 2, [Scribed Notes of Spring 2024 Course Offering](https://github.com/rphilipzhang/AI-PhD-S24/blob/main/Notes/Scribed_Notes-AI-PhD-S24.pdf).
