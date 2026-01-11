@@ -138,7 +138,7 @@ The following schedule is tentative and subject to changes.
     - Kelly, Brian, and Dacheng Xiu. 2023. Financial machine learning, *SSRN*, [link to the paper](https://ssrn.com/abstract=4501707).
     - Cohen, Maxime, et al. 2025. Supply Chain Management in the AI Era: A Vision Statement from the Operations Management Community, *SSRN*, [link to the paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5792542). 
     - [The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html), by Rich Sutton, which develops so far the most critical insight of AI: "The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin."
-    - [Chapter 1 of Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Codex Demo for Replicating Empirical Results in Ye et al. (2025)](Demo/DeDL/)
+    - [Chapter 1 of Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Codex Demo for Replicating Empirical Results in Ye et al. (2025)](Demo/DeDL/), [Notes for Introduction](Notes/AI-Generated/1-Intro.md), [Notes for Prediction](Notes/AI-Generated/2-Prediction.md)
 
 ### 📚 Session 2. Model Selection and Deep Learning Basics (Jan/13/2026)
 - 🔑 **Keywords**: Bias-Variance Trade-off, Cross Validation, Bootstrap, Neural Nets
@@ -157,4 +157,4 @@ The following schedule is tentative and subject to changes.
     - Luyang Chen, Markus Pelger, Jason Zhu (2023) Deep Learning in Asset Pricing. *Management Science* 70(2):714-750.
     - Wang, Z., Gao, R. and Li, S. 2024. Neural-Network Mixed Logit Choice Model: Statistical and Optimality Guarantees. *Working paper*.
     - [Why Does Adam Work So Well? (in Chinese)](https://www.zhihu.com/question/323747423/answer/2576604040), [Overview of gradient descent algorithms](https://arxiv.org/pdf/1609.04747)
-    - Chatpers 1 & 2, [Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Andy Hall's Replication of Thompson et al. (2020) with Claude Code](https://github.com/andybhall/vbm-replication-extension).
+    - Chatpers 1 & 2, [Scribed Notes of Spring 2025 Course Offering](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S25.pdf), [Andy Hall's Replication of Thompson et al. (2020) with Claude Code](https://github.com/andybhall/vbm-replication-extension), [AI-Generated Notes for ML Basics](Notes/AI-Generated/3-IntroML.md), [AI-Generated Notes for DL Basics](Notes/AI-Generated/4-IntroDL.md).
