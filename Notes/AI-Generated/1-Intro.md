@@ -1,6 +1,7 @@
 # Introduction
 
 **Course:** DOTE 6635: Artificial Intelligence for Business Research (Spring 2026)
+
 **Instructor:** Renyu (Philip) Zhang
 
 ---
