@@ -161,7 +161,7 @@ The following schedule is tentative and subject to changes.
 
 ### 📚 Session 3. Deep Learning Computations and Reinforcement Learning Basics (Jan/20/2026)
 - 🔑 **Keywords**: Deep Learning Compute, MAB, MDP, Value Iteration, Policy Iteration
-- 📊 **Slides**: [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [DL Intro](Slides/AI-PhD-S2026-4-Intro2DL.pdf), [RL Intro](Slides/AI-PhD-S2026-5-Intro2RL.pdf) 
+- 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [DL Intro](Slides/AI-PhD-S2026-4-Intro2DL.pdf), [RL Intro](Slides/AI-PhD-S2026-5-Intro2RL.pdf) 
 - 💻 **CoLab Notebook Demos**: [Crafting Intelligence: The Art of Deep Learning Modeling](https://colab.research.google.com/drive/1FoFSjfGiCiAXJCCogIE5f12FrN-k9nLh), [MAB](https://colab.research.google.com/drive/1Av-liE20LqTRJUnkM8juNChWQ5fq-uuF?usp=sharing), [Markov Chain Ergodicity](https://colab.research.google.com/drive/1UpEK85iD-ppxDQP6zIrC6PhfmED_Ci2F?usp=sharing), [Value and Policy Iterations](https://colab.research.google.com/drive/1xz8uKQya5MfdASsNQy-LzMRHxCR3GGZB?usp=sharing)
 - ✍️ **Homework**: [Problem Set 2: Implementing Neural Nets](https://colab.research.google.com/drive/1f48y5MC3H9pYAbvI2sHb2XOE_oxbxYAS?usp=sharing), due at 9:30am, Jan/27/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026
 - 📚 **References**:
