@@ -43,7 +43,7 @@ Welcome to the mono-repo of DOTE 6635 (Spring 2026 Offering): AI for Business Re
 
 ### Virtual Access
 Need to join remotely? Use our Zoom link (please seek approval from Philip):
-- 🎥 [Join Meeting](https://cuhk.zoom.us/j/91863445131?pwd=6Pq42Ud2f4n788LRANI2j6a2ivFoMX.1)
+- 🎥 [Join Meeting](https://cuhk.zoom.us/j/99856057656?pwd=OsizGdbTB37AHvCeWXQdbBOVNqsNjh.1)
   - Meeting ID: 998 5605 7656
   - Passcode: 053907
  
