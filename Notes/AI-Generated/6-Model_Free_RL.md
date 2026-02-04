@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to model-free reinforcement learning (RL), a paradigm where agents learn optimal behavior through direct interaction with the environment without requiring explicit knowledge of transition dynamics or reward functions. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin by examining the core challenges of RL and the distinction between model-based and model-free approaches. Subsequently, we delve into Monte Carlo (MC) methods for policy evaluation and iteration. Finally, we explore Temporal-Difference (TD) learning, a cornerstone technique that combines ideas from MC methods and dynamic programming, and compare the bias-variance trade-offs between these two fundamental approaches.
+This article provides a comprehensive introduction to model-free reinforcement learning (RL), where agents learn from experience without knowing the transition dynamics or reward function. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We first discuss the core challenges of RL and the distinction between model-based and model-free approaches. We then cover **model-free prediction (policy evaluation)** via Monte Carlo (MC) methods, Temporal-Difference (TD) learning, and **n-step** methods that interpolate between them. Finally, we study **model-free control**—learning optimal behavior—via MC control with ε-greedy exploration (including GLIE schedules), and TD control algorithms such as **SARSA** (on-policy) and **Q-learning** (off-policy), highlighting the practical trade-offs behind their different targets.
 
 ## 1. Introduction to Model-Free Reinforcement Learning
 
@@ -47,7 +47,7 @@ In previous discussions of Markov Decision Processes (MDPs), we assumed complete
 
 With this complete information, algorithms like value iteration and policy iteration can compute the optimal policy through dynamic programming. However, in many real-world scenarios, the transition matrix $P$ and reward function $R$ are unknown. **Model-free RL** addresses this challenge by learning directly from experience without explicitly modeling the environment dynamics.
 
-## 2. Monte Carlo Methods
+## 2. Monte Carlo Policy Evaluation (Model-Free Prediction)
 
 ### 2.1. The Monte Carlo Approach
 
@@ -152,32 +152,23 @@ $$ V(S_t) \leftarrow V(S_t) + \alpha (G_t - V(S_t)) $$
 
 This formulation gives more weight to recent observations, allowing the algorithm to track changes in the environment. This is crucial for real-world applications where transition dynamics may evolve over time.
 
-### 2.5. MC Policy Iteration
+### 2.5. Example: Blackjack (Policy Evaluation)
 
-The goal of MC policy iteration is to use MC estimation to learn the **optimal policy**. The approach marries Monte Carlo evaluation with the policy iteration framework:
+A classic illustration of Monte Carlo policy evaluation is **Blackjack** (as in Sutton & Barto). One typically defines the state using compact summary statistics such as:
 
-1. **Policy Evaluation:** Compute $v_\pi$ (or $Q_\pi$) via MC policy evaluation.
-2. **Policy Improvement:** Improve the current policy with respect to the estimated action-value function $Q_\pi$.
+- the player’s current sum,
+- the dealer’s showing card,
+- whether the player has a usable ace.
 
-The iteration proceeds as:
+Given a fixed policy—e.g., *stick if the player’s sum is at least 20, otherwise hit*—we can simulate many games (episodes) and estimate $v_\pi(s)$ by averaging observed returns from visits to $s$ (first-visit or every-visit MC).
 
-$$ \pi_0 \rightarrow Q^{\pi_0} \rightarrow \pi_1 \rightarrow Q^{\pi_1} \rightarrow \cdots \rightarrow \pi^{opt} \rightarrow Q^{\pi^{opt}} $$
+Why Blackjack is a useful teaching example:
 
-**The Exploration Challenge:**
+- It is naturally **episodic** (each game ends).
+- It is **stochastic** (random card draws), so averaging returns is meaningful.
+- It is easy to **visualize** $v_\pi$ (e.g., heatmaps over player sum vs. dealer card) and to see how different policies change the value landscape.
 
-A critical challenge arises: under a deterministic policy, many state-action pairs may **never be visited**. If an action is never tried, we cannot estimate its value, and thus cannot determine if it might be better than the current policy's choice.
-
-**Solution: ε-Greedy Exploration**
-
-The ε-greedy strategy balances exploration and exploitation:
-
-$$ \pi(a|s) = \begin{cases} \varepsilon/m + 1 - \varepsilon, & \text{if } a = \arg\max_a Q(s,a) \\ \varepsilon/m, & \text{otherwise} \end{cases} $$
-
-where $m = |\mathcal{A}|$ is the number of actions. With probability $1-\varepsilon$, the agent selects the greedy action; with probability $\varepsilon$, it selects uniformly at random among all actions.
-
-> **Theorem (ε-Greedy Policy Improvement):** The ε-greedy policy $\pi'$ with respect to $Q_\pi$ is an improvement over any ε-greedy policy $\pi$, i.e., $V_{\pi'}(s) \geq V_\pi(s)$ for all states $s$.
-
-## 3. Temporal-Difference Learning
+## 3. Temporal-Difference Policy Evaluation (Model-Free Prediction)
 
 ### 3.1. The Central Idea of TD Learning
 
@@ -199,10 +190,10 @@ Recall the two equivalent formulations of the value function under policy $\pi$:
 **Formulation 1 (MC perspective):**
 $$ V^\pi(s) = \mathbb{E}^\pi[G_t | S_t = s] \tag{1} $$
 
-where $G_t = R_t + \gamma R_{t+1} + \gamma^2 R_{t+2} + \cdots$ is the complete return.
+where $G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \cdots$ is the complete return.
 
 **Formulation 2 (Bellman equation perspective):**
-$$ V^\pi(s) = \mathbb{E}^\pi[R_t + \gamma V^\pi(S_{t+1}) | S_t = s] \tag{2} $$
+$$ V^\pi(s) = \mathbb{E}^\pi[R_{t+1} + \gamma V^\pi(S_{t+1}) \mid S_t = s] \tag{2} $$
 
 The Bellman operator for policy evaluation is:
 
@@ -255,7 +246,7 @@ The choice between MC and TD methods involves fundamental trade-offs in terms of
 | **Update timing** | Must wait until episode ends | Updates after each step |
 | **Learning mode** | From complete sequences | From incomplete sequences |
 | **Environment type** | Episodic only | Episodic and continuing |
-| **Target** | Actual return $G_t$ | Estimated return $R_t + \gamma V(S_{t+1})$ |
+| **Target** | Actual return $G_t$ | Estimated return $R_{t+1} + \gamma V(S_{t+1})$ |
 
 ### 3.5. The Bias-Variance Trade-off
 
@@ -272,7 +263,7 @@ The distinction between MC and TD fundamentally reflects a bias-variance trade-o
   - More efficient in non-Markov environments.
 
 **Temporal-Difference:**
-- TD updates using $R_t + \gamma V(S_{t+1})$, not $R_t + \gamma v_\pi(S_{t+1})$, which is a **biased estimate** of $v_\pi(S_t)$ (because $V$ is itself an estimate).
+- TD updates using $R_{t+1} + \gamma V(S_{t+1})$, not $R_{t+1} + \gamma v_\pi(S_{t+1})$, which is a **biased estimate** of $v_\pi(S_t)$ (because $V$ is itself an estimate).
 - TD has **much lower variance, some bias**.
 - The TD target depends on only one random action, transition, and reward.
 - **Advantages:**
@@ -300,15 +291,167 @@ Experimental results show that:
 
 This empirical advantage of TD stems from its ability to learn incrementally and leverage the Markov structure of the problem.
 
-## 4. Conclusion
+### 3.7. N-Step Prediction: Bridging MC and TD
 
-Model-free reinforcement learning provides powerful tools for learning optimal behavior when the environment dynamics are unknown. Monte Carlo methods offer simplicity and unbiasedness by learning from complete episodes, while Temporal-Difference learning provides data efficiency and online learning capability through bootstrapping.
+TD(0) uses a one-step bootstrap target, while MC uses the full-episode return. **n-step prediction** creates a continuum between these extremes by looking ahead $n$ steps and then bootstrapping:
 
-The choice between MC and TD depends on the specific problem characteristics:
-- Use **MC** when episodes are short, the environment may be non-Markov, or when unbiasedness is critical.
-- Use **TD** when learning must occur online, episodes are long or infinite, or when data efficiency is paramount.
+$$ G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n}) $$
 
-For business researchers, these model-free methods open doors to applications where environment models are unavailable or too complex to specify—from dynamic pricing and inventory management to personalized recommendations and adaptive clinical trials. The fundamental trade-offs between bias and variance, exploration and exploitation, and sample efficiency and computational cost remain central considerations in applying these methods to real-world problems.
+and updating
+
+$$ V(S_t) \leftarrow V(S_t) + \alpha \bigl(G_t^{(n)} - V(S_t)\bigr). $$
+
+Special cases (episodic setting):
+- $n=1$ recovers **TD(0)**.
+- $n = T-t$ (bootstrapping disappears) recovers the **MC return**.
+
+Intuitively, larger $n$ tends to reduce bootstrapping bias but can increase variance; intermediate $n$ can often work well in practice.
+
+## 4. Model-Free Control (Learning an Optimal Policy)
+
+So far we focused on **prediction**: estimating $v_\pi$ (or $q_\pi$) for a fixed policy $\pi$. In **control**, the objective is to learn an *optimal* policy $\pi^\*$ while interacting with an unknown environment.
+
+### 4.1. The Control Objective and Why We Learn $Q(s,a)$
+
+For control, the most convenient object is the **action-value function**:
+
+$$ q_\pi(s,a) = \mathbb{E}_\pi[G_t \mid S_t=s, A_t=a]. $$
+
+If we know $q_\pi$, we can improve the policy by acting greedily:
+
+$$ \pi'(s) \in \arg\max_a q_\pi(s,a). $$
+
+Model-free control algorithms implement a form of **generalized policy iteration (GPI)**:
+
+- (approximately) evaluate the current policy by estimating $q_\pi$ from data;
+- improve the policy using the current estimate $Q \approx q_\pi$;
+- repeat until the policy stabilizes.
+
+### 4.2. MC Control and the Exploration Problem
+
+MC control uses Monte Carlo returns to estimate $q_\pi(s,a)$ and improves the policy using ε-greedy exploration. The key obstacle is that under a deterministic policy, many state–action pairs may **never be visited**, making their values unidentifiable from data.
+
+**ε-Greedy exploration** addresses this by ensuring every action has a nonzero chance of being taken:
+
+$$ \pi(a|s) = \begin{cases} 1 - \varepsilon + \varepsilon/|\mathcal{A}|, & \text{if } a \in \arg\max_{a'} Q(s,a') \\ \varepsilon/|\mathcal{A}|, & \text{otherwise.} \end{cases} $$
+
+> **Important subtlety:** With *exact* $q_\pi$, greedy (or ε-greedy) improvement guarantees non-decreasing value. With **approximate** $Q$ from finite samples (as in model-free methods), monotonic improvement is not guaranteed every iteration—yet the control loop often works well empirically.
+
+### 4.3. GLIE (Greedy in the Limit with Infinite Exploration)
+
+To reason about convergence in tabular settings, a common condition is **GLIE**:
+
+1. every state–action pair is explored infinitely often, and  
+2. the policy becomes greedy in the limit (exploration decays to zero).
+
+For ε-greedy policies, a typical GLIE schedule is $\varepsilon_k = 1/k$ on episode $k$.
+
+**GLIE Monte Carlo control (sketch):**
+
+```
+Initialize: Q(s,a) arbitrarily; N(s,a) ← 0 for all (s,a)
+For episode k = 1, 2, 3, ...:
+    ε ← 1/k
+    Generate an episode using ε-greedy policy w.r.t. Q
+    For each (s,a) visited in the episode (first-visit or every-visit):
+        G ← return following that (s,a)
+        N(s,a) ← N(s,a) + 1
+        Q(s,a) ← Q(s,a) + (1/N(s,a)) · (G - Q(s,a))
+```
+
+In practice, MC control is often demonstrated on Blackjack: by repeatedly simulating games and improving an ε-greedy policy, we can learn both an interpretable policy (e.g., stick/hit regions) and the corresponding action-value surfaces.
+
+### 4.4. TD Control: Learning $Q$ Online
+
+TD methods are often more **sample-efficient** than MC because they bootstrap and can learn online. For control, we apply TD updates to the action-value function and combine them with ε-greedy improvement. This leads to two canonical algorithms:
+
+- **SARSA** (on-policy TD control), and
+- **Q-learning** (off-policy TD control).
+
+### 4.5. SARSA (On-Policy TD Control)
+
+SARSA is named after the data tuple it uses: **State–Action–Reward–State–Action**. It evaluates and improves the *same* (typically ε-greedy) policy it follows.
+
+**SARSA update:**
+
+$$ Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha\Bigl(R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t)\Bigr). $$
+
+**SARSA algorithm (tabular):**
+
+```
+Initialize Q(s,a) arbitrarily
+For each episode:
+    Initialize S; choose A using ε-greedy(Q)
+    Repeat for each step:
+        Take action A, observe R and next state S'
+        Choose A' using ε-greedy(Q) at S'
+        Q(S,A) ← Q(S,A) + α [R + γ Q(S',A') - Q(S,A)]
+        S ← S'; A ← A'
+    until S is terminal
+```
+
+In the tabular setting, SARSA converges to the optimal action-value function under standard step-size conditions and a GLIE exploration schedule.
+
+### 4.6. N-Step SARSA and SARSA(λ)
+
+As with prediction, we can reduce variance and speed learning by looking ahead multiple steps before bootstrapping. The **n-step SARSA** return is:
+
+$$ G_t^{(n)} = R_{t+1} + \gamma R_{t+2} + \cdots + \gamma^{n-1} R_{t+n} + \gamma^n Q(S_{t+n}, A_{t+n}), $$
+
+leading to the update $Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha(G_t^{(n)} - Q(S_t,A_t))$.
+
+**SARSA(λ)** mixes n-step returns with exponentially decaying weights. In the forward-view form (episodic):
+
+$$ G_t^{(\lambda)} = (1-\lambda)\sum_{n=1}^{T-t-1} \lambda^{n-1} G_t^{(n)} + \lambda^{T-t-1} G_t, $$
+
+where $G_t$ is the full MC return. An equivalent and computationally efficient **backward view** uses eligibility traces to distribute TD errors over recently visited state–action pairs.
+
+### 4.7. Off-Policy Learning and Q-Learning
+
+In **off-policy** learning, data is generated by a **behavior policy** $\mu(a|s)$, while we evaluate or improve a different **target policy** $\pi(a|s)$. This matters when we want to:
+
+- learn from logs, demonstrations, or other agents,
+- reuse experience generated by older policies,
+- learn about an optimal (greedy) policy while behaving exploratorily,
+- or learn about multiple target policies from one data stream.
+
+**Q-learning** is an off-policy TD control algorithm that learns the optimal $Q^\*$ while typically behaving ε-greedily.
+
+**Q-learning update:**
+
+$$ Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha\Bigl(R_{t+1} + \gamma \max_{a} Q(S_{t+1},a) - Q(S_t,A_t)\Bigr). $$
+
+**Q-learning algorithm (tabular):**
+
+```
+Initialize Q(s,a) arbitrarily
+For each episode:
+    Initialize S
+    Repeat for each step:
+        Choose A using behavior policy (e.g., ε-greedy w.r.t. Q)
+        Take action A, observe R and next state S'
+        Q(S,A) ← Q(S,A) + α [R + γ max_a Q(S',a) - Q(S,A)]
+        S ← S'
+    until S is terminal
+```
+
+### 4.8. SARSA vs. Q-Learning: The Cliff-Walking Intuition
+
+The difference between SARSA and Q-learning is the **target** they bootstrap toward:
+
+- SARSA uses $Q(S_{t+1},A_{t+1})$, where $A_{t+1}$ is drawn from the (ε-greedy) behavior policy. It therefore learns the value of the *actually executed* exploratory behavior.
+- Q-learning uses $\max_a Q(S_{t+1},a)$, which corresponds to the greedy target policy, even if the behavior is exploratory.
+
+In the classic **cliff-walking** example (a gridworld with a large negative reward for stepping off the cliff), ε-greedy SARSA tends to learn a **safer path** away from the cliff because it accounts for occasional exploratory moves. Q-learning tends to learn the **shortest path** along the cliff edge (optimal under a purely greedy policy) but can suffer more exploratory failures when ε remains nonzero.
+
+## 5. Conclusion
+
+Model-free reinforcement learning can be viewed as two intertwined problems:
+
+- **Prediction:** evaluate a policy (MC, TD, and n-step methods).
+- **Control:** improve the policy toward optimality (MC control, SARSA, Q-learning, and their multi-step/trace variants).
+
+Across both, the same design tensions recur: bias vs. variance (bootstrapping vs. full returns), online learning vs. episodic averaging, and exploration vs. exploitation (ε-greedy and GLIE schedules). For business and social-science researchers, these algorithms provide principled tools for sequential decision problems where accurate environment models are unavailable—ranging from dynamic pricing and inventory control to recommendations, experimentation, and adaptive interventions.
 
 ## References
 
@@ -325,3 +468,7 @@ For business researchers, these model-free methods open doors to applications wh
 [6] Mnih, V., Kavukcuoglu, K., Silver, D., et al. (2015). *Human-level control through deep reinforcement learning*. Nature, 518(7540), 529-533. [https://www.nature.com/articles/nature14236](https://www.nature.com/articles/nature14236)
 
 [7] Bertsekas, D. P., & Tsitsiklis, J. N. (1996). *Neuro-Dynamic Programming*. Athena Scientific.
+
+[8] Silver, D. (2025). *Lecture 4: Model-Free Prediction* (PDF). [https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-4-model-free-prediction-.pdf](https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-4-model-free-prediction-.pdf)
+
+[9] Silver, D. (2025). *Lecture 5: Model-Free Control* (PDF). [https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-5-model-free-control-.pdf](https://davidstarsilver.wordpress.com/wp-content/uploads/2025/04/lecture-5-model-free-control-.pdf)
