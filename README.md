@@ -198,7 +198,7 @@ The following schedule is tentative and subject to changes.
 
 ### 📚 Session 6. Model-Free RL (Feb/10/2026)
 - 🔑 **Keywords**: Monte Carlo, Temporal Difference, SARSA, Q-Learning
-- 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [RL Intro](Slides/AI-PhD-S2026-5-Intro2RL.pdf), [Model-Free RL](Slides/AI-PhD-S2026-6-Model-Free-RL.pdf) 
+- 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [Model-Free RL](Slides/AI-PhD-S2026-6-Model-Free-RL.pdf) 
 - 💻 **CoLab Notebook Demos**: [MC Evaluation](https://colab.research.google.com/drive/1ZGtmtca5KjUTYOhcVDsw0IIb5TxufmxE?usp=sharing), [MC, TD, SARSA, & Q-Learning](https://colab.research.google.com/drive/1Pit9wWKpt-p5BbYEpJnFBnuoEDpgQaty?usp=sharing)
 - ✍️ **Homework**: [Problem Set 4: Solving MDP](https://colab.research.google.com/drive/1AhkE8SnRPG_FB6_K1sUQwCWhn3jKu8GA?usp=sharing), due at 9:30am, Feb/24/2026; [Problem Set 5: Temporal Difference & Q-Learning](https://colab.research.google.com/drive/1NU6L4xbJeHen_HPhOxxMrFr_Lds_LEEi?usp=sharing), due at 9:30am, Mar/10/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026
 - 📝 **Presentation of Replication Project**: By Qiuhong Wei and Bozhi Xu
