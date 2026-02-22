@@ -209,7 +209,7 @@ The following schedule is tentative and subject to changes.
     - [Handwritten Notes](Notes/Handwritten/260210.pdf), [AI-Generated Notes for Model-Free RL](Notes/AI-Generated/6-Model_Free_RL.md)  
 
 ### 📚 Session 7. Deep Q-Learning (Feb/24/2026)
-- 🔑 **Keywords**: Value Function Approximation
+- 🔑 **Keywords**: Value Function Approximation, DQN
 - 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [DRL](Slides/AI-PhD-S2026-7-DRL.pdf) 
 - 💻 **CoLab Notebook Demos**: [Deep Q-Learning](https://colab.research.google.com/drive/1eYmS9ldk7cPDS9DDAUcKxDnLKyv0FmlJ?usp=sharing)
 - ✍️ **Homework**: [Problem Set 4: Solving MDP](https://colab.research.google.com/drive/1AhkE8SnRPG_FB6_K1sUQwCWhn3jKu8GA?usp=sharing), due at 9:30am, Feb/24/2026; [Problem Set 5: Temporal Difference & Q-Learning](https://colab.research.google.com/drive/1NU6L4xbJeHen_HPhOxxMrFr_Lds_LEEi?usp=sharing), due at 9:30am, Mar/10/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026
