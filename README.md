@@ -211,9 +211,9 @@ The following schedule is tentative and subject to changes.
 ### 📚 Session 7. Deep Q-Learning (Feb/24/2026)
 - 🔑 **Keywords**: Value Function Approximation, DQN
 - 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [DRL](Slides/AI-PhD-S2026-7-DRL.pdf) 
-- 💻 **CoLab Notebook Demos**: [Deep Q-Learning](https://colab.research.google.com/drive/1eYmS9ldk7cPDS9DDAUcKxDnLKyv0FmlJ?usp=sharing)
+- 💻 **CoLab Notebook Demos**: [Deep Q-Learning](https://colab.research.google.com/drive/1HTyVCJL5MUEjSAOZoVG1Uynb5ufdz2JI?usp=sharing)
 - ✍️ **Homework**: [Problem Set 4: Solving MDP](https://colab.research.google.com/drive/1AhkE8SnRPG_FB6_K1sUQwCWhn3jKu8GA?usp=sharing), due at 9:30am, Feb/24/2026; [Problem Set 5: Temporal Difference & Q-Learning](https://colab.research.google.com/drive/1NU6L4xbJeHen_HPhOxxMrFr_Lds_LEEi?usp=sharing), due at 9:30am, Mar/10/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026
-- 📝 **Presentation of Replication Project**: By Qiuhong Wei and Bozhi Xu
+- 📝 **Presentation of Replication Project**: By Runming Huang and Leran Li
     - Burnap, Alex , John R. Hauser, Artem Timoshenko (2023) Product Aesthetic Design: A Machine Learning Augmentation. *Marketing Science* 42(6):1029-1056. [Link to the Paper](https://pubsonline.informs.org/doi/abs/10.1287/mksc.2022.1429). [Replication Report, Code, and Slides](https://docs.google.com/spreadsheets/d/1YIwCR-X8VVLTv-OfGr7DqZJF6YIll-JE3SGI1q7JEus/edit?gid=422252848#gid=422252848). 
 - 📚 **References**:
     - *Reinforcement Learning: An Introduction* (2nd Edition), 2018, by RS Sutton and AG Barto, [link to the book](https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf).
