@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Finally, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research.
+This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. Finally, we turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function. We cover policy gradient theory, the REINFORCE algorithm, variance reduction techniques (temporal causality, baselines), and actor-critic methods including the Asynchronous Advantage Actor-Critic (A3C) algorithm.
 
 ## 1. Where Are We?
 
@@ -404,9 +404,13 @@ The success of DQN on Atari inspired a rich line of follow-up work improving dee
 
 **Dueling DQN** (Wang, Schaul, Hessel et al., ICML 2016, Best Paper): The dueling architecture decomposes the Q-function into two streams: a **value stream** $V(s)$ that estimates how good it is to be in state $s$, and an **advantage stream** $A(s, a)$ that estimates the relative advantage of each action. The Q-value is then reconstructed as $Q(s, a) = V(s) + A(s, a)$. This decomposition allows the network to learn which states are valuable (or not) without having to learn the effect of each action in each state separately, leading to more efficient learning.
 
-## 7. Application: Deep Q-Learning for Dynamic Coupon Targeting
+## 7. Applications: Deep RL for Business Decision Making
 
-A compelling business application of deep reinforcement learning is presented by Liu (2023) in *Marketing Science*, who applies batch deep reinforcement learning (BDRL) to dynamic coupon targeting in a livestream shopping context.
+Deep reinforcement learning has found compelling applications across a range of business domains. We highlight several recent papers published in top journals that illustrate the breadth and depth of these applications.
+
+### 7.1. Dynamic Coupon Targeting
+
+Liu (2023) in *Marketing Science* applies batch deep reinforcement learning (BDRL) to dynamic coupon targeting in a livestream shopping context.
 
 **Problem Setting:**
 - The firm must decide how to dynamically target coupons to consumers over time.
@@ -424,19 +428,391 @@ A compelling business application of deep reinforcement learning is presented by
 - Gains come from more effective and automatic targeting of consumers based on heterogeneity and dynamics, using counterfactually rich temporal differences among consumers over time.
 - The approach demonstrates the practical value of deep RL for high-frequency, high-dimensional business decision-making.
 
-## 8. Conclusion
+### 7.2. Ensembling Experimentation Along the Customer Journey
 
-Deep reinforcement learning represents a powerful synthesis of deep learning's representational capacity with reinforcement learning's sequential decision-making framework. The progression from tabular RL to function approximation to deep RL follows a natural path of increasing scalability:
+Song and Sun (2024) in *Management Science* propose using deep reinforcement learning to optimize interventions along the customer journey based on an ensemble of historical experiments.
+
+**Problem Setting:**
+- Firms run multiple randomized experiments at different stages of the customer journey (e.g., ad exposure, landing page design, promotional offers), but these experiments are typically analyzed in isolation.
+- The challenge is to learn an optimal *sequence* of interventions across stages, accounting for intertemporal effects and heterogeneity.
+
+**Methodology:**
+- The paper proposes a Bayesian Recurrent Q-Network Estimation (BRQN) framework that combines Bayesian deep learning with recurrent neural networks to handle partial observability and sequential decision-making.
+- The framework learns from an ensemble of historical experiments to guide future intervention trials, bridging the gap between RL and classical experimentation.
+
+**Key Findings:**
+- Learning from multiple historical experiments jointly yields significantly higher average rewards than learning from any single experiment in isolation.
+- The approach shows the promise of fusing RL with multiple experiments for optimizing multi-stage customer journeys.
+
+### 7.3. Sequential Targeting
+
+Wang, Li, Luo, and Wang (2023) in *Management Science* design a DRL-based personalized targeting strategy in a sequential setting, addressing three important challenges: (1) forward looking—balancing exploration and exploitation, (2) scalability—coping with a high-dimensional state and policy space, and (3) adaptivity—learning while continuously interacting with consumers. The proposed DRL agent generates substantially more long-term revenue than can the conventional bandit-based and greedy approaches.
+
+### 7.4. Career Path Recommendations
+
+Kekouos and Ipeirotis (2021) in *Management Science* apply reinforcement learning to provide demand-aware career path recommendations for contractors on an online labor market. The framework combines reinforcement learning, Bayesian inference, and guided learning to promote future career path recommendations while optimizing current market trends. The framework uses market information to identify current trends and project future career paths, and recommends skills that contractors should learn to maximize long-term earnings.
+
+## 8. Policy-Based Methods
+
+> For a thorough and accessible exposition of the material in this section, we recommend Weng (2018) [17], which provides an excellent tutorial on policy gradient algorithms with detailed derivations and intuitive explanations.
+
+### 8.1. From Value to Policy Approximations
+
+So far, we have focused on approximating the value functions $v^\pi(s)$ and $q^\pi(s, a)$ given the policy $\pi$. An entirely different perspective is to **parameterize the policy function directly**:
+
+$$ \pi_\theta(a|s) $$
+
+where $\theta$ is the parameter vector (e.g., the weights of a deep neural network) that determines the policy.
+
+The central optimization problem becomes:
+
+$$ \max_\theta \quad \mathcal{J}(\theta) = \mathbb{E}_{s_0 \sim p_0} \left[ V^{\pi_\theta}(s_0) \right] = \mathbb{E}_{s_0 \sim p_0}^{\pi} \left[ \sum_{t=0}^{T-1} \gamma^t r_t \right] $$
+
+where $\pi_\theta$ is represented by a DNN with parameter $\theta$. The action and reward from the policy are all we need to optimize the policy directly—no value function estimation is required.
+
+### 8.2. Value-Based RL vs. Policy-Based RL
+
+There are three major paradigms for deep reinforcement learning:
+
+- **Value-based RL** learns the value function and derives the policy from it (e.g., by acting greedily with respect to the Q-function). DQN is a prime example.
+- **Policy-based RL** learns the optimal policy directly without explicitly computing a value function. The policy gradient methods we discuss below fall into this category.
+- **Actor-critic** methods learn *both* a policy and a value function simultaneously. The policy (the "actor") decides which actions to take, while the value function (the "critic") evaluates how good those actions are.
+
+These three approaches can be visualized as a Venn diagram: value-based and policy-based methods occupy distinct regions, while actor-critic methods sit at their intersection, combining elements of both.
+
+### 8.3. Pros and Cons of Policy-Based RL
+
+**Advantages:**
+- **Stochastic policies.** Policy-based methods can directly learn stochastic policies, which is important for games (e.g., rock-paper-scissors, where a deterministic policy is trivially exploitable) and for partially observable environments.
+- **High-dimensional or continuous action spaces.** Policy-based RL is effective when the action space is high-dimensional or continuous (e.g., robotic control, LLM token generation), where computing $\max_a Q(s, a)$ is intractable.
+- **Better convergence properties.** Policy gradient methods enjoy convergence guarantees similar to policy iteration, since the objective function is smooth in the policy parameters.
+
+**Disadvantages:**
+- **High variance.** Policy gradient estimators tend to have high variance, which can slow learning and make training unstable.
+- **Local optima.** Policy gradient methods typically converge to a local optimum rather than the global optimum. The entire policy space is harder to explore and optimize than the value function space.
+
+### 8.4. Policy Gradient for One-Step MDPs
+
+To build intuition, consider a simple MDP with **one step**: start with $s \sim d(s)$, take one action, and terminate with reward $r = R(s, a)$.
+
+The expected reward of policy $\pi_\theta(s, a)$ is:
+
+$$ J(\theta) = \mathbb{E}_{\pi_\theta}[r] = \sum_{s \in \mathcal{S}} d(s) \sum_{a \in \mathcal{A}} \pi_\theta(s, a) \, r $$
+
+The gradient is:
+
+$$ \nabla_\theta J(\theta) = \sum_{s \in \mathcal{S}} d(s) \sum_{a \in \mathcal{A}} \pi_\theta(s, a) \, \nabla_\theta \log \pi_\theta(s, a) \, r $$
+
+This uses the **log-likelihood trick** (also called the **score function** trick or the **REINFORCE** trick):
+
+$$ \nabla_\theta \pi_\theta(s, a) = \pi_\theta(s, a) \frac{\nabla_\theta \pi_\theta(s, a)}{\pi_\theta(s, a)} = \pi_\theta(s, a) \nabla_\theta \log \pi_\theta(s, a) $$
+
+The term $\nabla_\theta \log \pi_\theta(s, a)$ is called the **score function** or the **gradient of the log-likelihood ratio**. The gradient can thus be written as an expectation:
+
+$$ \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta} \left[ r \, \nabla_\theta \log \pi_\theta(s, a) \right] $$
+
+This is remarkable: we can estimate the gradient by sampling trajectories from the policy, without needing to know the environment dynamics.
+
+### 8.5. Policy Gradient for Multi-Step MDPs
+
+Now consider a full multi-step MDP. A **state-action trajectory** from one episode is:
+
+$$ \tau = (s_0, a_0, r_1, \ldots, s_{T-1}, a_{T-1}, r_T, s_T) \sim (\pi_\theta, P(s_{t+1}|s_t, a_t)) $$
+
+Define $R(\tau) = \sum_{t=0}^{T} R(s_t, a_t)$ as the total reward for trajectory $\tau$ (assuming $\gamma = 1$ for simplicity). The policy value is:
+
+$$ J(\theta) = \mathbb{E}_{\pi_\theta} \left[ \sum_{t=0}^{T-1} R(s_t, a_t) \right] = \sum_\tau P(\tau; \theta) R(\tau) $$
+
+where $P(\tau; \theta) = \mu(s_0) \prod_{t=0}^{T-1} \pi_\theta(a_t | s_t) p(s_{t+1} | s_t, a_t)$ is the probability of trajectory $\tau$ under policy $\pi_\theta$.
+
+Our goal is to find the optimal policy parameter:
+
+$$ \theta^* = \arg\max_\theta J(\theta) = \arg\max_\theta \sum_\tau P(\tau; \theta) R(\tau) $$
+
+### 8.6. Taking the Gradient
+
+To compute the gradient $\nabla_\theta J(\theta)$, we apply the log-likelihood trick at the trajectory level:
+
+$$ \nabla_\theta J(\theta) = \nabla_\theta \sum_\tau P(\tau; \theta) R(\tau) = \sum_\tau \nabla_\theta P(\tau; \theta) R(\tau) = \sum_\tau P(\tau; \theta) \nabla_\theta \log P(\tau; \theta) \, R(\tau) $$
+
+Now we decompose $\nabla_\theta \log P(\tau; \theta)$. Since:
+
+$$ P(\tau; \theta) = \mu(s_0) \prod_{t=0}^{T-1} \pi_\theta(a_t | s_t) \, p(s_{t+1} | s_t, a_t) $$
+
+Taking the log:
+
+$$ \log P(\tau; \theta) = \log \mu(s_0) + \sum_{t=0}^{T-1} \log \pi_\theta(a_t | s_t) + \log p(s_{t+1} | s_t, a_t) $$
+
+The gradient with respect to $\theta$ eliminates terms that do not depend on $\theta$:
+
+$$ \nabla_\theta \log P(\tau; \theta) = \sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t | s_t) $$
+
+This is a crucial result: **the gradient does not require knowledge of the transition dynamics** $p(s_{t+1}|s_t, a_t)$. All we need is the ability to compute $\nabla_\theta \log \pi_\theta(a_t | s_t)$, which depends only on the parameterized policy.
+
+### 8.7. The REINFORCE Algorithm
+
+Combining the results above, the policy gradient can be estimated as:
+
+$$ \nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim p_\theta(\tau)} \left[ \left( \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \right) \left( \sum_{t=1}^{T} r(s_t, a_t) \right) \right] $$
+
+This expectation can be approximated by sampling $N$ trajectories:
+
+$$ \nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \left( \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_{i,t} | s_{i,t}) \right) \left( \sum_{t=1}^{T} r(s_{i,t}, a_{i,t}) \right) $$
+
+The full **REINFORCE** algorithm (also called vanilla policy gradient + Monte Carlo) is:
+
+```
+Repeat:
+    1. Sample trajectories {τⁱ} from π_θ(aₜ | sₜ)
+    2. Estimate gradient: ∇_θ J(θ) ≈ Σᵢ (Σₜ ∇_θ log π_θ(aⁱₜ | sⁱₜ)) (Σₜ r(sⁱₜ, aⁱₜ))
+    3. Update: θ ← θ + α ∇_θ J(θ)
+```
+
+The algorithm is conceptually simple: run the current policy to collect data, compute the gradient estimate, and take a gradient ascent step.
+
+### 8.8. Policy Gradient vs. Maximum Likelihood
+
+It is instructive to compare the policy gradient estimator with the maximum likelihood estimator used in supervised learning (also called **imitation learning** or **behavioral cloning**):
+
+**Policy gradient estimator:**
+
+$$ \nabla_\theta J(\theta) \approx \frac{1}{M} \sum_{m=1}^{M} \left( \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_{t,m} | s_{t,m}) \right) \left( \sum_{t=1}^{T} r(s_{t,m}, a_{t,m}) \right) $$
+
+**Maximum likelihood estimator:**
+
+$$ \nabla_\theta J_{ML}(\theta) \approx \frac{1}{M} \sum_{m=1}^{M} \left( \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_{t,m} | s_{t,m}) \right) $$
+
+The only difference is that the policy gradient **weights each trajectory's log-likelihood by its total reward**. The interpretation is intuitive: **good actions (those that lead to high rewards) are made more likely, and bad actions are made less likely.** In maximum likelihood (imitation learning), all demonstrated actions are treated equally—the agent simply mimics the observed behavior regardless of quality.
+
+### 8.9. The Policy Gradient Theorem
+
+The policy gradient theorem generalizes the likelihood ratio approach to a broader set of objective functions:
+
+> **Theorem (Policy Gradient Theorem).** For any differentiable policy $\pi_\theta(s, a)$, for any of the policy objective functions $J = J_1$ (episodic reward), $J_{avR}$ (average reward per time step), or $\frac{1}{1-\gamma} J_{avV}$ (average value), the policy gradient is:
+>
+> $$ \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta} \left[ \nabla_\theta \log \pi_\theta(s, a) \, Q^{\pi_\theta}(s, a) \right] $$
+
+The policy gradient theorem says that the **policy gradient equals the Q-function following the policy, weighted by the score function of the policy**. This result is fundamental because it provides a unified expression for the gradient regardless of which objective function we choose.
+
+### 8.10. Score Function
+
+The score function $\nabla_\theta \log \pi_\theta(s, a)$ takes different forms depending on the policy parameterization:
+
+**Discrete action policy (Softmax):**
+
+$$ \pi_\theta(s, a) = \frac{\exp(\phi(s, a)^\top \theta)}{\sum_{a'} \exp(\phi(s, a')^\top \theta)} $$
+
+The score function is:
+
+$$ \nabla_\theta \log \pi_\theta(s, a) = \phi(s, a) - \mathbb{E}_{\pi_\theta}[\phi(s, \cdot)] $$
+
+This is the feature vector for the chosen action minus the expected feature vector under the policy—it points in the direction that makes the chosen action more likely relative to the average.
+
+**Continuous action policy (Gaussian):**
+
+The policy is Gaussian with mean linear in state features:
+
+$$ \mu(s) = \phi(s)^\top \theta, \quad a \sim \mathcal{N}(\mu(s), \sigma^2) $$
+
+The score function is:
+
+$$ \nabla_\theta \log \pi_\theta(s, a) = \frac{(a - \mu(s)) \, \phi(s)}{\sigma^2} $$
+
+This pushes the mean toward the selected action, proportional to how far the action is from the current mean.
+
+### 8.11. Reducing Variance of Policy Gradient
+
+The REINFORCE gradient estimator is **unbiased but very noisy** (high variance). The variance arises because the total reward $R(\tau)$ for an entire trajectory is used to weight every action's log-probability in that trajectory, even though some of that reward may have nothing to do with a particular action. Two key techniques reduce this variance:
+
+**Temporal Causality:**
+
+The principle of temporal causality states that a policy at time $t'$ cannot affect a reward at time $t$ for $t < t'$. Exploiting this:
+
+$$ \nabla_\theta J(\theta) = \mathbb{E}_\tau \left[ \sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t | s_t) \sum_{t'=t}^{T-1} r_{t'} \right] = \mathbb{E}_\tau \left[ \sum_{t=0}^{T-1} G_t \cdot \nabla_\theta \log \pi_\theta(a_t | s_t) \right] $$
+
+where $G_t = \sum_{t'=t}^{T-1} r_{t'}$ is the **reward-to-go** from time step $t$ onward. This replaces the total trajectory reward with only the future rewards from each time step, significantly reducing variance.
+
+The estimated gradient becomes:
+
+$$ \nabla_\theta \mathbb{E}[R] \approx \frac{1}{m} \sum_{i=1}^{m} \sum_{t=0}^{T-1} G_t^{(i)} \cdot \nabla_\theta \log \pi_\theta(a_t^i | s_t^i) $$
+
+**Subtracting a Baseline:**
+
+We can subtract a **baseline** $b(s_t) = \mathbb{E}[r_t + r_{t+1} + \cdots + r_{T-1}]$ from the return without introducing bias:
+
+$$ \nabla_\theta \mathbb{E}_{\tau \sim \pi_\theta}[R] = \mathbb{E}_\tau \left[ \sum_{t=0}^{T-1} (G_t - b(s_t)) \cdot \nabla_\theta \log \pi_\theta(a_t | s_t) \right] $$
+
+Why is this unbiased? Because $\mathbb{E}_\tau \left[ \nabla_\theta \log \pi_\theta(a_t | s_t) \, b(s_t) \right] = 0$ for any baseline that depends only on the state.
+
+The key insight is that subtracting the baseline changes the gradient from asking "was this action good?" to asking "**was this action better than expected?**" This increases the log-probability of actions proportional to how much their returns exceed the expected return, and is both **unbiased** and **reduces variance**.
+
+### 8.12. Vanilla Policy Gradient with Baseline
+
+The complete vanilla policy gradient algorithm with a learned baseline is:
+
+```
+procedure POLICY GRADIENT(α)
+    Initialize policy parameters θ and baseline values b(s) for all s, e.g. to 0
+    for iteration = 1, 2, ... do
+        Collect a set of m trajectories by executing the current policy π_θ
+        for each time step t of each trajectory τ⁽ⁱ⁾ do
+            Compute the return G_t⁽ⁱ⁾ = Σₜ'₌ₜᵀ⁻¹ rₜ'
+            Compute the advantage estimate Â_t⁽ⁱ⁾ = G_t⁽ⁱ⁾ - b(sₜ)
+        Re-fit the baseline to the empirical returns by updating w to minimize
+            Σᵢ₌₁ᵐ Σₜ₌₀ᵀ⁻¹ ‖b(sₜ) - G_t⁽ⁱ⁾‖²
+        Update policy parameters θ using the policy gradient estimate ĝ:
+            ĝ = Σᵢ₌₁ᵐ Σₜ₌₀ᵀ⁻¹ Â_t⁽ⁱ⁾ ∇_θ log π_θ(aₜ⁽ⁱ⁾ | sₜ⁽ⁱ⁾)
+        with an optimizer like SGD (θ ← θ + α · ĝ) or Adam
+    return θ and baseline values b(s)
+```
+
+Note that vanilla policy gradient is **on-policy**: it uses only data collected from the current policy $\pi_\theta$ to update the parameters. This raises the question: how can we generalize to **off-policy** settings, where we reuse data from older policies?
+
+### 8.13. Off-Policy Policy Gradient
+
+What if we want to use samples collected from a different policy $\bar{\pi}$ to update our current policy $\pi_{\theta'}$? This is the off-policy setting, which is important for data efficiency since we can reuse past experience.
+
+The idea is to use **importance sampling**. Given a proposal distribution $q(x)$ and a target distribution $p(x)$:
+
+$$ \mathbb{E}_{x \sim p(x)}[f(x)] = \int p(x) f(x) \, dx = \int q(x) \frac{p(x)}{q(x)} f(x) \, dx = \mathbb{E}_{x \sim q(x)} \left[ \frac{p(x)}{q(x)} f(x) \right] $$
+
+Applying this at the trajectory level, the importance weight is $\frac{p_\theta(\tau)}{p_{\bar{\theta}}(\tau)} = \prod_{t=1}^{T} \frac{\pi_\theta(a_t | s_t)}{\bar{\pi}(a_t | s_t)}$, which can become very small or very large for longer trajectories.
+
+To mitigate this, we can instead apply importance sampling at the **per-timestep** level rather than the trajectory level, which is much less likely to explode or vanish:
+
+$$ \nabla_{\theta'} J(\theta') \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=1}^{T} \frac{\pi_{\theta'}(s_{i,t}, a_{i,t})}{\pi_\theta(s_{i,t}, a_{i,t})} \nabla_{\theta'} \log \pi_{\theta'}(a_{i,t} | s_{i,t}) \left( \left( \sum_{t'=t}^{T} r(s_{i,t'}, a_{i,t'}) \right) - b \right) $$
+
+In practice, the per-timestep importance ratio $\frac{\pi_{\theta'}(s_t, a_t)}{\pi_\theta(s_t, a_t)}$ is often approximated as 1, simplifying the computation.
+
+**Key challenge:** If the policy changes too much before sampling new data, the data no longer reflects the states the updated policy would visit. To address this, we can **constrain the policy not to change too much** between updates:
+
+$$ \mathbb{E}_{s \sim \pi_\theta} \left[ D_{KL}(\pi_{\theta'}(\cdot | s) \| \pi_\theta(\cdot | s)) \right] \leq \delta $$
+
+This constraint is the foundation of trust region methods like TRPO (Trust Region Policy Optimization) and PPO (Proximal Policy Optimization), which have become widely used in practice, including in the training of large language models.
+
+### 8.14. Reducing Variance with a Critic
+
+Recall the policy gradient update with baseline:
+
+$$ \nabla_\theta \mathbb{E}[R] \approx \frac{1}{m} \sum_{i=1}^{m} \sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t, s_t) (G_t^{(i)} - b(s_t)) $$
+
+The MC rollout return $G_t^{(i)}$ is an unbiased estimate of the Q-function, but it comes with high variance. We can instead use a **critic**—a learned approximation of the Q-function—to reduce this variance.
+
+**The Actor-Critic Architecture:**
+- **Critic:** Updates the Q-function approximation $Q_\mathbf{w}(s, a)$ with parameter $\mathbf{w}$, which is policy evaluation through function approximation.
+- **Actor:** Updates the policy function $\pi_\theta$ using the Q-function produced by the critic.
+- **Baseline:** The average reward $V(s_t) = \mathbb{E}_{a_t \sim \pi_\theta(\cdot | s_t)}[Q(s_t, a_t)]$ serves as a natural baseline.
+
+The key quantity is the **advantage function**:
+
+$$ A^{\pi_\theta}(s, a) = Q^{\pi_\theta}(s, a) - V^{\pi_\theta}(s) $$
+
+The advantage function measures how much better action $a$ is compared to the average action under the current policy. It can be approximated by the **TD error**:
+
+$$ \delta^{\pi_\theta} = r + \gamma V^{\pi_\theta}(s') - V^{\pi_\theta}(s) $$
+
+In expectation, the TD error equals the advantage: $\mathbb{E}_{\pi_\theta}[\delta^{\pi_\theta} | s, a] = A^{\pi_\theta}(s, a)$.
+
+The policy gradient then becomes:
+
+$$ \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta} \left[ \nabla_\theta \log \pi_\theta(s, a) \, A^{\pi_\theta}(s, a) \right] $$
+
+### 8.15. Compatible Function Approximation Theorem
+
+A natural concern arises: since the critic's Q-function approximation has errors, does this bias the policy gradient updates?
+
+> **Theorem (Compatible Function Approximation).** If the following two conditions are satisfied:
+>
+> 1. The value function approximator is **compatible** with the policy: $\nabla_\mathbf{w} Q_\mathbf{w}(s, a) = \nabla_\theta \log \pi_\theta(s, a)$
+> 2. The value function parameters $\mathbf{w}$ minimize the mean-squared error: $\varepsilon = \mathbb{E}_{\pi_\theta} \left[ (Q^{\pi_\theta}(s, a) - Q_\mathbf{w}(s, a))^2 \right]$
+>
+> Then the policy gradient is **exact**: $\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta} [\nabla_\theta \log \pi_\theta(s, a) \, Q_\mathbf{w}(s, a)]$
+
+This theorem provides reassurance that if the critic satisfies certain compatibility conditions, the actor's gradient updates are not biased by the approximation error in the critic. In practice, the conditions need not hold exactly for the approach to work well.
+
+### 8.16. Simple Action-Value Actor-Critic (QAC) Algorithm
+
+A concrete actor-critic algorithm using linear value function approximation is the **Simple QAC** (Q Actor-Critic):
+
+- **Critic:** Use a linear value function approximation: $Q_\mathbf{w}(s, a) = \psi(s, a)^\top \mathbf{w}$. Update $\mathbf{w}$ by linear TD(0).
+- **Actor:** Update $\theta$ by policy gradient.
+
+```
+Algorithm: Simple QAC
+1: for each step do
+2:     Generate sample s, a, r, s', a' following π_θ
+3:     δ = r + γ Q_w(s', a') - Q_w(s, a)          # TD error
+4:     w ← w + β δ ψ(s, a)                         # Critic update
+5:     θ ← θ + α ∇_θ log π_θ(s, a) Q_w(s, a)      # Actor update
+6: end for
+```
+
+### 8.17. Asynchronous Advantage Actor-Critic (A3C)
+
+The **A3C** algorithm (Mnih et al., ICML 2016; see also Weng, 2018 [17] for a tutorial exposition) scales actor-critic methods through **parallel training of multiple actors**. It is a policy gradient method where critics learn the value function while multiple actors are trained in parallel, each interacting with its own copy of the environment.
+
+**Key Design Principles:**
+1. **Global parameters** $\theta$ and $\mathbf{w}$ are shared, with thread-specific copies $\theta'$ and $\mathbf{w}'$.
+2. Each thread runs independently: reset gradients, synchronize with global parameters, sample a trajectory, and compute local gradients.
+3. Gradients are accumulated locally over a short trajectory segment and then used to **asynchronously update** the global parameters.
+
+The algorithm outline is:
+
+```
+While T ≤ T_MAX:
+    1. Reset gradient: dθ = 0 and dw = 0
+    2. Synchronize thread-specific parameters: θ' = θ and w' = w
+    3. Sample a starting state sₜ
+    4. While (sₜ ≠ TERMINAL) and (t - t_start ≤ t_max):
+        - Pick action Aₜ ~ π_θ'(Aₜ | Sₜ) and observe Rₜ, sₜ₊₁
+        - t = t + 1
+    5. Initialize return estimate:
+        R = 0 if sₜ is TERMINAL, else V_w'(sₜ)
+    6. For i = t-1, ..., t_start:
+        R ← γR + Rᵢ   (MC estimate of Gᵢ)
+        Accumulate gradients w.r.t. θ': dθ ← dθ + ∇_θ' log π_θ'(aᵢ|sᵢ)(R - V_w'(sᵢ))
+        Accumulate gradients w.r.t. w': dw ← dw + 2(R - V_w'(sᵢ))∇_w'(R - V_w'(sᵢ))
+    7. Update asynchronously: θ using dθ, and w using dw
+```
+
+**Advantages of A3C:**
+- **Parallelism for stability:** Running multiple actors in parallel with different exploration patterns provides diverse experience, reducing the correlation between updates. This serves a similar purpose to experience replay in DQN, but without the memory overhead.
+- **On-policy learning at scale:** Unlike DQN which is off-policy, A3C remains on-policy while achieving data efficiency through parallelism.
+- **Lower memory requirements:** No need for a large replay buffer; each thread only needs to store a short trajectory segment.
+
+## 9. Application: Deep RL for Inventory Control
+
+Gijsbrechts, Boute, Van Mieghem, and Zhang (2022) in *Manufacturing & Service Operations Management* rigorously evaluate deep reinforcement learning for inventory management across three classic and intractable problem settings: lost sales, dual-sourcing, and multi-echelon inventory systems.
+
+**Problem Setting:**
+- Some inventory control problems are **notoriously challenging**: lost-sales systems (where unmet demand is lost rather than backordered), dual-sourcing (choosing between fast and slow suppliers), and multi-echelon networks (coordinating inventory across supply chain tiers).
+- These problems lack tractable closed-form solutions and have historically relied on hand-crafted heuristics.
+
+**Methodology:**
+- The authors formulate each inventory problem as a Markov decision process and apply the Asynchronous Advantage Actor-Critic (A3C) algorithm.
+- The DRL agent learns inventory replenishment policies directly from simulated demand and cost data.
+
+**Key Findings:**
+- The A3C algorithm **matches the performance of well-designed heuristics**, with limited changes to the tuning parameters across different problem structures.
+- Although initial tuning was computationally demanding and time-consuming, only small adjustments to the tuning parameters were needed for the other studied problems.
+- However, **generating structural policy insight and specialized near-optimal policies remains desirable**—DRL provides a powerful numerical tool, but the learned policies can be difficult to interpret and do not replace the conceptual understanding offered by structural results.
+
+## 10. Conclusion
+
+Deep reinforcement learning represents a powerful synthesis of deep learning's representational capacity with reinforcement learning's sequential decision-making framework. The progression from tabular RL to function approximation to deep RL follows a natural path of increasing scalability and expressiveness:
 
 1. **Value function approximation** replaces the lookup table with a parameterized function, enabling generalization across states and scaling to large problems.
 2. **Linear approximation** provides a tractable starting point with convergence guarantees, but requires manual feature engineering.
 3. **Deep Q-Networks** leverage neural networks for automatic feature learning, with experience replay and fixed targets to stabilize training.
+4. **Policy gradient methods** optimize the policy directly, enabling handling of continuous and high-dimensional action spaces, stochastic policies, and settings where value-based methods struggle.
+5. **Actor-critic methods** combine the best of both worlds: a critic for low-variance value estimation and an actor for direct policy optimization, culminating in scalable algorithms like A3C.
 
 The key takeaways for business researchers are:
-- **The deadly triad** (bootstrapping + function approximation + off-policy learning) is a fundamental source of instability. DQN addresses it through engineering innovations rather than theoretical fixes.
-- **Experience replay** and **fixed targets** are general-purpose stabilization techniques applicable beyond DQN.
-- Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, and adaptive marketing—where tabular methods are infeasible.
-- **Extensions** like Double DQN, Prioritized Replay, and Dueling DQN offer further improvements and continue to be active areas of research.
+- **The deadly triad** (bootstrapping + function approximation + off-policy learning) is a fundamental source of instability. DQN addresses it through engineering innovations (experience replay and fixed targets) rather than theoretical fixes.
+- **Policy gradient methods** provide a complementary approach to value-based methods, with distinct advantages for continuous action spaces, stochastic policies, and LLM fine-tuning (e.g., RLHF).
+- **Variance reduction** is central to making policy gradient methods practical. Temporal causality, baselines, and actor-critic architectures progressively reduce the variance of gradient estimates.
+- Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, adaptive marketing, inventory management, and customer journey optimization—where tabular methods are infeasible.
+- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, and A3C offer further improvements and continue to be active areas of research.
 
 ## References
 
@@ -452,8 +828,24 @@ The key takeaways for business researchers are:
 
 [6] Wang, Z., Schaul, T., Hessel, M., et al. (2016). *Dueling network architectures for deep reinforcement learning*. Proceedings of the International Conference on Machine Learning (ICML).
 
-[7] Liu, X. (2023). *Dynamic coupon targeting using batch deep reinforcement learning: An application to livestream shopping*. Marketing Science, 42(4), 610–636.
+[7] Mnih, V., Badia, A. P., Mirza, M., Graves, A., et al. (2016). *Asynchronous methods for deep reinforcement learning*. Proceedings of the International Conference on Machine Learning (ICML).
 
-[8] Tsitsiklis, J. N., & Van Roy, B. (1997). *An analysis of temporal-difference learning with function approximation*. IEEE Transactions on Automatic Control, 42(5), 674–690.
+[8] Liu, X. (2023). *Dynamic coupon targeting using batch deep reinforcement learning: An application to livestream shopping*. Marketing Science, 42(4), 610–636.
 
-[9] Bertsekas, D. P., & Tsitsiklis, J. N. (1996). *Neuro-Dynamic Programming*. Athena Scientific.
+[9] Song, Y., & Sun, T. (2024). *Ensemble experiments to optimize interventions along the customer journey: A reinforcement learning approach*. Management Science, 70(8), 5117–5139.
+
+[10] Wang, W., Li, B., Luo, X., & Wang, X. (2023). *Deep reinforcement learning for sequential targeting*. Management Science, 69(9), 5382–5404.
+
+[11] Kekouos, M., & Ipeirotis, P. G. (2021). *Demand-aware career path recommendations: A reinforcement learning approach*. Management Science, 67(7), 4030–4050.
+
+[12] Gijsbrechts, J., Boute, R. N., Van Mieghem, J. A., & Zhang, D. J. (2022). *Can deep reinforcement learning improve inventory management? Performance on lost sales, dual-sourcing, and multi-echelon problems*. Manufacturing & Service Operations Management, 24(3), 1664–1677.
+
+[13] Sutton, R. S., McAllester, D., Singh, S., & Mansour, Y. (1999). *Policy gradient methods for reinforcement learning with function approximation*. Advances in Neural Information Processing Systems (NeurIPS), 12.
+
+[14] Williams, R. J. (1992). *Simple statistical gradient-following algorithms for connectionist reinforcement learning*. Machine Learning, 8(3), 229–256.
+
+[15] Tsitsiklis, J. N., & Van Roy, B. (1997). *An analysis of temporal-difference learning with function approximation*. IEEE Transactions on Automatic Control, 42(5), 674–690.
+
+[16] Bertsekas, D. P., & Tsitsiklis, J. N. (1996). *Neuro-Dynamic Programming*. Athena Scientific.
+
+[17] Weng, L. (2018). *Policy Gradient Algorithms*. Lil'Log. [https://lilianweng.github.io/posts/2018-04-08-policy-gradient/](https://lilianweng.github.io/posts/2018-04-08-policy-gradient/)
