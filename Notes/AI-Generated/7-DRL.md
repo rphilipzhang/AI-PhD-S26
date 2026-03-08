@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. Finally, we turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function. We cover policy gradient theory, the REINFORCE algorithm, variance reduction techniques (temporal causality, baselines), and actor-critic methods including the Asynchronous Advantage Actor-Critic (A3C) algorithm.
+This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. We then turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function, covering policy gradient theory, the REINFORCE algorithm, variance reduction techniques, and actor-critic methods including A3C. Building on this foundation, we examine modern deep RL algorithms—Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO)—that address the instability of vanilla policy gradients through constrained optimization in policy space. Finally, we discuss the increasingly important application of RL to large language models (LLMs), covering supervised fine-tuning (SFT), reward modeling, and reinforcement learning from human feedback (RLHF), which has become central to aligning modern AI systems with human preferences.
 
 ## 1. Where Are We?
 
@@ -797,7 +797,293 @@ Gijsbrechts, Boute, Van Mieghem, and Zhang (2022) in *Manufacturing & Service Op
 - Although initial tuning was computationally demanding and time-consuming, only small adjustments to the tuning parameters were needed for the other studied problems.
 - However, **generating structural policy insight and specialized near-optimal policies remains desirable**—DRL provides a powerful numerical tool, but the learned policies can be difficult to interpret and do not replace the conceptual understanding offered by structural results.
 
-## 10. Conclusion
+## 10. Modern Deep RL: From TRPO to PPO
+
+The policy gradient methods discussed in the previous sections—REINFORCE, vanilla policy gradient with baselines, and actor-critic algorithms—suffer from a critical practical limitation: **they are highly sensitive to the step size**. In supervised learning, an overly large learning rate leads to poor convergence but the model can typically recover. In RL, the consequences are far more severe: a bad policy update leads to bad data collection, which leads to an even worse policy, creating a vicious cycle that can **collapse overall performance irreversibly** [17, 18].
+
+This section introduces two landmark algorithms—**Trust Region Policy Optimization (TRPO)** and **Proximal Policy Optimization (PPO)**—that address this instability by constraining how much the policy can change in each update step.
+
+### 10.1. Recap: The Policy Gradient Landscape
+
+Before diving into modern methods, it is useful to recall the different forms the policy gradient can take:
+
+$$ \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta \log \pi_\theta(s, a) \, G_t] \quad \text{— REINFORCE} $$
+
+$$ = \mathbb{E}_{\pi_\theta}[\nabla_\theta \log \pi_\theta(s, a) \, Q^{\mathbf{w}}(s, a)] \quad \text{— Q Actor-Critic} $$
+
+$$ = \mathbb{E}_{\pi_\theta}[\nabla_\theta \log \pi_\theta(s, a) \, A^{\mathbf{w}}(s, a)] \quad \text{— Advantage Actor-Critic} $$
+
+$$ = \mathbb{E}_{\pi_\theta}[\nabla_\theta \log \pi_\theta(s, a) \, \delta] \quad \text{— TD Actor-Critic} $$
+
+The critic can use MC or TD learning to estimate $Q^\pi(s,a)$, $A^\pi(s,a)$, or $V^\pi(s)$.
+
+### 10.2. Issues with Vanilla Policy Gradient
+
+Vanilla policy gradient is **on-policy**, meaning it uses only data collected from the current policy $\pi_\theta$ to compute gradient updates. This has two major consequences:
+
+1. **Poor sample efficiency:** Each batch of data is used for a single gradient update and then discarded. Collecting new data after every update is expensive.
+2. **Catastrophic sensitivity to step size:** Unlike supervised learning where data and model are independent, in RL the data distribution depends on the policy. If the step is too large:
+   - The policy becomes bad → it collects bad data → the next update makes the policy even worse.
+   - The training may **never recover** from such a collapse.
+
+The solution is to combine **off-policy learning** (via importance sampling) with a **trust region** constraint that limits how much the policy can change. This leads to Trust Region Policy Optimization (TRPO) and its simpler successor, Proximal Policy Optimization (PPO).
+
+### 10.3. Relative Policy Performance
+
+The key theoretical insight underlying TRPO begins with analyzing how policy performance changes when we move from one policy to another.
+
+**Steepest ascent in parameter space (standard gradient):**
+
+$$ d^* = \nabla_\theta J(\theta) = \lim_{\epsilon \to 0} \frac{1}{\epsilon} \arg\max_d J(\theta + d), \quad \text{s.t. } \|d\| \leq \epsilon $$
+
+This characterizes the direction of steepest improvement using the **Euclidean metric** on parameter space.
+
+**Steepest ascent in distribution space (natural gradient):**
+
+$$ d^* = \arg\max_d J(\theta + d), \quad \text{s.t. } KL(\pi_\theta \| \pi_{\theta+d}) = c $$
+
+This characterizes the direction of steepest improvement using the **KL divergence** to measure distances between policy distributions. The KL divergence is defined as:
+
+$$ KL(\pi_\theta \| \pi_{\theta'}) = E_{\pi_\theta}[\log \pi_\theta] - E_{\pi_\theta}[\log \pi_{\theta'}] $$
+
+The second-order Taylor expansion of the KL divergence gives:
+
+$$ KL(\pi_\theta \| \pi_{\theta+d}) \approx \frac{1}{2} d^T F d $$
+
+where $F$ is the **Fisher Information Matrix**:
+
+$$ F = E_{\pi_\theta}[\nabla \log \pi_\theta \nabla \log \pi_\theta^T] $$
+
+**The performance difference between two policies** can be expressed exactly as:
+
+$$ J(\pi') - J(\pi) = \mathbb{E}_{\tau \sim \pi'}\left[\sum_{t=0}^{\infty} \gamma^t A^\pi(s_t, a_t)\right] = \frac{1}{1 - \gamma} \mathbb{E}_{\substack{s \sim d^{\pi'} \\ a \sim \pi'}} [A^\pi(s, a)] $$
+
+where $d^\pi(s) = (1 - \gamma) \sum_{t=0}^{\infty} \gamma^t P(s_t = s | \pi)$ is the discounted state visitation distribution. This identity says: the improvement of $\pi'$ over $\pi$ equals the expected advantage of $\pi'$'s actions under $\pi$'s value function, weighted by $\pi'$'s state distribution.
+
+### 10.4. Importance Sampling for Policy Optimization
+
+The performance difference formula requires sampling states from the **new** policy $\pi'$, but we only have data from the **old** policy $\pi_{\theta_0}$. Applying importance sampling:
+
+$$ \mathcal{J}(\theta) - \mathcal{J}(\theta_0) = \mathbb{E}_{\tau \sim (p_0, \pi_\theta, p)} \left[ \sum_{t=0}^{T-1} \gamma^t A^{\pi_{\theta_0}}(s_t, a_t) \right] $$
+
+Using importance sampling to correct for the distribution mismatch:
+
+$$ = \mathbb{E}_{\tau \sim (p_0, \pi_{\theta_0}, p)} \left[ \sum_{t=0}^{T-1} \gamma^t \frac{\pi_\theta(a_t' | s_t)}{\pi_{\theta_0}(a_t' | s_t)} A^{\pi_{\theta_0}}(s_t, a_t') \right] $$
+
+where states are sampled from the **new** policy but actions are sampled from the **original** policy, with importance weights correcting the mismatch.
+
+### 10.5. The Surrogate Objective
+
+If the new policy is **sufficiently close** to the original one, we can define a **surrogate objective** that can be estimated entirely from data collected under $\pi_{\theta_0}$:
+
+$$ \mathcal{K}(\theta; \theta_0) = \mathbb{E}_{\tau \sim (p_0, \pi_{\theta_0}, p)} \left[ \sum_{t=0}^{T-1} \gamma^t \frac{\pi_\theta(s_t, a_t)}{\pi_{\theta_0}(s_t, a_t)} A^{\pi_{\theta_0}}(s_t, a_t) \right] + C $$
+
+Here both **states and actions** are sampled from the **original** policy, making this estimable from collected data. The surrogate can be approximated as:
+
+$$ \mathcal{L}_{\theta_0}(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T^{(i)}-1} \gamma^t \frac{\pi_\theta(s_t^{(i)}, a_t^{(i)})}{\pi_{\theta_0}(s_t^{(i)}, a_t^{(i)})} \hat{A}_t^{(i)} $$
+
+We then maximize this surrogate objective subject to a **trust-region constraint** that keeps $\theta$ close to $\theta_0$:
+
+$$ \max_{\theta \in \mathbb{R}^p} \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T^{(i)}-1} \gamma^t \frac{\pi_\theta(s_t^{(i)}, a_t^{(i)})}{\pi_{\theta_0}(s_t^{(i)}, a_t^{(i)})} \hat{A}_t^{(i)}, \quad \text{subject to } \theta \text{ and } \theta_0 \text{ close} $$
+
+### 10.6. Trust Region Policy Optimization (TRPO)
+
+**TRPO** (Schulman et al., 2015) [18] operationalizes the surrogate objective by constraining policy updates to stay within a **trust region** defined by KL divergence:
+
+$$ KL(\pi_{\theta_{\text{old}}}(\cdot | s_t) \| \pi_\theta(\cdot | s_t)) \leq \delta $$
+
+```
+Algorithm: Trust Region Policy Optimization (TRPO)
+Input: initial policy parameters θ₀
+For k = 0, 1, 2, ... do:
+    1. Collect set of trajectories D_k on policy π_k = π(θ_k)
+    2. Estimate advantages Â using any advantage estimation algorithm
+    3. Form sample estimates for:
+       • Policy gradient ĝ_k (using advantage estimates)
+       • KL-divergence Hessian-vector product function f(v) = Ĥ_k v
+    4. Use conjugate gradient (CG) with n_cg iterations to obtain x_k ≈ Ĥ_k⁻¹ ĝ_k
+    5. Estimate proposed step Δ_k ≈ √(2δ / (x_kᵀ Ĥ_k x_k)) · x_k
+    6. Perform backtracking line search with exponential decay to obtain final update:
+       θ_{k+1} = θ_k + αʲ Δ_k
+End for
+```
+
+### 10.7. Limitations of TRPO
+
+While theoretically elegant, TRPO has significant **scalability issues**:
+
+1. **Expensive Fisher Information Matrix computation:** Computing the Fisher Information Matrix $H$ for the current policy requires a large batch of rollouts:
+
+$$ H = \nabla_\theta^2 KL(\pi_{\theta_t} \| \pi_\theta) = E_{a, s \sim \pi_{\theta_t}} \left[ \nabla_\theta \log \pi_\theta(a, s) \nabla_\theta \log \pi_\theta(a, s)^T \right] $$
+
+2. **Conjugate gradient solver:** Determining the step size involves an approximate Newton method, solving $H^{-1}g$ via a conjugate gradient (CG) solver—a second-order method that is complex and computationally expensive.
+
+Using a first-order Taylor approximation of the objective and second-order approximation of the KL constraint, the update becomes:
+
+$$ \theta_{t+1} = \arg\max_\theta g^T(\theta - \theta_t) \quad \text{s.t. } \frac{1}{2}(\theta - \theta_t)^T H (\theta - \theta_t) \leq \delta $$
+
+This can be solved analytically:
+
+$$ \theta_{t+1} = \theta_t + \sqrt{\frac{2\delta}{g^T H^{-1} g}} H^{-1} g $$
+
+### 10.8. Proximal Policy Optimization (PPO)
+
+**PPO** (Schulman et al., 2017) [19] achieves performance comparable to TRPO while being **much simpler to implement**. Instead of solving a constrained optimization problem with second-order methods, PPO uses first-order methods (SGD/Adam) with a modified objective.
+
+**PPO-Penalty:** The trust region constraint is reformulated as an **unconstrained optimization** with KL divergence as a regularizer:
+
+$$ \max_\theta \mathbb{E}_t \left[ \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{\text{old}}}(a_t | s_t)} A_t \right] - \beta \, \mathbb{E}_t \left[ KL[\pi_{\theta_{\text{old}}}(\cdot | s_t), \pi_\theta(\cdot | s_t)] \right] $$
+
+The penalty coefficient $\beta$ is **adaptive** between iterations to approximately enforce the KL-divergence constraint:
+- If $\bar{D}_{KL}(\theta_{k+1} \| \theta_k) \geq 1.5\delta$: $\beta_{k+1} = 2\beta_k$ (policy moved too far, increase penalty)
+- If $\bar{D}_{KL}(\theta_{k+1} \| \theta_k) \leq \delta / 1.5$: $\beta_{k+1} = \beta_k / 2$ (policy moved too little, decrease penalty)
+
+```
+Algorithm: PPO with Adaptive KL Penalty
+Input: initial policy parameters θ₀, initial KL penalty β₀, target KL-divergence δ
+For k = 0, 1, 2, ... do:
+    1. Collect set of partial trajectories D_k on policy π_k = π(θ_k)
+    2. Estimate advantages Â using any advantage estimation algorithm
+    3. Compute policy update:
+       θ_{k+1} = arg max_θ L_{θ_k}(θ) - β_k D̄_KL(θ || θ_k)
+       by taking K steps of minibatch SGD (via Adam)
+    4. If D̄_KL(θ_{k+1} || θ_k) ≥ 1.5δ then β_{k+1} = 2β_k
+       else if D̄_KL(θ_{k+1} || θ_k) ≤ δ/1.5 then β_{k+1} = β_k / 2
+End for
+```
+
+### 10.9. PPO-Clip
+
+The most widely used variant of PPO is **PPO-Clip**, which avoids computing KL divergence entirely by using a **clipped surrogate objective**:
+
+Define the probability ratio:
+
+$$ r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_k}(a_t | s_t)} $$
+
+Note that $r_t(\theta)$ is close to 1 when the new policy is close to the original one. The clipped objective is:
+
+$$ \mathcal{L}_{\theta_k}^{CLIP}(\theta) = \mathbb{E}_{\tau \sim \pi_k} \left[ \sum_{t=0}^{T} \left[ \min\left( r_t(\theta) \hat{A}_t^{\pi_k}, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t^{\pi_k} \right) \right] \right] $$
+
+where $\epsilon$ is a hyperparameter (typically $\epsilon = 0.2$). The policy update is simply:
+
+$$ \theta_{k+1} = \arg\max_\theta \mathcal{L}_{\theta_k}^{CLIP}(\theta) $$
+
+**How clipping works:**
+- When the advantage $A > 0$ (good action): the objective increases with $r_t(\theta)$, but clipping at $1 + \epsilon$ prevents the ratio from growing too large.
+- When the advantage $A < 0$ (bad action): the objective increases as $r_t(\theta)$ decreases, but clipping at $1 - \epsilon$ prevents the ratio from shrinking too much.
+
+The final clipped objective is a **lower (pessimistic) bound** of the unclipped objective, which means it errs on the side of caution. The clipping removes the incentive for the policy to move far from $\theta_k$, providing a simple mechanism for trust-region enforcement without any KL divergence computation.
+
+```
+Algorithm: PPO with Clipped Objective
+Input: initial policy parameters θ₀, clipping threshold ε
+For k = 0, 1, 2, ... do:
+    1. Collect set of partial trajectories D_k on policy π_k = π(θ_k)
+    2. Estimate advantages Â using any advantage estimation algorithm
+    3. Compute policy update:
+       θ_{k+1} = arg max_θ L^CLIP_{θ_k}(θ)
+       by taking K steps of minibatch SGD (via Adam), where:
+       L^CLIP_{θ_k}(θ) = E_{τ~π_k} [Σ_t min(r_t(θ) Â_t, clip(r_t(θ), 1-ε, 1+ε) Â_t)]
+End for
+```
+
+**Key advantages of PPO-Clip:**
+- PPOs have the **stability and reliability of TRPO** but are **much simpler to implement**.
+- Only requires first-order optimization (SGD or Adam).
+- No need to compute KL divergence or the Fisher Information Matrix.
+- Achieves comparable or better performance than TRPO on standard benchmarks.
+
+### 10.10. PPO: Implementation Challenges
+
+Despite its apparent simplicity, PPO implementation is **tricky and challenging** in practice. Hsu, Mendler-Dünner, and Hardt (2020) [20] and Engstrom et al. (2020) [21] highlight several important caveats:
+
+1. **Failure modes of standard PPO:**
+   - On continuous action spaces, standard PPO is unstable when rewards vanish outside bounded support.
+   - On discrete action spaces with sparse high rewards, standard PPO often gets stuck at suboptimal actions.
+   - The policy is sensitive to initialization when there are locally optimal actions close to initialization.
+
+2. **Implementation details matter enormously:** "Code-level optimizations" that are described as auxiliary details in implementations turn out to have a **major impact on agent behavior**. These optimizations are responsible for most of PPO's gain in cumulative reward over TRPO, fundamentally changing how the RL methods function.
+
+These findings serve as a reminder that many algorithmic design choices in deep RL are tied to specific simulation environments, and standard design choices should not be implicitly accepted as universal defaults.
+
+## 11. Reinforcement Learning for Large Language Models
+
+One of the most impactful applications of modern deep RL—and of PPO in particular—is in the **post-training of large language models (LLMs)**. Reinforcement learning from human feedback (RLHF) has become a central technique for aligning LLMs with human preferences, addressing issues of safety, helpfulness, and instruction-following that supervised training alone cannot fully resolve [22, 23].
+
+### 11.1. The LLM Training Pipeline
+
+Modern LLMs are trained in two major phases:
+
+**Pretraining:**
+- Very large models are trained via **unsupervised learning** on a gigantic web-scale dataset of texts and documents—essentially the entire archive of human written knowledge.
+- Key enablers: **GPUs** for fast computation, **data** freely available from the Internet, the **Transformer** architecture, and substantial **financial investment**.
+- The output is a **base LLM** that can generate fluent text but may not follow instructions well, may produce harmful content, or may hallucinate.
+
+**Post-training:**
+- The base LLM is refined for specific downstream tasks through **supervised fine-tuning** and **reinforcement learning**.
+- The goal is to slightly adjust the pre-trained model for subsequent tasks, particularly to address **alignment** and **safety** issues.
+- RLHF has become the dominant technique for this alignment phase [22].
+
+### 11.2. Post-training Components
+
+The post-training pipeline consists of several components, which can be organized into two tracks:
+
+**Track 1: Reasoning Models (RL-CoT)**
+1. **Supervised Fine-Tuning (SFT)** → RL with Chain-of-Thought (CoT) reasoning → Reasoning Model
+
+**Track 2: Non-reasoning Models (RLHF)**
+1. **Supervised Fine-Tuning (SFT)** + **Reward Model (RM) Training** → RLHF → Non-reasoning Model
+
+The four key components are:
+
+1. **Supervised Fine-Tuning (SFT):** Behavioral cloning of human or expert behaviors. The model learns to mimic high-quality demonstrations.
+2. **Reward Model (RM) Training:** Learning a model of human preferences from comparative judgments.
+3. **RLHF:** Optimizing the fine-tuned LLM against the reward model using RL (typically PPO).
+4. **RL without RM:** Reasoning with (long) Chain-of-Thoughts (CoTs), enabling test-time scaling without an explicit reward model.
+
+### 11.3. Reward Modeling
+
+**Motivation:** Supervised fine-tuning has limitations:
+- Open-ended questions lack a single correct answer.
+- Some token prediction errors are more serious than others.
+- It is expensive to create high-quality demonstration data.
+
+**Approach:** Instead of demonstrating the correct answer, human labelers are asked to **rank $K$ LLM-generated responses** to a prompt. This comparative judgment is much easier and cheaper than writing ideal responses.
+
+The reward model $r_\theta$ is trained using the **Bradley-Terry model** (a classic method of paired comparisons) with the following loss function:
+
+$$ \text{loss}(\theta) = -\frac{1}{\binom{K}{2}} E_{(x, y_w, y_l) \sim D} \left[ \log \sigma\left( r_\theta(x, y_w) - r_\theta(x, y_l) \right) \right] $$
+
+where $x$ is the prompt, $y_w$ is the winning (preferred) response, $y_l$ is the losing response, and $\sigma$ is the sigmoid function.
+
+**Key properties of reward models:**
+- The RM is typically a "small" language model (e.g., GPT-3 with 6B parameters).
+- RMs help **generalize LLM evaluations to difficult-to-verify tasks**, where correctness is hard to define.
+- RMs **save huge costs** compared to recruiting human labelers for every evaluation.
+- However, RMs are subject to **reward hacking**—the LLM may learn to exploit weaknesses in the RM to achieve high reward scores without actually improving output quality (Weng, 2024) [24].
+
+### 11.4. Reinforcement Learning from Human Feedback (RLHF)
+
+Once a reward model is trained, we use RL to **automatically optimize** the output of the fine-tuned LLM in alignment with human preferences [22, 23, 27]. The standard approach uses **PPO** as the RL algorithm (see [26] for an accessible tutorial and [29] for a hands-on short course).
+
+The RLHF objective balances three terms:
+
+$$ \text{objective}(\phi) = E_{(x, y) \sim D_{\pi_\phi^{RL}}} \left[ r_\theta(x, y) - \beta \log\left( \pi_\phi^{RL}(y | x) / \pi^{SFT}(y | x) \right) \right] + \gamma E_{x \sim D_{\text{pretrain}}} \left[ \log(\pi_\phi^{RL}(x)) \right] $$
+
+**Term 1: Reward maximization** — $r_\theta(x, y)$: Maximize the reward model score on generated responses.
+
+**Term 2: KL penalty** — $\beta \log(\pi_\phi^{RL}(y|x) / \pi^{SFT}(y|x))$: Prevent the RL policy from diverging too far from the SFT model. Without this constraint, the model may degenerate into producing adversarial outputs that exploit the reward model. (See Schulman, 2020 [28] for practical considerations on approximating KL divergence in this setting.)
+
+**Term 3: Pretraining loss** — $\gamma E_{x \sim D_{\text{pretrain}}}[\log(\pi_\phi^{RL}(x))]$: Maintain performance on the pretraining distribution to prevent catastrophic forgetting of general language abilities.
+
+**Practical challenges:**
+- RLHF is **quite unstable** in practice, requiring careful tuning of the KL penalty coefficient $\beta$ and other hyperparameters.
+- A **critic network** is typically trained alongside the policy to reduce variance in the advantage estimates.
+- The reward model itself may be imperfect, leading to reward hacking.
+
+> **Connection to PPO:** The KL penalty in the RLHF objective plays exactly the same role as the trust region constraint in PPO—preventing the policy from moving too far from its starting point. This is why PPO (especially PPO-Penalty) is a natural fit for RLHF: the KL divergence between the RL policy and the SFT policy is precisely the trust-region constraint that PPO enforces.
+
+## 12. Conclusion
 
 Deep reinforcement learning represents a powerful synthesis of deep learning's representational capacity with reinforcement learning's sequential decision-making framework. The progression from tabular RL to function approximation to deep RL follows a natural path of increasing scalability and expressiveness:
 
@@ -806,13 +1092,17 @@ Deep reinforcement learning represents a powerful synthesis of deep learning's r
 3. **Deep Q-Networks** leverage neural networks for automatic feature learning, with experience replay and fixed targets to stabilize training.
 4. **Policy gradient methods** optimize the policy directly, enabling handling of continuous and high-dimensional action spaces, stochastic policies, and settings where value-based methods struggle.
 5. **Actor-critic methods** combine the best of both worlds: a critic for low-variance value estimation and an actor for direct policy optimization, culminating in scalable algorithms like A3C.
+6. **Modern DRL algorithms**—TRPO and PPO—address the instability of vanilla policy gradients through constrained optimization in policy space, with PPO emerging as the practical workhorse due to its simplicity and effectiveness.
+7. **RL for LLMs** applies these techniques—particularly PPO—to align large language models with human preferences through RLHF, representing one of the most impactful real-world applications of deep RL to date.
 
 The key takeaways for business researchers are:
 - **The deadly triad** (bootstrapping + function approximation + off-policy learning) is a fundamental source of instability. DQN addresses it through engineering innovations (experience replay and fixed targets) rather than theoretical fixes.
 - **Policy gradient methods** provide a complementary approach to value-based methods, with distinct advantages for continuous action spaces, stochastic policies, and LLM fine-tuning (e.g., RLHF).
 - **Variance reduction** is central to making policy gradient methods practical. Temporal causality, baselines, and actor-critic architectures progressively reduce the variance of gradient estimates.
+- **Trust regions and clipping** (TRPO and PPO) are essential for stable policy optimization. The insight that RL training can collapse from a single bad update—unlike supervised learning—motivates constraining policy changes, whether through KL divergence constraints or clipped objectives.
+- **RLHF and reward modeling** have emerged as the dominant paradigm for post-training LLMs. The connection between PPO's trust-region approach and the KL penalty in RLHF highlights how foundational RL concepts directly enable modern AI alignment.
 - Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, adaptive marketing, inventory management, and customer journey optimization—where tabular methods are infeasible.
-- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, and A3C offer further improvements and continue to be active areas of research.
+- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, A3C, TRPO, and PPO offer further improvements and continue to be active areas of research.
 
 ## References
 
@@ -849,3 +1139,27 @@ The key takeaways for business researchers are:
 [16] Bertsekas, D. P., & Tsitsiklis, J. N. (1996). *Neuro-Dynamic Programming*. Athena Scientific.
 
 [17] Weng, L. (2018). *Policy Gradient Algorithms*. Lil'Log. [https://lilianweng.github.io/posts/2018-04-08-policy-gradient/](https://lilianweng.github.io/posts/2018-04-08-policy-gradient/)
+
+[18] Schulman, J., Levine, S., Abbeel, P., Jordan, M., & Moritz, P. (2015). *Trust region policy optimization*. Proceedings of the International Conference on Machine Learning (ICML).
+
+[19] Schulman, J., Wolski, F., Dhariwal, P., Radford, A., & Klimov, O. (2017). *Proximal policy optimization algorithms*. arXiv preprint arXiv:1707.06347.
+
+[20] Hsu, C. C.-Y., Mendler-Dünner, C., & Hardt, M. (2020). *Revisiting design choices in proximal policy optimization*. arXiv preprint arXiv:2009.10897.
+
+[21] Engstrom, L., Ilyas, A., Santurkar, S., Tsipras, D., Janoos, F., Rudolph, L., & Madry, A. (2020). *Implementation matters in deep policy gradients: A case study on PPO and TRPO*. Proceedings of the International Conference on Learning Representations (ICLR).
+
+[22] Ouyang, L., Wu, J., Jiang, X., Almeida, D., et al. (2022). *Training language models to follow instructions with human feedback*. Advances in Neural Information Processing Systems (NeurIPS), 35.
+
+[23] Ziegler, D. M., Stiennon, N., Wu, J., Brown, T. B., et al. (2019). *Fine-tuning language models from human preferences*. arXiv preprint arXiv:1909.08593.
+
+[24] Weng, L. (2024). *Reward Hacking in Reinforcement Learning*. Lil'Log. [https://lilianweng.github.io/posts/2024-11-28-reward-hacking/](https://lilianweng.github.io/posts/2024-11-28-reward-hacking/)
+
+[25] Ryu, E. K. (2025). *RL for LLM*. Course Notes, Stanford University. [https://ernestryu.com/courses/RL-LLM/chapter1.pdf](https://ernestryu.com/courses/RL-LLM/chapter1.pdf)
+
+[26] Hugging Face. (2022). *Illustrating Reinforcement Learning from Human Feedback (RLHF)*. Hugging Face Blog. [https://huggingface.co/blog/rlhf](https://huggingface.co/blog/rlhf)
+
+[27] Stiennon, N., Ouyang, L., Wu, J., Ziegler, D. M., et al. (2020). *Learning to summarize with human feedback*. Advances in Neural Information Processing Systems (NeurIPS), 33. arXiv:2009.01325.
+
+[28] Schulman, J. (2020). *Approximating KL Divergence*. [http://joschu.net/blog/kl-approx.html](http://joschu.net/blog/kl-approx.html)
+
+[29] DeepLearning.AI. (2023). *Reinforcement Learning from Human Feedback*. Short Course. [https://learn.deeplearning.ai/courses/reinforcement-learning-from-human-feedback](https://learn.deeplearning.ai/courses/reinforcement-learning-from-human-feedback)
