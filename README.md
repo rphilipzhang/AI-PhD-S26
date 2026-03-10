@@ -239,7 +239,7 @@ The following schedule is tentative and subject to changes.
 ### 📚 Session 9. A3C, TRPO, and PPO (Mar/10/2026)
 - 🔑 **Keywords**: Actor-Critic, Trust Region Policy Optimization, Proximal Policy Optimization 
 - 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [DRL](Slides/AI-PhD-S2026-7-DRL.pdf) 
-- 💻 **CoLab Notebook Demos**: [Policy Gradient](https://colab.research.google.com/drive/1Tdcff-R0XDvfFBcXB4oi7PVcxsecb8MK?usp=sharing), [PPO]()
+- 💻 **CoLab Notebook Demos**: [Policy Gradient](https://colab.research.google.com/drive/1Tdcff-R0XDvfFBcXB4oi7PVcxsecb8MK?usp=sharing), [PPO](https://colab.research.google.com/drive/1QTwoM0v_rUgSiAQRF8N-N6juiDwRSaDj?usp=sharing)
 - ✍️ **Homework**: [Problem Set 6: RL with Stable Baselines Wrapper](https://colab.research.google.com/drive/1asdMzBhYEtr4DU093KH6H6czq04Tu_LI?usp=sharing), due at 9:30am, Mar/24/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026
 - 📝 **Presentation of Replication Project**: By Luxuan Liu and Zhongyuan Zhou
     - Liu, X. (2023). Dynamic coupon targeting using batch deep reinforcement learning: An application to livestream shopping. *Marketing Science*, 42(4), 637-658. [Link to the Paper](https://pubsonline.informs.org/doi/10.1287/mksc.2022.1403). [Replication Report, Code, and Slides](https://docs.google.com/spreadsheets/d/1YIwCR-X8VVLTv-OfGr7DqZJF6YIll-JE3SGI1q7JEus/edit?gid=422252848#gid=422252848). 
