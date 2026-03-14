@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. We then turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function, covering policy gradient theory, the REINFORCE algorithm, variance reduction techniques, and actor-critic methods including A3C. Building on this foundation, we examine modern deep RL algorithms—Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO)—that address the instability of vanilla policy gradients through constrained optimization in policy space. Finally, we discuss the increasingly important application of RL to large language models (LLMs), covering supervised fine-tuning (SFT), reward modeling, and reinforcement learning from human feedback (RLHF), which has become central to aligning modern AI systems with human preferences.
+This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. We then turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function, covering policy gradient theory, the REINFORCE algorithm, variance reduction techniques, and actor-critic methods including A3C. Building on this foundation, we examine modern deep RL algorithms—Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO)—that address the instability of vanilla policy gradients through constrained optimization in policy space. Finally, we discuss the increasingly important application of RL to large language models (LLMs), covering supervised fine-tuning (SFT), reward modeling, reinforcement learning from human feedback (RLHF), reward hacking, Direct Preference Optimization (DPO), and chain-of-thought reasoning, which together form the foundation of modern AI alignment and reasoning capabilities.
 
 ## 1. Where Are We?
 
@@ -1008,7 +1008,7 @@ These findings serve as a reminder that many algorithmic design choices in deep 
 
 ## 11. Reinforcement Learning for Large Language Models
 
-One of the most impactful applications of modern deep RL—and of PPO in particular—is in the **post-training of large language models (LLMs)**. Reinforcement learning from human feedback (RLHF) has become a central technique for aligning LLMs with human preferences, addressing issues of safety, helpfulness, and instruction-following that supervised training alone cannot fully resolve [22, 23].
+One of the most impactful applications of modern deep RL—and of PPO in particular—is in the **post-training of large language models (LLMs)**. Reinforcement learning from human feedback (RLHF) has become a central technique for aligning LLMs with human preferences, addressing issues of safety, helpfulness, and instruction-following that supervised training alone cannot fully resolve [22, 23] (see [26] for an accessible illustrated tutorial and [29] for a hands-on short course).
 
 ### 11.1. The LLM Training Pipeline
 
@@ -1062,26 +1062,221 @@ where $x$ is the prompt, $y_w$ is the winning (preferred) response, $y_l$ is the
 - RMs **save huge costs** compared to recruiting human labelers for every evaluation.
 - However, RMs are subject to **reward hacking**—the LLM may learn to exploit weaknesses in the RM to achieve high reward scores without actually improving output quality (Weng, 2024) [24].
 
-### 11.4. Reinforcement Learning from Human Feedback (RLHF)
+### 11.4. The MDP Formulation of RLHF
 
-Once a reward model is trained, we use RL to **automatically optimize** the output of the fine-tuned LLM in alignment with human preferences [22, 23, 27]. The standard approach uses **PPO** as the RL algorithm (see [26] for an accessible tutorial and [29] for a hands-on short course).
+RLHF finetunes the LLM $\pi$ further so that the completion achieves high reward as measured by the reward model $r(\cdot)$. To apply RL, we must first formulate the problem as an MDP [25]:
 
-The RLHF objective balances three terms:
+**What is the MDP in RLHF?**
+- LLMs are **autoregressive** models, so they are not Markovian but history-dependent: the policy is not of the form $\pi(a_t | s_t)$ but rather $\pi(a_t | s_1, s_2, \ldots, s_t)$.
+- Therefore, the **state** should be the user prompt and the tokens generated so far: $(u_1, u_2, \ldots, u_l)$.
+- Each **action** is the generation of one token. The policy is randomized (sampling from the distribution over tokens), but the transition dynamics is **deterministic** (appending the chosen token to the sequence).
 
-$$ \text{objective}(\phi) = E_{(x, y) \sim D_{\pi_\phi^{RL}}} \left[ r_\theta(x, y) - \beta \log\left( \pi_\phi^{RL}(y | x) / \pi^{SFT}(y | x) \right) \right] + \gamma E_{x \sim D_{\text{pretrain}}} \left[ \log(\pi_\phi^{RL}(x)) \right] $$
+**The RL Setup:**
+- Each timestep is a **BPE token**.
+- The LLM $\pi_\theta(u_{l+1} | u_1, \ldots, u_l)$ is our policy mapping the current state (token sequence) to a distribution on the action (next token) $u_{l+1}$.
+- Response generation is an **episode**, and an episode terminates when the LM generates `<EOS>`.
+- **No discount** is used, i.e., discount factor $\gamma = 1$.
+- Reward (by reward model $r_\psi$) is only provided at the **end of the episode**. There are no intermediate rewards. This is called the **"contextual bandit" setting**.
+- Sampling temperature $\beta = 1$.
 
-**Term 1: Reward maximization** — $r_\theta(x, y)$: Maximize the reward model score on generated responses.
+### 11.5. PPO for RLHF
 
-**Term 2: KL penalty** — $\beta \log(\pi_\phi^{RL}(y|x) / \pi^{SFT}(y|x))$: Prevent the RL policy from diverging too far from the SFT model. Without this constraint, the model may degenerate into producing adversarial outputs that exploit the reward model. (See Schulman, 2020 [28] for practical considerations on approximating KL divergence in this setting.)
+Let $\pi_\theta(u_{l+1} | u_1, \ldots, u_l)$ be our LLM and the RL policy. Let $x$ be a text prompt and $y = y_{1:T+1}$ be its completion by $\pi_\theta$ (so $y_{T+1}$ = `<EOS>`). Let $y_{1:t}$ denote the partial completion up to token $t$. The PPO-Clip ratio is set to $\varepsilon = 0.2$.
 
-**Term 3: Pretraining loss** — $\gamma E_{x \sim D_{\text{pretrain}}}[\log(\pi_\phi^{RL}(x))]$: Maintain performance on the pretraining distribution to prevent catastrophic forgetting of general language abilities.
+PPO maintains a **value function model** $V_\phi(x, y_{1:t})$: given the prompt and partial completion $(x, y_{1:t})$, what is the expected reward if we continue generation with $\pi_\theta$?
 
-**Practical challenges:**
-- RLHF is **quite unstable** in practice, requiring careful tuning of the KL penalty coefficient $\beta$ and other hyperparameters.
-- A **critic network** is typically trained alongside the policy to reduce variance in the advantage estimates.
-- The reward model itself may be imperfect, leading to reward hacking.
+The **advantage** is estimated as:
+
+$$ \hat{A} = r_\psi(x, y_{1:T+1}) - V_\phi(x, y_{1:t}) $$
+
+This measures: how good is the total completion $y_{t+1:T+1}$ compared to what $V_\phi$ was expecting based on $y_{1:t}$?
+
+- If $\hat{A} = r_\psi(x, y_{1:T+1}) - V_\phi(x, y_{1:t}) > 0$, then $y_{t+1:T+1}$ was a **good completion**. We should adjust $\pi_\theta$ to make those actions more likely.
+- If $\hat{A} = r_\psi(x, y_{1:T+1}) - V_\phi(x, y_{1:t}) < 0$, then $y_{t+1:T+1}$ was a **bad completion**. We should adjust $\pi_\theta$ to make those actions less likely.
+
+(In practice, Generalized Advantage Estimation (GAE) is used for $\hat{A}$, but the simpler advantage estimate above conveys the key intuition.)
+
+### 11.6. PPO v0: Susceptibility to Reward Hacking
+
+The basic PPO algorithm for RLHF (PPO v0) proceeds as follows:
+
+```
+While (not converged):
+    1. Sample N trajectories (x⁽ⁱ⁾, y⁽ⁱ⁾_{1:T⁽ⁱ⁾+1}) ~ (p₀, π^RL_{θ_curr})  for i = 1,...,N
+    2. Compute advantages:
+       Â⁽ⁱ⁾_t = r_ψ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:T⁽ⁱ⁾+1}) - V_φ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:t})  for all i, t
+    3. Solve (policy update):
+       maximize_{θ_next} Σᵢ Σₜ C_ε(π^RL_{θ_next}(y⁽ⁱ⁾_{t+1}|x⁽ⁱ⁾,y⁽ⁱ⁾_{1:t}) / π^RL_{θ_curr}(y⁽ⁱ⁾_{t+1}|x⁽ⁱ⁾,y⁽ⁱ⁾_{1:t}), Â⁽ⁱ⁾_t)
+    4. Set θ_curr = θ_next
+    5. Solve (value function update):
+       minimize_φ (1/N) Σᵢ (1/T⁽ⁱ⁾) Σₜ ½(r_ψ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:T⁽ⁱ⁾+1}) - V_φ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:t}))²
+End
+```
+
+However, this basic version is **susceptible to reward hacking**.
+
+### 11.7. Reward Hacking and Goodhart's Law
+
+**Goodhart's Law** states: *"When a measure becomes a target, it ceases to be a good measure."* This principle is directly relevant to RLHF [24]:
+
+- The reward model is **imperfect**. Maximizing an imperfect reward model too aggressively will exploit the model's imperfections and result in **adversarial generations**.
+- The reward model is trained on the SFT LLM $\pi_{\text{SFT}}$. Therefore, the reward model is only informative about responses generated by the RL policy if $\pi_{\text{RL}}$ is **close** to $\pi_{\text{SFT}}$.
+- Moving away from $\pi_{\text{SFT}}$ too much will cause the language model to **lose its main capabilities**. Fine-tuning too much can break the model, causing it to output nonsense tokens.
+
+**Solution:** Impose a **KL-divergence penalty term**, ensuring that $\pi_{\text{RL}}$ stays close to $\pi_{\text{SFT}}$.
+
+### 11.8. KL-Penalty and Pre-training Loss
+
+RLHF with KL-penalty maximizes the following objective:
+
+$$ \mathcal{J}(\theta) = \mathbb{E}_{(x,y) \sim D_{\pi_\theta^{RL}}} \left[ r_\psi(x, y) \right] - \beta \, \mathbb{E}_{x \sim \mathcal{D}} \left[ D_{KL}\left( \pi_\theta^{RL}(\cdot | x) \| \pi^{SFT}(\cdot | x) \right) \right] $$
+
+The KL divergence can be decomposed at the token level:
+
+$$ = \mathbb{E}_{(x,y) \sim D_{\pi_\theta^{RL}}} \left[ r_\psi(x, y) - \beta \log \frac{\pi_\theta^{RL}(y | x)}{\pi^{SFT}(y | x)} \right] $$
+
+$$ = \mathbb{E}_{(x,y) \sim D_{\pi_\theta^{RL}}} \left[ r_\psi(x, y) - \beta \sum_{t=0}^{T} \log \frac{\pi_\theta^{RL}(y_{t+1} | x, y_{1:t})}{\pi^{SFT}(y_{t+1} | x, y_{1:t})} \right] $$
+
+The KL-penalty encourages $\pi_{\text{RL}}$ to stay **close** to $\pi_{\text{SFT}}$. (See Schulman, 2020 [28] for practical considerations on approximating KL divergence in this setting.)
+
+**Absorbing the KL penalty into the MDP:** Maximizing $\mathcal{J}(\theta)$ is equivalent to solving RL on an MDP with the same transition dynamics but **modified rewards** $r_0, r_1, \ldots, r_T$:
+
+$$ r_t = -\beta \log \frac{\pi_\theta^{RL}(y_{t+1} | x, y_{1:t})}{\pi^{SFT}(y_{t+1} | x, y_{1:t})}, \quad t = 0, \ldots, T-1 $$
+
+$$ r_T = r_\psi(x, y_{1:T+1}) - \beta \log \frac{\pi_\theta^{RL}(y_{T+1} | x, y_{1:T})}{\pi^{SFT}(y_{T+1} | x, y_{1:T})} $$
+
+The modified MDP has **immediate rewards** (at every token) which absorb the KL penalty. The reward depends on the parameter $\theta$, but all the math goes through.
+
+**Adding the pre-training loss:** Even with the KL-penalty, the base language model capability can be compromised. Adding a **pre-training loss** term preserves general language abilities:
+
+$$ \mathcal{J}(\theta) = \mathbb{E}_{(x,y) \sim D_{\pi_\theta^{RL}}} \left[ r_\psi(x, y) - \beta \log(\pi_\theta^{RL}(y|x) / \pi^{SFT}(y|x)) \right] + \gamma \, \mathbb{E}_{x \sim D_{\text{pretrain}}} \left[ \log(\pi_\theta^{RL}(x)) \right] $$
+
+where $\gamma > 0$ and the last term is the next-token prediction loss used in pre-training. PPO and pre-training updates are performed **simultaneously or in alternating fashion**.
 
 > **Connection to PPO:** The KL penalty in the RLHF objective plays exactly the same role as the trust region constraint in PPO—preventing the policy from moving too far from its starting point. This is why PPO (especially PPO-Penalty) is a natural fit for RLHF: the KL divergence between the RL policy and the SFT policy is precisely the trust-region constraint that PPO enforces.
+
+### 11.9. Full PPO Algorithm for RLHF
+
+The complete PPO algorithm with KL-penalty for RLHF is:
+
+```
+While (not converged):
+    1. Sample N trajectories (x⁽ⁱ⁾, y⁽ⁱ⁾_{1:T⁽ⁱ⁾+1}) ~ (p₀, π^RL_{θ_curr})  for i = 1,...,N
+    2. Compute advantages with modified rewards:
+       Â⁽ⁱ⁾_t = r_ψ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:T⁽ⁱ⁾+1})
+             - β Σₛ log(π^RL_{θ_next}(y⁽ⁱ⁾_{s+1}|x⁽ⁱ⁾,y⁽ⁱ⁾_{1:s}) / π^SFT(y⁽ⁱ⁾_{s+1}|x⁽ⁱ⁾,y⁽ⁱ⁾_{1:s}))
+             - V_φ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:t})
+    3. Solve (policy update with PPO-Clip):
+       maximize_{θ_next} Σᵢ Σₜ C_ε(π^RL_{θ_next}/π^RL_{θ_curr}, Â⁽ⁱ⁾_t)
+       where C_ε(ℓ, A) = min(ℓA, clip(ℓ, 1-ε, 1+ε) A)
+    4. Set θ_curr = θ_next
+    5. Solve (value function update):
+       minimize_φ (1/N) Σᵢ (1/T⁽ⁱ⁾) Σₜ ½(Ĝ⁽ⁱ⁾_t - V_φ(x⁽ⁱ⁾, y⁽ⁱ⁾_{1:t}))²
+End
+```
+
+### 11.10. Empirical Performance of RLHF
+
+The effectiveness of RLHF has been demonstrated in landmark studies:
+
+**Learning to Summarize (Stiennon et al., 2020) [27]:** Models trained with human feedback significantly outperform both pretrain-only and supervised learning baselines on summarization tasks. Importantly, RLHF performance improves with model size, and human feedback provides gains that scale better than supervised learning alone.
+
+**InstructGPT (Ouyang et al., 2022) [22]:** RLHF-trained models (PPO and PPO-ptx variants) consistently outperform SFT models on both the GPT and Instruct distributions. The improvements are measured by win rates against reference summaries, evaluated by both held-out workers and training workers. GPT models fine-tuned with PPO achieve the highest preference rates across model sizes from 1.3B to 175B parameters.
+
+### 11.11. RLHF Can Be (Too) Complex
+
+Despite its success, the full RLHF pipeline is **computationally expensive and tricky** to implement [30]:
+
+- **RL optimization is expensive:** The pipeline requires maintaining and coordinating multiple models (policy LM, reference SFT model, reward model, value model/critic).
+- **Value function fitting is required:** A separate value network must be trained alongside the policy.
+- **Online sampling is slow:** Generating completions from the current policy at each iteration is a major bottleneck.
+- **Performance is highly sensitive to hyperparameters**, including the KL penalty coefficient $\beta$, learning rates, and clipping thresholds.
+
+These complexities motivate the search for simpler alternatives.
+
+### 11.12. Direct Preference Optimization (DPO)
+
+**Direct Preference Optimization (DPO)** (Rafailov et al., 2023) [31] elegantly sidesteps the complexity of RLHF by observing that the RL problem has a **closed-form solution**.
+
+**Standard RLHF** requires two steps:
+1. Fit the reward model based on human preference data.
+2. Optimize the instruction-finetuned LLM given the reward function (via PPO).
+
+**DPO's key insight:** There is another perspective:
+1. Derive the reward model based on an RL policy, parameterized by $\theta$.
+2. Optimize the parameter $\theta$ by **fitting the reward model to the true human preference data**, instead of fitting a given reward model.
+
+**Closed-form solution for KL-regularized RL:** Ignoring the pre-training loss, the KL-regularized RL objective for any reward model $r$ is:
+
+$$ \max_\theta \mathcal{J}(\pi_\theta; r) = \mathbb{E}_{\substack{x \sim \mathcal{D} \\ y \sim \pi_\theta}} \left[ r(x, y) - \beta \log \frac{\pi_\theta(y | x)}{\pi^{SFT}(y | x)} \right] $$
+
+Transforming this as a loss and completing the algebra:
+
+$$ -\frac{1}{\beta} \mathcal{J}(\pi_\theta; r) = \mathbb{E}_{\substack{x \sim \mathcal{D} \\ y \sim \pi_\theta}} \left[ \log \frac{\pi_\theta(y|x)}{\pi^{SFT}(y|x)} - \frac{1}{\beta} r(x, y) \right] $$
+
+$$ = \mathbb{E}_{x \sim \mathcal{D}} \left[ D_{KL}(\pi_\theta(\cdot | x) \| \pi_r(\cdot | x)) \right] - \log Z(x) $$
+
+where the **optimal policy** $\pi_r$ is:
+
+$$ \pi_r(y | x) = \frac{\pi^{SFT}(y | x) \exp\left(\frac{1}{\beta} r(x, y)\right)}{Z(x)}, \quad Z(x) = \sum_y \pi^{SFT}(y | x) \exp\left(\frac{1}{\beta} r(x, y)\right) $$
+
+Therefore, maximizing $\mathcal{J}(\pi_\theta; r)$ over $\theta$ is equivalent to minimizing $D_{KL}(\pi_\theta(\cdot | x) \| \pi_r(\cdot | x))$, i.e., **the optimal policy is $\pi_\theta = \pi_r$**.
+
+**Inversely**, the reward function that makes any policy $\pi$ optimal is:
+
+$$ r_\pi(x, y) = \beta \log \frac{\pi(y | x)}{\pi^{SFT}(y | x)} + \beta \log Z(x) $$
+
+### 11.13. DPO: The Final Objective
+
+Recall that the reward model was trained via the Bradley-Terry (BT) method:
+
+$$ \min_\psi \sum_{\substack{(x, y_i, y_j) \in \mathcal{D} \\ y_i \succ y_j}} -\log \sigma(r_\psi(x, y_i) - r_\psi(x, y_j)) $$
+
+DPO substitutes the closed-form reward $r_\pi$ into this loss. Since $\beta \log Z(x)$ cancels in the difference $r_\pi(x, y_i) - r_\pi(x, y_j)$, the DPO loss becomes:
+
+$$ \mathcal{L}^{DPO}(\theta) = \sum_{\substack{(x, y_i, y_j) \in \mathcal{D} \\ y_i \succ y_j}} -\log \sigma\left( \beta \log \frac{\pi_\theta(y_i | x)}{\pi^{SFT}(y_i | x)} - \beta \log \frac{\pi_\theta(y_j | x)}{\pi^{SFT}(y_j | x)} \right) $$
+
+**Key advantages of DPO:**
+- There is **no need to train a reward model** and no need to train a value network.
+- DPO effectively converts the RL problem into a **supervised learning problem**, so it is **much easier to execute**.
+
+**The DPO gradient** is:
+
+$$ \nabla_\theta \mathcal{L}^{DPO}(\theta) = -\beta \sum_{\substack{(x, y_i, y_j) \in \mathcal{D} \\ y_i \succ y_j}} \sigma\left(-(r_{\pi_\theta}(x, y_i) - r_{\pi_\theta}(x, y_j))\right) \left( \nabla_\theta \log \pi_\theta(y_i | x) - \nabla_\theta \log \pi_\theta(y_j | x) \right) $$
+
+**Interpretation:** DPO is doing **ascent on the good outcome $y_i$** (increasing its likelihood) while doing **descent on the bad completion $y_j$** (decreasing its likelihood). The gradient is accentuated when the implicitly defined reward model $r_{\pi_\theta}$ **disagrees** with the human preference $y_i \succ y_j$—this is where the model needs the most correction.
+
+There is ongoing debate on DPO vs. PPO for LLM alignment (see Xu et al., 2024 [32]).
+
+### 11.14. Empirical Performance of DPO
+
+DPO achieves competitive or superior performance compared to RLHF on standard benchmarks:
+
+- On **summarization helpfulness**, DPO achieves the highest win rates against ground truth, outperforming PPO, Best-of-128 sampling, Preference-Filtered Training (PFT), and SFT.
+- On **dialogue helpfulness**, DPO similarly leads in win rates, demonstrating that the closed-form approach does not sacrifice quality.
+- The pipeline is dramatically simpler: no reward model training, no value function fitting, no online sampling, and standard supervised learning optimizers suffice.
+
+### 11.15. Application: DPO for Balancing Engagement and Polarization
+
+Chang, Obi, and Yoganarasimhan (2025) [33] demonstrate a compelling business application of DPO: using LLMs to generate news content that **balances engagement and polarization**.
+
+**Problem:** Media firms face a multi-objective challenge—making content more engaging while maintaining a preferred level of polarization consistent with the firm's editorial policy. Using news articles from The New York Times, the authors show that more engaging human-written content tends to be more polarizing. Further, naively applying standard DPO approaches to generate more engaging content using LLMs without explicitly controlling for polarization can also increase polarization.
+
+**Solution:** The authors propose **Multi-Objective Direct Preference Optimization (MODPO)** [34], a novel approach that integrates DPO with multi-objective optimization techniques. They build an open-source LLM that simultaneously makes content more engaging while maintaining a preferred editorial stance. Their model achieves this by modifying content characteristics strongly associated with polarization but that have a relatively smaller impact on engagement.
+
+**Key takeaway:** This work illustrates how preference optimization techniques from RL can be applied to real-world content generation problems where multiple, potentially conflicting objectives must be balanced.
+
+### 11.16. Chain-of-Thought (CoT) Reasoning
+
+Beyond RLHF and DPO, another powerful technique for improving LLM performance is **Chain-of-Thought (CoT) prompting** (Wei et al., 2022 [35]; Kojima et al., 2022 [36]):
+
+- CoT is a technique for LLMs to **"think aloud to itself"** before producing an answer.
+- CoT **greatly improves the performance** compared with immediately producing an answer, especially on arithmetic, commonsense, and symbolic reasoning tasks.
+- An easy way to induce CoT: append **"Let's think step by step"** to the prompt (zero-shot CoT).
+- CoT can also be induced by **in-context prompting**—providing a few examples of step-by-step reasoning (few-shot CoT).
+- Modern LLMs are increasingly **instruction-finetuned** to exhibit CoT behavior natively, enabling them to produce reasoning chains without explicit prompting.
+
+**Connection to RL:** Recall from Section 11.2 that the post-training pipeline includes an **RL-CoT track** for reasoning models. In this track, RL is used to train models to produce long chains of thought, enabling **test-time scaling**—the model can allocate more computation at inference time by reasoning through more steps, improving accuracy on harder problems without any explicit reward model.
 
 ## 12. Conclusion
 
@@ -1094,15 +1289,18 @@ Deep reinforcement learning represents a powerful synthesis of deep learning's r
 5. **Actor-critic methods** combine the best of both worlds: a critic for low-variance value estimation and an actor for direct policy optimization, culminating in scalable algorithms like A3C.
 6. **Modern DRL algorithms**—TRPO and PPO—address the instability of vanilla policy gradients through constrained optimization in policy space, with PPO emerging as the practical workhorse due to its simplicity and effectiveness.
 7. **RL for LLMs** applies these techniques—particularly PPO—to align large language models with human preferences through RLHF, representing one of the most impactful real-world applications of deep RL to date.
+8. **Direct Preference Optimization (DPO)** simplifies RLHF by exploiting a closed-form solution for KL-regularized RL, converting the alignment problem into supervised learning and eliminating the need for reward models, value networks, and online sampling.
+9. **Chain-of-Thought (CoT) reasoning** enables LLMs to "think step by step," dramatically improving performance on reasoning tasks and forming the basis of test-time scaling in modern reasoning models.
 
 The key takeaways for business researchers are:
 - **The deadly triad** (bootstrapping + function approximation + off-policy learning) is a fundamental source of instability. DQN addresses it through engineering innovations (experience replay and fixed targets) rather than theoretical fixes.
 - **Policy gradient methods** provide a complementary approach to value-based methods, with distinct advantages for continuous action spaces, stochastic policies, and LLM fine-tuning (e.g., RLHF).
 - **Variance reduction** is central to making policy gradient methods practical. Temporal causality, baselines, and actor-critic architectures progressively reduce the variance of gradient estimates.
 - **Trust regions and clipping** (TRPO and PPO) are essential for stable policy optimization. The insight that RL training can collapse from a single bad update—unlike supervised learning—motivates constraining policy changes, whether through KL divergence constraints or clipped objectives.
-- **RLHF and reward modeling** have emerged as the dominant paradigm for post-training LLMs. The connection between PPO's trust-region approach and the KL penalty in RLHF highlights how foundational RL concepts directly enable modern AI alignment.
-- Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, adaptive marketing, inventory management, and customer journey optimization—where tabular methods are infeasible.
-- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, A3C, TRPO, and PPO offer further improvements and continue to be active areas of research.
+- **RLHF and reward modeling** have emerged as the dominant paradigm for post-training LLMs. The connection between PPO's trust-region approach and the KL penalty in RLHF highlights how foundational RL concepts directly enable modern AI alignment. However, reward hacking (Goodhart's Law) remains a fundamental challenge.
+- **DPO offers a simpler alternative** to the full RLHF pipeline, with competitive empirical performance. Its application to multi-objective content generation (e.g., balancing engagement and polarization) demonstrates the versatility of preference optimization for business applications.
+- Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, adaptive marketing, inventory management, customer journey optimization, and LLM-powered content generation—where tabular methods are infeasible.
+- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, A3C, TRPO, PPO, DPO, and CoT reasoning offer further improvements and continue to be active areas of research.
 
 ## References
 
@@ -1163,3 +1361,17 @@ The key takeaways for business researchers are:
 [28] Schulman, J. (2020). *Approximating KL Divergence*. [http://joschu.net/blog/kl-approx.html](http://joschu.net/blog/kl-approx.html)
 
 [29] DeepLearning.AI. (2023). *Reinforcement Learning from Human Feedback*. Short Course. [https://learn.deeplearning.ai/courses/reinforcement-learning-from-human-feedback](https://learn.deeplearning.ai/courses/reinforcement-learning-from-human-feedback)
+
+[30] Zheng, R., Dou, S., Gao, S., Hua, Y., et al. (2023). *Secrets of RLHF in large language models (Part I): PPO*. arXiv preprint arXiv:2307.04964.
+
+[31] Rafailov, R., Sharma, A., Mitchell, E., Ermon, S., Manning, C. D., & Finn, C. (2023). *Direct preference optimization: Your language model is secretly a reward model*. Advances in Neural Information Processing Systems (NeurIPS), 36. [https://arxiv.org/abs/2305.18290](https://arxiv.org/abs/2305.18290)
+
+[32] Xu, S., Fu, W., Gao, J., Ye, W., Liu, W., Mei, Z., Wang, G., Yu, C., & Wu, Y. (2024). *Is DPO superior to PPO for LLM alignment? A comprehensive study*. arXiv preprint arXiv:2404.10719.
+
+[33] Chang, M., Obi, E., & Yoganarasimhan, H. (2025). *Balancing engagement and polarization: Multi-objective alignment of news content using LLMs*. arXiv preprint arXiv:2504.13444.
+
+[34] Li, Z., Liu, M., Chen, D., Lyu, M., Wang, S., & Zheng, Z. (2024). *Beyond one-preference-fits-all alignment: Multi-objective direct preference optimization*. Findings of the Association for Computational Linguistics (ACL). [https://aclanthology.org/2024.findings-acl.630/](https://aclanthology.org/2024.findings-acl.630/)
+
+[35] Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022). *Chain-of-thought prompting elicits reasoning in large language models*. Advances in Neural Information Processing Systems (NeurIPS), 35. [https://arxiv.org/abs/2201.11903](https://arxiv.org/abs/2201.11903)
+
+[36] Kojima, T., Gu, S. S., Reid, M., Matsuo, Y., & Iwasawa, Y. (2022). *Large language models are zero-shot reasoners*. Advances in Neural Information Processing Systems (NeurIPS), 35. [https://arxiv.org/abs/2205.11916](https://arxiv.org/abs/2205.11916)
