@@ -6,11 +6,11 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. We then turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function, covering policy gradient theory, the REINFORCE algorithm, variance reduction techniques, and actor-critic methods including A3C. Building on this foundation, we examine modern deep RL algorithms—Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO)—that address the instability of vanilla policy gradients through constrained optimization in policy space. Finally, we discuss the increasingly important application of RL to large language models (LLMs), covering supervised fine-tuning (SFT), reward modeling, reinforcement learning from human feedback (RLHF), reward hacking, Direct Preference Optimization (DPO), and chain-of-thought reasoning, which together form the foundation of modern AI alignment and reasoning capabilities.
+This article provides a comprehensive introduction to deep reinforcement learning (Deep RL), the powerful combination of deep neural networks with reinforcement learning algorithms that has enabled agents to tackle problems with enormous state and action spaces. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin with a review of where we stand in the RL landscape, connecting model-based methods, model-free methods, and model-free control. We then introduce value function approximation as the bridge from tabular RL to scalable methods, covering both linear and nonlinear approximators. Next, we explore Deep Q-Networks (DQN), the landmark algorithm that achieved human-level performance on Atari games, examining its key innovations—experience replay and fixed targets—along with extensions and applications to business research. We then turn to policy-based methods, which optimize the policy directly rather than deriving it from a value function, covering policy gradient theory, the REINFORCE algorithm, variance reduction techniques, and actor-critic methods including A3C. Building on this foundation, we examine modern deep RL algorithms—Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO)—that address the instability of vanilla policy gradients through constrained optimization in policy space. Finally, we discuss the increasingly important application of RL to large language models (LLMs), covering supervised fine-tuning (SFT), reward modeling, reinforcement learning from human feedback (RLHF), reward hacking, Direct Preference Optimization (DPO), chain-of-thought reasoning, reinforcement learning with verifiable rewards (RLVR), Group Relative Policy Optimization (GRPO), and the emergence of reasoning capabilities in models like DeepSeek-R1, which together form the foundation of modern AI alignment and reasoning capabilities.
 
 ## 1. Where Are We?
 
-Before proceeding to deep reinforcement learning, it is helpful to situate ourselves within the broader RL curriculum:
+Before proceeding to deep reinforcement learning, it is helpful to situate ourselves within the broader RL curriculum (see Sutton and Barto, 2018 [1] for a comprehensive textbook treatment, and Silver, 2015 [2] for an excellent lecture series):
 
 **Model-Based Methods:**
 - We know the action space, the state space, the transition probability matrix, and the reward function.
@@ -225,7 +225,7 @@ $$ \Delta \mathbf{w} = \alpha \left( R_{t+1} + \gamma \max_a \hat{q}(s_{t+1}, a,
 
 An important practical concern is whether these approximate control algorithms converge. The key insight is that **TD with value function approximation does NOT follow the gradient of any loss function.** The updates essentially involve an *approximate Bellman backup* combined with *fitting the underlying value function*—two operations that do not jointly minimize a single objective.
 
-TD may diverge in **off-policy** (e.g., Q-learning) or **nonlinear approximation** settings. This is the challenge for off-policy control: the behavior policy and target policy are not identical, so the value function approximation may diverge.
+TD may diverge in **off-policy** (e.g., Q-learning) or **nonlinear approximation** settings (Tsitsiklis and Van Roy, 1997 [15]; Bertsekas and Tsitsiklis, 1996 [16]). This is the challenge for off-policy control: the behavior policy and target policy are not identical, so the value function approximation may diverge.
 
 The following table summarizes convergence guarantees:
 
@@ -274,7 +274,7 @@ Deep Q-learning (DQN) addresses two critical issues—**correlations between sam
 
 ### 5.1. The Breakthrough
 
-The landmark paper by Mnih et al. (2015), "Human-level control through deep reinforcement learning," published in *Nature*, demonstrated that a single DQN agent could achieve **professional human-level performance** across many Atari 2600 games using the **same network architecture and hyperparameters** for all games. This was a groundbreaking result: the same algorithm, without any game-specific tuning, could learn to play dozens of different video games from raw pixel inputs.
+The landmark paper by Mnih et al. (2015) [3], "Human-level control through deep reinforcement learning," published in *Nature*, demonstrated that a single DQN agent could achieve **professional human-level performance** across many Atari 2600 games using the **same network architecture and hyperparameters** for all games. This was a groundbreaking result: the same algorithm, without any game-specific tuning, could learn to play dozens of different video games from raw pixel inputs.
 
 DQN represents the action-value function with a deep neural network (DNN) approximator. The performance comparison between linear approximators and deep networks across several Atari games illustrates the dramatic advantage of deep representations:
 
@@ -297,7 +297,7 @@ The DQN architecture for Atari is an **end-to-end learning** system for $Q(s, a)
 - **Reward**: The change in game score for that step.
 - **Network architecture**: A convolutional neural network (CNN) with:
   - $8 \times 8 \times 4$ filters with stride 4 → $20 \times 20 \times 16$ feature maps
-  - $4 \times 16$ filters with stride 2 → $9 \times 9 \times 32$ feature maps
+  - $4 \times 4 \times 16$ filters with stride 2 → $9 \times 9 \times 32$ feature maps
   - Fully connected layer → 256 hidden units
   - Fully connected output layer → $4$–$18$ action values
 - **Network architecture and hyperparameters are fixed across all games.**
@@ -398,11 +398,11 @@ The results demonstrate that:
 
 The success of DQN on Atari inspired a rich line of follow-up work improving deep reinforcement learning:
 
-**Double DQN** (Van Hasselt, Guez, and Silver, AAAI 2016): Standard Q-learning is known to overestimate action values because it uses the same network to both select and evaluate actions ($\max_a Q(s, a)$ selects the best action and simultaneously uses that Q-value as the estimate). Double DQN decouples these two operations: the online network selects the best action, but the target network evaluates its value. This significantly reduces overestimation bias and improves performance.
+**Double DQN** (Van Hasselt, Guez, and Silver, AAAI 2016) [4]: Standard Q-learning is known to overestimate action values because it uses the same network to both select and evaluate actions ($\max_a Q(s, a)$ selects the best action and simultaneously uses that Q-value as the estimate). Double DQN decouples these two operations: the online network selects the best action, but the target network evaluates its value. This significantly reduces overestimation bias and improves performance.
 
-**Prioritized Replay** (Schaul, Quan, Antonoglou, and Silver, ICLR 2016): Instead of sampling uniformly from the replay buffer, prioritized experience replay samples transitions with larger TD errors more frequently. The intuition is that transitions where the agent's prediction is most wrong are the most informative for learning. This approach stores the last encountered TD error along with each transition in the replay buffer and uses it to define sampling probabilities.
+**Prioritized Replay** (Schaul, Quan, Antonoglou, and Silver, ICLR 2016) [5]: Instead of sampling uniformly from the replay buffer, prioritized experience replay samples transitions with larger TD errors more frequently. The intuition is that transitions where the agent's prediction is most wrong are the most informative for learning. This approach stores the last encountered TD error along with each transition in the replay buffer and uses it to define sampling probabilities.
 
-**Dueling DQN** (Wang, Schaul, Hessel et al., ICML 2016, Best Paper): The dueling architecture decomposes the Q-function into two streams: a **value stream** $V(s)$ that estimates how good it is to be in state $s$, and an **advantage stream** $A(s, a)$ that estimates the relative advantage of each action. The Q-value is then reconstructed as $Q(s, a) = V(s) + A(s, a)$. This decomposition allows the network to learn which states are valuable (or not) without having to learn the effect of each action in each state separately, leading to more efficient learning.
+**Dueling DQN** (Wang, Schaul, Hessel et al., ICML 2016, Best Paper) [6]: The dueling architecture decomposes the Q-function into two streams: a **value stream** $V(s)$ that estimates how good it is to be in state $s$, and an **advantage stream** $A(s, a)$ that estimates the relative advantage of each action. The Q-value is then reconstructed as $Q(s, a) = V(s) + A(s, a)$. This decomposition allows the network to learn which states are valuable (or not) without having to learn the effect of each action in each state separately, leading to more efficient learning.
 
 ## 7. Applications: Deep RL for Business Decision Making
 
@@ -410,7 +410,7 @@ Deep reinforcement learning has found compelling applications across a range of 
 
 ### 7.1. Dynamic Coupon Targeting
 
-Liu (2023) in *Marketing Science* applies batch deep reinforcement learning (BDRL) to dynamic coupon targeting in a livestream shopping context.
+Liu (2023) [8] in *Marketing Science* applies batch deep reinforcement learning (BDRL) to dynamic coupon targeting in a livestream shopping context.
 
 **Problem Setting:**
 - The firm must decide how to dynamically target coupons to consumers over time.
@@ -430,7 +430,7 @@ Liu (2023) in *Marketing Science* applies batch deep reinforcement learning (BDR
 
 ### 7.2. Ensembling Experimentation Along the Customer Journey
 
-Song and Sun (2024) in *Management Science* propose using deep reinforcement learning to optimize interventions along the customer journey based on an ensemble of historical experiments.
+Song and Sun (2024) [9] in *Management Science* propose using deep reinforcement learning to optimize interventions along the customer journey based on an ensemble of historical experiments.
 
 **Problem Setting:**
 - Firms run multiple randomized experiments at different stages of the customer journey (e.g., ad exposure, landing page design, promotional offers), but these experiments are typically analyzed in isolation.
@@ -446,11 +446,11 @@ Song and Sun (2024) in *Management Science* propose using deep reinforcement lea
 
 ### 7.3. Sequential Targeting
 
-Wang, Li, Luo, and Wang (2023) in *Management Science* design a DRL-based personalized targeting strategy in a sequential setting, addressing three important challenges: (1) forward looking—balancing exploration and exploitation, (2) scalability—coping with a high-dimensional state and policy space, and (3) adaptivity—learning while continuously interacting with consumers. The proposed DRL agent generates substantially more long-term revenue than can the conventional bandit-based and greedy approaches.
+Wang, Li, Luo, and Wang (2023) [10] in *Management Science* design a DRL-based personalized targeting strategy in a sequential setting, addressing three important challenges: (1) forward looking—balancing exploration and exploitation, (2) scalability—coping with a high-dimensional state and policy space, and (3) adaptivity—learning while continuously interacting with consumers. The proposed DRL agent generates substantially more long-term revenue than can the conventional bandit-based and greedy approaches.
 
 ### 7.4. Career Path Recommendations
 
-Kekouos and Ipeirotis (2021) in *Management Science* apply reinforcement learning to provide demand-aware career path recommendations for contractors on an online labor market. The framework combines reinforcement learning, Bayesian inference, and guided learning to promote future career path recommendations while optimizing current market trends. The framework uses market information to identify current trends and project future career paths, and recommends skills that contractors should learn to maximize long-term earnings.
+Kekouos and Ipeirotis (2021) [11] in *Management Science* apply reinforcement learning to provide demand-aware career path recommendations for contractors on an online labor market. The framework combines reinforcement learning, Bayesian inference, and guided learning to promote future career path recommendations while optimizing current market trends. The framework uses market information to identify current trends and project future career paths, and recommends skills that contractors should learn to maximize long-term earnings.
 
 ## 8. Policy-Based Methods
 
@@ -559,7 +559,7 @@ This expectation can be approximated by sampling $N$ trajectories:
 
 $$ \nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \left( \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(a_{i,t} | s_{i,t}) \right) \left( \sum_{t=1}^{T} r(s_{i,t}, a_{i,t}) \right) $$
 
-The full **REINFORCE** algorithm (also called vanilla policy gradient + Monte Carlo) is:
+The full **REINFORCE** algorithm (Williams, 1992 [14]; also called vanilla policy gradient + Monte Carlo) is:
 
 ```
 Repeat:
@@ -586,7 +586,7 @@ The only difference is that the policy gradient **weights each trajectory's log-
 
 ### 8.9. The Policy Gradient Theorem
 
-The policy gradient theorem generalizes the likelihood ratio approach to a broader set of objective functions:
+The policy gradient theorem (Sutton et al., 1999 [13]) generalizes the likelihood ratio approach to a broader set of objective functions:
 
 > **Theorem (Policy Gradient Theorem).** For any differentiable policy $\pi_\theta(s, a)$, for any of the policy objective functions $J = J_1$ (episodic reward), $J_{avR}$ (average reward per time step), or $\frac{1}{1-\gamma} J_{avV}$ (average value), the policy gradient is:
 >
@@ -749,7 +749,7 @@ Algorithm: Simple QAC
 
 ### 8.17. Asynchronous Advantage Actor-Critic (A3C)
 
-The **A3C** algorithm (Mnih et al., ICML 2016; see also Weng, 2018 [17] for a tutorial exposition) scales actor-critic methods through **parallel training of multiple actors**. It is a policy gradient method where critics learn the value function while multiple actors are trained in parallel, each interacting with its own copy of the environment.
+The **A3C** algorithm (Mnih et al., ICML 2016 [7]; see also Weng, 2018 [17] for a tutorial exposition) scales actor-critic methods through **parallel training of multiple actors**. It is a policy gradient method where critics learn the value function while multiple actors are trained in parallel, each interacting with its own copy of the environment.
 
 **Key Design Principles:**
 1. **Global parameters** $\theta$ and $\mathbf{w}$ are shared, with thread-specific copies $\theta'$ and $\mathbf{w}'$.
@@ -782,7 +782,7 @@ While T ≤ T_MAX:
 
 ## 9. Application: Deep RL for Inventory Control
 
-Gijsbrechts, Boute, Van Mieghem, and Zhang (2022) in *Manufacturing & Service Operations Management* rigorously evaluate deep reinforcement learning for inventory management across three classic and intractable problem settings: lost sales, dual-sourcing, and multi-echelon inventory systems.
+Gijsbrechts, Boute, Van Mieghem, and Zhang (2022) [12] in *Manufacturing & Service Operations Management* rigorously evaluate deep reinforcement learning for inventory management across three classic and intractable problem settings: lost sales, dual-sourcing, and multi-echelon inventory systems.
 
 **Problem Setting:**
 - Some inventory control problems are **notoriously challenging**: lost-sales systems (where unmet demand is lost rather than backordered), dual-sourcing (choosing between fast and slow suppliers), and multi-echelon networks (coordinating inventory across supply chain tiers).
@@ -1278,6 +1278,103 @@ Beyond RLHF and DPO, another powerful technique for improving LLM performance is
 
 **Connection to RL:** Recall from Section 11.2 that the post-training pipeline includes an **RL-CoT track** for reasoning models. In this track, RL is used to train models to produce long chains of thought, enabling **test-time scaling**—the model can allocate more computation at inference time by reasoning through more steps, improving accuracy on harder problems without any explicit reward model.
 
+### 11.17. Reinforcement Learning with Verifiable Rewards (RLVR)
+
+A key challenge in RLHF is that the reward model is **imperfect**—it is a learned proxy for human preferences, subject to reward hacking. However, some domains offer a fundamentally different opportunity: **coding and mathematics** are challenging reasoning tasks with **verifiable rewards** (Chen et al., 2021 [37]; Shao et al., 2024 [38]).
+
+- Automatic code generation was a longstanding challenge, until LLMs emerged as a solution. Code data with comments written in natural language is plentiful on the Internet, so modern LLMs are explicitly trained on code together with natural language data.
+- More interestingly, coding improves non-coding reasoning capabilities as well, such as math.
+- Training AI on math also improves general reasoning capabilities.
+
+The key insight is that coding and math problems have **objectively verifiable solutions**: a code submission either passes the test suite or it does not; a mathematical answer is either correct or incorrect. This eliminates the need for a learned reward model entirely.
+
+**Reinforcement Learning with Verifiable Rewards (RLVR)** exploits this structure:
+
+$$ \text{High-quality reasoning data} \rightarrow \text{Base LLM} \rightarrow \text{Reinforcement Learning} \rightarrow \text{Reasoning LLM} $$
+
+Since the reward is **exact** (verifiable), there is no risk of reward hacking or overfitting to an imperfect reward model. Only **outcome rewards** are provided (whether the final answer is correct). Intermediate rewards on partial credits, i.e., **process rewards**, are NOT used.
+
+### 11.18. Group Relative Policy Optimization (GRPO)
+
+**DeepSeekMath** (Shao et al., 2024) [38] proposes **Group Relative Policy Optimization (GRPO)**, a key algorithmic innovation that simplifies PPO for the RLVR setting.
+
+**Motivation:** Standard PPO for RLHF requires maintaining four models simultaneously: the policy model, a reference model (for KL penalty), a reward model, and a **value model** (critic). The value model is expensive to train and maintain. GRPO eliminates the value model entirely by using **group-level relative advantages** instead.
+
+**The GRPO Algorithm:**
+
+```
+While (not converged):
+    1. Sample a problem x
+    2. Sample G responses y⁽¹⁾, ..., y⁽ᴳ⁾ ~ π_{θ_curr}(· | x)
+    3. Evaluate the rewards r = (r⁽¹⁾, ..., r⁽ᴳ⁾) for y⁽¹⁾, ..., y⁽ᴳ⁾
+    4. Solve:
+       maximize_{θ_next} Σᵢ₌₁ᴳ (1/|T⁽ⁱ⁾|) Σₜ₌₀ᵀ⁽ⁱ⁾ (term₁ + term₂)
+
+       term₁ = C_ε(π_{θ_next}(y⁽ⁱ⁾_{t+1} | x, y⁽ⁱ⁾_{1:t}) / π_{θ_curr}(y⁽ⁱ⁾_{t+1} | x, y⁽ⁱ⁾_{1:t}),
+                        (r⁽ⁱ⁾ - mean(r)) / (std(r) + ε_A))
+
+       term₂ = -β (π^SFT(y⁽ⁱ⁾_{s+1} | x⁽ⁱ⁾, y⁽ⁱ⁾_{1:s}) / π_{θ_next}(y⁽ⁱ⁾_{s+1} | x⁽ⁱ⁾, y⁽ⁱ⁾_{1:s})
+                     - log(π^SFT(y⁽ⁱ⁾_{s+1} | x⁽ⁱ⁾, y⁽ⁱ⁾_{1:s}) / π^RL_{θ_next}(y⁽ⁱ⁾_{s+1} | x⁽ⁱ⁾, y⁽ⁱ⁾_{1:s})))
+
+    5. Set θ_curr = θ_next
+End
+```
+
+**Key innovations of GRPO:**
+
+1. **Group Relative Advantage:** Instead of training a value function to estimate advantages, GRPO samples a **group** of $G$ responses to the same problem and computes the advantage by **normalizing rewards within the group**:
+
+$$ \hat{A}^{(i)} = \frac{r^{(i)} - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r}) + \varepsilon_A} $$
+
+This eliminates the need for a separate value model—the group statistics serve as a natural baseline. Responses that are better than the group average receive positive advantage; those worse receive negative advantage.
+
+2. **Length Normalization:** The objective divides by $|T^{(i)}|$ (the response length), preventing the optimization from favoring shorter or longer responses.
+
+3. **Unbiased KL Estimate:** The KL penalty term uses an unbiased estimator of the KL divergence between the RL policy and the SFT reference policy, rather than the standard log-ratio approximation.
+
+**Comparison with PPO:** While PPO maintains four models (policy, reference, reward, value), GRPO only needs three (policy, reference, reward)—or just two (policy, reference) when rewards are verifiable and no learned reward model is needed. This makes GRPO substantially more memory-efficient and simpler to implement.
+
+### 11.19. DeepSeek-R1: Scaling Up RLVR
+
+**DeepSeek-R1** (Guo et al., 2025) [39] scales up the RLVR approach to coding, math, science, and other reasoning tasks, demonstrating that RL with verifiable rewards can produce reasoning capabilities competitive with frontier models.
+
+**Training Pipeline:** DeepSeek-R1 is built through a multi-stage process:
+
+**Step 1: Knowledge Distillation (Open-R1-Distill-8B)**
+- Directly imitate the outputs of a strong reasoning model (DeepSeek-R1) through supervised fine-tuning on distilled reasoning data.
+- This produces a capable but not yet optimal model.
+
+**Step 2: DeepSeek-R1-Zero**
+- Directly apply RLVR to a base model (DeepSeek-V3) using GRPO with verifiable rewards—**no SFT, no reward model, just pure RL**.
+- The model learns to produce long CoT reasoning chains.
+- However, the resulting CoT often suffers from **poor readability** (mixing languages, disorganized reasoning steps).
+
+**Step 3: DeepSeek-R1**
+- **Cold-start with SFT**: First fine-tune on a small amount of curated reasoning data to establish good formatting and readability.
+- Then combine **RLVR and RLHF with GRPO**: Apply RL with both verifiable rewards (for reasoning correctness) and human feedback (for readability and helpfulness).
+- This yields the final DeepSeek-R1 model with both strong reasoning and good output quality.
+
+**Key Results:**
+- The model learns to utilize **CoT very extensively**, with average response lengths growing significantly during training (from ~2,500 tokens to ~12,500+ tokens over 10,000 training steps).
+- On the AIME mathematical reasoning benchmark, DeepSeek-R1-Zero achieves accuracy that surpasses human participants, improving steadily throughout training.
+
+### 11.20. Emergence of Reasoning Through RLVR
+
+Perhaps the most striking finding from the DeepSeek-R1 work is that **RLVR induces the emergence of sophisticated reasoning behaviors** that are **not explicitly programmed** [39]:
+
+- As test-time computation increases, the model develops key **cognitive behaviors for reasoning**, such as:
+  - **Verification:** Checking intermediate results for correctness.
+  - **Back-tracking:** Recognizing errors and revising the approach.
+  - **Subgoal setting:** Breaking complex problems into manageable sub-problems.
+  - **Backward chaining:** Working from the desired conclusion back to the premises.
+  - **Self-evolution:** The model refines its own reasoning strategies over the course of training.
+
+**The "Aha Moment" of DeepSeek-R1:** During training, the model exhibits a remarkable behavior: it pauses mid-solution, recognizes that something is wrong ("Wait, wait. Wait. That's an aha moment I can flag here."), re-evaluates its approach step by step, and arrives at the correct answer. This emergent self-correction behavior was never explicitly trained—it arose purely from RL optimization against verifiable rewards.
+
+**Why does this work?** The argument is not that "RL didn't work before"—PPO on base models with verifiable rewards had shown strong results previously. Rather, the breakthrough is that with **sufficient base model knowledge** and **sufficient RL compute and context window length**, the model develops **long CoT with internal reasoning emergence**: verification, error-correction, and branching-like behavior that earlier, smaller models could not sustain.
+
+> **The broader significance:** RLVR represents a paradigm where RL can train reasoning capabilities without any human-generated reasoning traces or learned reward models. Combined with the group relative advantage of GRPO that eliminates the value network, this approach dramatically simplifies the pipeline from base model to reasoning model: just RL with verifiable rewards.
+
 ## 12. Conclusion
 
 Deep reinforcement learning represents a powerful synthesis of deep learning's representational capacity with reinforcement learning's sequential decision-making framework. The progression from tabular RL to function approximation to deep RL follows a natural path of increasing scalability and expressiveness:
@@ -1291,6 +1388,7 @@ Deep reinforcement learning represents a powerful synthesis of deep learning's r
 7. **RL for LLMs** applies these techniques—particularly PPO—to align large language models with human preferences through RLHF, representing one of the most impactful real-world applications of deep RL to date.
 8. **Direct Preference Optimization (DPO)** simplifies RLHF by exploiting a closed-form solution for KL-regularized RL, converting the alignment problem into supervised learning and eliminating the need for reward models, value networks, and online sampling.
 9. **Chain-of-Thought (CoT) reasoning** enables LLMs to "think step by step," dramatically improving performance on reasoning tasks and forming the basis of test-time scaling in modern reasoning models.
+10. **RLVR and GRPO** demonstrate that for domains with verifiable rewards (coding, math, science), RL can train reasoning capabilities without learned reward models or value networks, and remarkably, sophisticated reasoning behaviors such as self-correction and back-tracking **emerge** from pure RL optimization.
 
 The key takeaways for business researchers are:
 - **The deadly triad** (bootstrapping + function approximation + off-policy learning) is a fundamental source of instability. DQN addresses it through engineering innovations (experience replay and fixed targets) rather than theoretical fixes.
@@ -1300,7 +1398,8 @@ The key takeaways for business researchers are:
 - **RLHF and reward modeling** have emerged as the dominant paradigm for post-training LLMs. The connection between PPO's trust-region approach and the KL penalty in RLHF highlights how foundational RL concepts directly enable modern AI alignment. However, reward hacking (Goodhart's Law) remains a fundamental challenge.
 - **DPO offers a simpler alternative** to the full RLHF pipeline, with competitive empirical performance. Its application to multi-objective content generation (e.g., balancing engagement and polarization) demonstrates the versatility of preference optimization for business applications.
 - Deep RL opens the door to applications with high-dimensional state spaces—such as dynamic pricing, personalized recommendations, adaptive marketing, inventory management, customer journey optimization, and LLM-powered content generation—where tabular methods are infeasible.
-- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, A3C, TRPO, PPO, DPO, and CoT reasoning offer further improvements and continue to be active areas of research.
+- **RLVR and emergent reasoning** represent a frontier where RL with verifiable rewards produces sophisticated cognitive behaviors—verification, back-tracking, self-correction—without explicit programming. GRPO's elimination of the value network further simplifies the training pipeline, pointing toward a future where reasoning capabilities arise naturally from scale and RL optimization.
+- **Extensions** like Double DQN, Prioritized Replay, Dueling DQN, A3C, TRPO, PPO, DPO, GRPO, and CoT reasoning offer further improvements and continue to be active areas of research.
 
 ## References
 
@@ -1375,3 +1474,9 @@ The key takeaways for business researchers are:
 [35] Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022). *Chain-of-thought prompting elicits reasoning in large language models*. Advances in Neural Information Processing Systems (NeurIPS), 35. [https://arxiv.org/abs/2201.11903](https://arxiv.org/abs/2201.11903)
 
 [36] Kojima, T., Gu, S. S., Reid, M., Matsuo, Y., & Iwasawa, Y. (2022). *Large language models are zero-shot reasoners*. Advances in Neural Information Processing Systems (NeurIPS), 35. [https://arxiv.org/abs/2205.11916](https://arxiv.org/abs/2205.11916)
+
+[37] Chen, M., Tworek, J., Jun, H., Yuan, Q., et al. (2021). *Evaluating large language models trained on code*. arXiv preprint arXiv:2107.03374.
+
+[38] Shao, Z., Wang, P., Zhu, Q., Xu, R., Song, J., & Bi, X. (2024). *DeepSeekMath: Pushing the limits of mathematical reasoning in open language models*. arXiv preprint arXiv:2402.03300.
+
+[39] Guo, D., Yang, D., Zhang, H., Song, J., Zhang, R., Xu, R., et al. (2025). *DeepSeek-R1: Incentivizing reasoning capability in LLMs via reinforcement learning*. Nature. [https://www.nature.com/articles/s41586-025-09422-z](https://www.nature.com/articles/s41586-025-09422-z)
