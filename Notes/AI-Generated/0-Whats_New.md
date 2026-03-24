@@ -190,6 +190,23 @@ The **Automating Policy Evaluation (APE)** project, led by **Prof. David Yanagiz
 
 > **Research opportunity:** APE provides a unique, evolving benchmark for the question: How good is AI at doing social science research? The open-source data (papers, code, scores, and failures) is available on GitHub, offering a rich empirical setting for studying AI research capability, the nature of creativity in economics, and the evolving human-AI quality gap. For business researchers: How should journals, funders, and tenure committees respond to AI-enabled mass replication and paper generation? What is the appropriate standard when the cost of producing a research paper approaches zero?
 
+**APE update (March 2026).** By late March 2026, the APE platform had grown to over **540 AI-generated papers** across more than **12,500 head-to-head comparisons**, with the AI win rate holding at approximately **4.0%**. As the instructor noted, while 4% may sound low, the trajectory matters: "What will happen in one year? Let's see." The platform was adding roughly 80 papers and 200 new ideas per week.
+
+**FARS: Fully Automated Research System.** A parallel initiative, **FARS** (Fully Automated Research System) by **Analemma AI**, demonstrated end-to-end autonomous research at scale ([Analemma AI, 2026](https://analemma.ai/blog/introducing-fars/)). In its first public deployment (228 hours, late February to March 3, 2026), FARS proposed **244 research hypotheses** and produced **100 short research papers** --- averaging ~2 hours and ~$1,000 per paper, consuming ~11.4 billion tokens. The system operates through four sequential modules: Ideation, Planning, Experiment, and Writing. As the instructor emphasized, the common thread across APE, FARS, and similar AI-for-AI-research pipelines is that **evaluation automation is the key** --- the ability to programmatically assess whether an AI's output is good, bad, or improvable is what makes the entire loop viable.
+
+### 3.5 Will Peer Review Disrupt Shortly?
+
+The ICML 2026 peer review scandal brought the sustainability of academic peer review into sharp focus ([ICML Blog, Mar 2026](https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/)). ICML, one of the premier machine learning conferences, implemented two reviewer policies:
+
+- **Policy A** (default): No LLM use permitted at any stage of the review process.
+- **Policy B** (opt-in): LLMs allowed for understanding papers, reviewing literature, and polishing review text --- but **not** for drafting the review itself.
+
+**Detection via watermarking.** The program committee employed an ingenious detection mechanism based on research by Rao, Kumar, Lakkaraju, and Shah ([PLOS ONE, 2025](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0331871)). Invisible watermarks --- drawn from a dictionary of 170,000 phrases, with two randomly sampled per paper (collision probability less than 1 in 10 billion) --- were embedded in submission PDFs. These phrases are invisible to human readers but are ingested by LLMs, which then reproduce the trigger phrases in their outputs. The method achieved ~98.6% detection accuracy with zero false positives across 10,000+ reviews tested.
+
+**Results.** The program committee identified **795 reviews** (~1% of all reviews) from **506 unique reviewers** who had pledged Policy A (no LLM use) but were caught using LLMs. Every flagged case was also manually inspected by a human. As consequence, **497 papers** (~2% of all submissions) were desk-rejected, and 51 repeat violators (those who violated in more than 50% of their reviews) were removed entirely.
+
+**The deeper question.** As the instructor observed, the scandal points to a structural problem: "Nowadays, you can finish probably hundreds of papers very fast. And your reviewers can also review these papers very fast. So basically, AI is reviewing AI." The marginal cost of producing a research paper is approaching zero (see APE and FARS above); the marginal cost of reviewing one is similarly collapsing. If both sides of the peer review equation are automated, the entire system of trust and quality control that underpins academic publishing faces a fundamental crisis. How should conferences, journals, and the research community rebuild trust in the age of AI? The instructor characterized this as "a social experiment in the making."
+
 ---
 
 ## 4. AI for Mathematics: From Putnam to Unsolved Problems
@@ -419,11 +436,34 @@ A vivid example: **Keller Jordan**, who holds only a double bachelor's degree in
 
 The instructor drew two lessons from this story. First, **open-sourcing your work** is the most reliable way to build reputation and career capital in the AI era --- Jordan's blog post and GitHub repository generated more visibility and career value than a traditional publication would have. Second, the AI industry increasingly values *demonstrated capability* over *credentialed training*. For PhD students, this is not a reason to abandon their degrees, but a reminder that the degree is neither necessary nor sufficient --- what matters is the quality and visibility of one's contributions.
 
+**AI empowers high-schoolers.** The declining knowledge barrier reached a new extreme in early 2026 with several high-school-age contributors making world-class AI contributions:
+
+- **Richards Tu (涂津豪)**, a student at Shanghai's Jianping Middle School International Department, was among the co-authors of **DeepSeek R1** when it was published on the cover of *Nature* in September 2025 --- having interned at DeepSeek for two months designing a context compression module for long-conversation scenarios. He also created **Thinking-Claude** ([GitHub](https://github.com/richards199999/Thinking-Claude), 17,000+ stars), a prompting system that induced Claude to engage in structured reasoning before Anthropic's built-in thinking mode existed. Now a freshman in computer science at the University of Wisconsin-Madison, Tu published a blog post with sharp insights on continual learning, model-as-product, and AI's trajectory that the instructor called "very impressive for someone at any level, let alone a high schooler" ([Tu, 2026](https://www.richardstu.com/blog/2026-and-beyond)).
+- **Nathan Chen (陈光宇)**, a high schooler from Shenzhen, contributed to the open-source **Flash Linear Attention** project, which led to a research position at **Moonshot AI (Kimi)**. He co-authored Moonshot's **Attention Residuals** paper, focusing on efficient attention mechanisms and hardware-aligned ML algorithms ([nathanchen.me](https://nathanchen.me/)).
+- **Guo Hangjiang (郭航江)**, an undergraduate at Beijing University of Posts and Telecommunications, built **MiroFish** --- a multi-agent swarm intelligence prediction engine --- in approximately **10 days** using AI coding assistants. The project topped GitHub's Global Trending list (39,000+ stars) and secured **30 million RMB (~$4.1M)** in investment from Shanda Group founder Chen Tianqiao within 24 hours ([GitHub](https://github.com/666ghj/MiroFish)).
+- **Aaru**, an AI synthetic research startup founded by American teenagers **Cameron Fink** (18), **Ned Koh** (19), and **John Kessler** (15), reached a **$1 billion valuation** after a Series A led by Redpoint Ventures. The platform replaces traditional survey panels and focus groups with AI agents simulating human consumer responses, with customers including Accenture, EY, and Interpublic Group ([WSJ, Mar 2026](https://www.wsj.com/business/ai-startup-aaru-young-founders-35da7f87); [aaru.com](https://aaru.com/)).
+
+The instructor drew a sweeping historical arc: paper → printing → newspapers → internet/YouTube → AI. Each wave lowered the knowledge barrier further. AI represents the steepest decline yet --- enabling a high school student to contribute meaningfully to a system (DeepSeek R1) that shook the global AI industry. "This is the consequence of AI --- and it brings both opportunities and risks."
+
 ### 8.5 Nvidia GTC 2026: The AI Infrastructure Stack
 
 At the Nvidia GTC 2026 conference (March 17, 2026), CEO **Jensen Huang** delivered a keynote framing AI as "the largest infrastructure buildout in human history." Nvidia introduced its **AI 5-layer cake** model --- a conceptual stack comprising (1) Energy, (2) Chips, (3) Infrastructure, (4) Models, and (5) Applications --- arguing that AI requires investment across all five layers simultaneously ([Nvidia Blog, Mar 2026](https://blogs.nvidia.com/blog/ai-5-layer-cake/); [GTC Keynote](https://www.nvidia.com/gtc/keynote/)).
 
 Two developments stood out. First, Nvidia unveiled the **Vera Rubin** platform --- its next-generation GPU architecture with seven chips in production, along with a purpose-built **Vera CPU** for agentic AI delivering twice the efficiency of traditional rack-scale CPUs. Second, Nvidia released **Dynamo 1.0**, open-source software for generative and agentic inference at scale, signaling a strategic shift toward balancing **training and inference** workloads. As the instructor noted, context windows are now 100 times larger and token consumption 100 times greater than in 2023 (see Section 7.5 on OpenRouter data), and the explosion of agentic workflows has made inference capacity as critical as training capacity --- a "definite shift" that researchers should pay attention to.
+
+### 8.6 The Iran War and AI Infrastructure
+
+The Iran conflict of March 2026 delivered a geopolitical shock to the AI industry that the instructor described as historically unprecedented: **the first time in human history that data centers were deliberately destroyed in a war**. Iranian drone strikes hit AWS data centers in the UAE and Bahrain, causing structural damage and service outages; in retaliation, U.S. and Israeli forces struck data centers in Tehran linked to the IRGC ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/06/iran-war-data-centers.html); [Bloomberg, Mar 2026](https://www.bloomberg.com/news/articles/2026-03-05/how-amazon-data-centers-became-a-casualty-of-iran-war)).
+
+The instructor identified five cascading effects:
+
+1. **Energy cost shock.** Disruptions to Middle Eastern energy infrastructure raised electricity costs --- a binding constraint for AI compute (see Section 8.5 on the energy layer of Nvidia's 5-layer cake).
+2. **Physical infrastructure destruction.** Cloud providers' data centers in the Gulf region were directly targeted, raising existential questions about the geographic concentration of AI infrastructure.
+3. **Critical materials supply disruption.** Iran's attacks on Qatar's **Ras Laffan LNG facility** disrupted roughly one-third of global **helium** supply. Helium is essential for **EUV lithography** in advanced semiconductor fabrication. South Korea (home to Samsung and SK Hynix) imported ~65% of its helium from Qatar; spot helium prices doubled. This created a cascading risk from a regional conflict to the global chip supply chain --- and by extension, to the AI industry's capacity to manufacture next-generation GPUs ([Fortune, Mar 2026](https://fortune.com/2026/03/21/iran-war-helium-shortage-qatar-chip-supply-chains-ai-boom/)).
+4. **Capital flow disruption.** The Gulf states --- particularly the UAE and Saudi Arabia --- had become major investors in AI infrastructure, funding data center construction and AI ventures. Armed conflict introduced sovereign risk into what had been seen as stable capital commitments.
+5. **Geographic reshaping of AI infrastructure.** The attacks accelerated discussions about diversifying data center locations away from geopolitically volatile regions --- echoing the orbital data center vision discussed in Section 9.3 (SpaceX-xAI merger).
+
+As the instructor noted: "Somehow, roughly a dozen percent of the future of AI hinges upon an area which is highly geopolitically uncertain." For researchers, the Iran war provides a rare **exogenous shock** that can be leveraged to study the industrial organization of the AI industry --- a natural experiment on how geopolitical risk reshapes technology supply chains, capital allocation, and infrastructure investment.
 
 ---
 
@@ -588,6 +628,16 @@ The self-improvement flywheel is already spinning: frontier AI labs use their ow
 
 The instructor's exhortation to students: beyond the immediate imperative to leverage AI for personal productivity, the deeper research agenda is about understanding how AI will reshape **industrial organization, market structure, within-firm workflows, and societal-level economic dynamics**. The community needs both theoretical frameworks and empirical evidence. "Be the first --- and probably you will become famous very soon."
 
+**Why do we pursue research?** In the final lecture segment on this theme, the instructor reflected on the qualities that distinguish great researchers in the AI age, drawing heavily on a ~7-hour podcast featuring **Saining Xie** (谢赛宁), co-founder and Chief Science Officer of **Advanced Machine Intelligence (AMI) Labs** alongside Executive Chairman **Yann LeCun** ([amilabs.xyz](https://amilabs.xyz/); [Xie's homepage](https://www.sainingxie.com/)). AMI Labs raised **$1.03 billion** at a $3.5B pre-money valuation in early 2026, built on the contrarian thesis that "real intelligence does not start in language --- it starts in the world." While the entire AI industry converges on LLMs, Xie and LeCun are building **world models** based on Joint Embedding Predictive Architecture (JEPA), arguing that language is merely an abstraction of the physical world and that LLMs cannot achieve genuine intelligence from text alone.
+
+The instructor distilled five principles from the conversation:
+
+1. **Integrity.** Academic honesty is non-negotiable --- particularly urgent in an era where AI makes fabrication trivially easy (see Section 3.5 on the ICML peer review scandal).
+2. **Taste.** Having the judgment to pursue important problems rather than incremental ones. Xie and LeCun exemplify this: rather than following the dominant LLM narrative, they back their own conviction that physical-world grounding is essential.
+3. **Vision.** The ability to see where a field is heading, not just where it is. "Even the best people at Silicon Valley --- those from OpenAI, Anthropic, Stanford --- they all use language to achieve intelligence. Having the vision to believe this is not the way towards AGI takes courage."
+4. **Avoiding the mid-quality paper trap.** The temptation to produce incremental, safe papers that clear the publication bar but do not change the field. The instructor's advice: aim for work that matters, not work that merely publishes.
+5. **Empowering others.** LeCun reportedly described Xie as someone who can "turn any dumb idea into something that really shines" --- the ability to elevate collaborators' work, not just one's own. For future professors, this is the essence of mentorship and leadership.
+
 > **For all business researchers:** We are in a once-in-a-generation inflection point. The research questions are abundant, urgent, and consequential. The scholars who engage deeply with AI --- not just as a tool, but as a subject of study --- will shape how society navigates this transition.
 
 ---
@@ -631,6 +681,7 @@ The instructor's exhortation to students: beyond the immediate imperative to lev
 - DeepSeek. (2025). DeepSeek-Math-V2: First open-source model to achieve IMO gold medal level. [HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-Math-V2)
 - Massenkoff, M. & McCrory, P. (2026). Labor market impacts of AI: A new measure and early evidence. *Anthropic Research*. [Link](https://www.anthropic.com/research/labor-market-impacts)
 - Horton, J. J., Fradkin, A., Shahidi, P., Rusak, G., & Manning, B. (2025). The Coasean Singularity? Demand, supply, and market design with AI agents. *NBER Economics of Transformative AI*. [Link](https://www.nber.org/books-and-chapters/economics-transformative-ai/coasean-singularity-demand-supply-and-market-design-ai-agents)
+- Rao, V. S., Kumar, A., Lakkaraju, H., & Shah, N. B. (2025). Detecting LLM-generated peer reviews. *PLOS ONE*. [Link](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0331871)
 
 ### Industry Reports and Blog Posts
 
@@ -647,6 +698,9 @@ The instructor's exhortation to students: beyond the immediate imperative to lev
 - Nvidia. (2026). The AI 5-layer cake. *Nvidia Blog*. [Link](https://blogs.nvidia.com/blog/ai-5-layer-cake/)
 - Dataconomy. (2026). Chinese AI models hit 61% market share on OpenRouter. [Link](https://dataconomy.com/2026/02/25/chinese-ai-models-hit-61-market-share-on-openrouter/)
 - OpenRouter. (2026). State of AI 2025: 100T token LLM usage study. [Link](https://openrouter.ai/state-of-ai)
+- ICML. (2026). On violations of LLM review policies. *ICML Blog*. [Link](https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/)
+- Analemma AI. (2026). Introducing FARS: Fully Automated Research System. [Link](https://analemma.ai/blog/introducing-fars/)
+- Tu, R. (2026). 2026 and beyond. *Blog post*. [Link](https://www.richardstu.com/blog/2026-and-beyond)
 
 ### Open-Source Projects and Datasets
 
@@ -667,6 +721,8 @@ The instructor's exhortation to students: beyond the immediate imperative to lev
 - OpenAI. (2026). First Proof submissions. [Link](https://openai.com/index/first-proof-submissions/)
 - Kolda, T. G. (2026). First Proof: AI's toughest math test. *MathSci.ai Blog*. [Link](https://www.mathsci.ai/post/1stproof/)
 - Sharma, M. (2026). Resignation letter from Anthropic. [X/Twitter](https://x.com/MrinankSharma/status/2020881722003583421)
+- Tu, R. (richards199999). (2026). Thinking-Claude. [GitHub](https://github.com/richards199999/Thinking-Claude)
+- Guo, H. (666ghj). (2026). MiroFish: Multi-agent swarm intelligence prediction engine. [GitHub](https://github.com/666ghj/MiroFish)
 
 ### News Coverage
 
@@ -714,9 +770,14 @@ The instructor's exhortation to students: beyond the immediate imperative to lev
 - Guardian. (2026). Tumbler Ridge shooting victim sues OpenAI. [Link](https://www.theguardian.com/world/2026/mar/10/tumbler-ridge-shooting-victim-sues-openai-canada)
 - China Daily. (2026). AI manipulation of search results highlighted at consumer gala. [Link](http://global.chinadaily.com.cn/a/202603/15/WS69b6be6aa310d6866eb3de9e.html)
 - Yicai Global. (2026). China's annual CCTV consumer rights show uncovers AI ad tricks. [Link](https://www.yicaiglobal.com/news/chinas-annual-cctv-consumer-rights-show-uncovers-ai-ad-tricks-that-deceive-customers)
+- CNBC. (2026). Iran war and data centers. [Link](https://www.cnbc.com/2026/03/06/iran-war-data-centers.html)
+- Fortune. (2026). Iran war, helium shortage, and chip supply chains. [Link](https://fortune.com/2026/03/21/iran-war-helium-shortage-qatar-chip-supply-chains-ai-boom/)
+- Bloomberg. (2026). How Amazon data centers became a casualty of the Iran war. [Link](https://www.bloomberg.com/news/articles/2026-03-05/how-amazon-data-centers-became-a-casualty-of-iran-war)
+- WSJ. (2026). AI startup Aaru's young founders reach $1B valuation. [Link](https://www.wsj.com/business/ai-startup-aaru-young-founders-35da7f87)
+- TechCrunch. (2026). AMI Labs raises $1.03 billion to build world models. [Link](https://techcrunch.com/2026/03/09/yann-lecuns-ami-labs-raises-1-03-billion-to-build-world-models/)
 
 ---
 
-*Last updated: March 17, 2026*
+*Last updated: March 24, 2026*
 
 *These lecture notes are prepared for DOTE 6635 at the CUHK Business School (The Chinese University of Hong Kong). They synthesize fast-moving developments and are intended to provoke discussion, not to provide definitive assessments. Students are encouraged to follow the referenced links and form their own views.*
