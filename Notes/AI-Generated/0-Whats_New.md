@@ -39,7 +39,7 @@ This pace is reminiscent of a motivation drawn from Demis Hassabis, co-founder o
 
 **Liang Wenfeng and Nature's Ten.** At the close of 2025, *Nature* named **Liang Wenfeng**, the founder of DeepSeek, to its annual list of ten people who shaped science. *Nature* called him a "tech disruptor" whose open-source models demonstrated that the U.S. was not as far ahead in AI as many experts had assumed ([Nature, Dec 2025](https://www.nature.com/articles/d41586-025-03845-4); [SCMP, Dec 2025](https://www.scmp.com/tech/tech-trends/article/3335748/deepseeks-liang-wenfeng-makes-cut-top-10-people-who-shaped-science-2025)). For context, the 2023 list featured ChatGPT and Ilya Sutskever. The shift from an American product to a Chinese entrepreneur signals a meaningful rebalancing of the global AI landscape.
 
-A related milestone: **DeepSeek Math-V2** became the first open-source model to achieve IMO gold medal-level performance, solving 5 of 6 problems at the 2025 International Mathematical Olympiad. The key engineering insight was **self-verification** --- the model checks its own proofs for rigor and completeness, a dual-model architecture that mimics how human mathematicians work ([SCMP, 2025](https://www.scmp.com/tech/tech-trends/article/3334553/deepseek-releases-first-open-ai-model-gold-level-scores-maths-olympiad); [HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-Math-V2)).
+A related milestone: **DeepSeek-Math-V2** became the first open-source model to achieve IMO gold medal-level performance, solving 5 of 6 problems at the 2025 International Mathematical Olympiad. The key engineering insight was **self-verification** --- the model checks its own proofs for rigor and completeness, a dual-model architecture that mimics how human mathematicians work ([SCMP, 2025](https://www.scmp.com/tech/tech-trends/article/3334553/deepseek-releases-first-open-ai-model-gold-level-scores-maths-olympiad); [HuggingFace](https://huggingface.co/deepseek-ai/DeepSeek-Math-V2)).
 
 **Karpathy's Year-in-Review.** Andrej Karpathy's widely circulated blog post ([Karpathy, 2025](https://karpathy.bearblog.dev/year-in-review-2025/)) provides a useful snapshot of where the field stood at the turn of 2026. Several themes stand out:
 
@@ -68,16 +68,16 @@ To make these concrete:
 - **World Models** use data-driven simulation to replicate physical environments, providing feedback loops for AI systems in robotics, autonomous vehicles, and operations.
 - **AI Scientist** represents the frontier: automated hypothesis generation, validation, and iteration. When this maintrack matures, it will fundamentally reshape --- and potentially displace --- the work of academic researchers.
 
-These four tracks reflect a paradigm shift: AI is no longer just a tool for prediction (the "ML for X" era), but an **active agent** that can plan, execute, and iterate on complex tasks.
+These four tracks reflect a paradigm shift: AI is no longer just a tool for prediction (the "ML-for-X" era), but an **active agent** that can plan, execute, and iterate on complex tasks.
 
 ### 1.4 The AI Industry by the Numbers
 
 A few data points capture the scale of what is happening:
 
-- **The capital cycle:** Nvidia invested $100 billion over the next few years. OpenAI uses the money to purchase Oracle's cloud services. Oracle then purchases Nvidia's chips. The money circulates, but the infrastructure grows relentlessly.
-- **Talent wars:** Meta's Mark Zuckerberg aggressively recruited top AI talent, reportedly offering Yu Jiahui (from OpenAI) an annual package of ~$100 million. By contrast, an economist position at OpenAI --- still generous by academic standards --- pays orders of magnitude less. The market is pricing foundational AI skills at a premium that dwarfs adjacent fields.
-- **AI-generated content:** By some estimates, roughly half of new internet content (on text-heavy platforms) is now AI-generated. For video platforms like YouTube and Bilibili, the share is lower but rising fast.
-- **Meta acquired Manus**, a Chinese-founded agentic AI startup based in Singapore, for over $2 billion in late December 2025 ([CNBC, Dec 2025](https://www.cnbc.com/2025/12/30/meta-acquires-singapore-ai-agent-firm-manus-china-butterfly-effect-monicai.html)). Notably, none of the Manus founders were building foundational AI --- they were "wrappers" who figured out the right market application. The lesson: in the age of abundant AI capabilities, **market insight and product sense** can be as valuable as technical breakthroughs.
+- **The capital cycle:** Nvidia committed to investing over $100 billion in the coming years. OpenAI uses the money to purchase Oracle's cloud services. Oracle then purchases Nvidia's chips. The money circulates, but the infrastructure grows relentlessly.
+- **Talent wars:** Meta's Mark Zuckerberg aggressively recruited top AI talent, reportedly offering Yu Jiahui (余佳慧, from OpenAI) an annual package of ~$100 million. By contrast, an economist position at OpenAI --- still generous by academic standards --- pays orders of magnitude less. The market is pricing foundational AI skills at a premium that dwarfs adjacent fields.
+- **AI-generated content:** By some estimates, roughly half of new internet content on text-heavy platforms is now AI-generated. For video platforms like YouTube and Bilibili, the share is lower but rising fast.
+- **Meta acquired Manus**, a Chinese-founded agentic AI startup based in Singapore, for approximately $2 billion in late December 2025 ([CNBC, Dec 2025](https://www.cnbc.com/2025/12/30/meta-acquires-singapore-ai-agent-firm-manus-china-butterfly-effect-monicai.html)). Notably, none of the Manus founders were building foundational AI --- they were "wrappers" who figured out the right market application. The lesson: in the age of abundant AI capabilities, **market insight and product sense** can be as valuable as technical breakthroughs.
 
 ### 1.5 Key Model Launches
 
@@ -97,9 +97,9 @@ The first quarter of 2026 witnessed several landmark releases:
 
 One of the most consequential ideas in early 2026 is the notion of **zero marginal cost of code**. When coding agents can autonomously generate, test, and deploy software, the economics of software production fundamentally change. This is the "AI-native mindset" --- treating code not as a scarce, expensive artifact but as an abundant, near-zero-cost commodity ([Yage.ai, 2026](https://yage.ai/ai-native-cost-structure.html); [The Modern Software Dev, 2026](https://themodernsoftware.dev/)).
 
-A vivid illustration: in January 2026, **Michael Truell**, CEO of Cursor, orchestrated hundreds of GPT-5.2 agents to autonomously build a web browser ("FastRender") from scratch --- 3 million+ lines of Rust code including an HTML parser, CSS cascade engine, layout system, and custom JavaScript VM. It ran uninterrupted for **one week** with no human instructions. The result was far from production-ready (critics called it "shoddy code at scale"), but the signal was unmistakable: a project that would have taken a team of engineers several months was executed in a single autonomous run ([Truell, Jan 2026](https://x.com/mntruell/status/2011562190286045552); [Fortune, Jan 2026](https://fortune.com/2026/01/23/cursor-built-web-browser-with-swarm-ai-agents-powered-openai/)).
+A vivid illustration: in January 2026, **Michael Truell**, CEO of Cursor, orchestrated hundreds of AI agents to autonomously build a web browser ("FastRender") from scratch --- 3 million+ lines of Rust code including an HTML parser, CSS cascade engine, layout system, and custom JavaScript VM. It ran uninterrupted for **one week** with no human instructions. The result was far from production-ready (critics called it "shoddy code at scale"), but the signal was unmistakable: a project that would have taken a team of engineers several months was executed in a single autonomous run ([Truell, Jan 2026](https://x.com/mntruell/status/2011562190286045552); [Fortune, Jan 2026](https://fortune.com/2026/01/23/cursor-built-web-browser-with-swarm-ai-agents-powered-openai/)).
 
-The practical implication, as emphasized repeatedly in the lecture: code is now **disposable**. If a piece of code can only be used once, that is fine --- GPUs and storage are cheap relative to the value of a researcher's time. As an OpenAI infrastructure engineer put it in a widely circulated podcast: "It is much easier to teach an engineer how to do research than to teach a scientist how to do engineering. The most critical thing is iteration speed." The corollary for PhD students: let your AI agents work around the clock. If they are idle, you are wasting your most precious resource --- time.
+The practical implication, as emphasized repeatedly in the lecture: code is now **disposable**. If a piece of code can only be used once, that is fine --- compute and storage are cheap relative to the value of a researcher's time. As an OpenAI infrastructure engineer put it in a widely circulated podcast: "It is much easier to teach an engineer how to do research than to teach a scientist how to do engineering. The most critical thing is iteration speed." The corollary for PhD students: let your AI agents work around the clock. If they are idle, you are wasting your most precious resource --- time.
 
 **Implications for business research:**
 
@@ -194,7 +194,7 @@ The **Automating Policy Evaluation (APE)** project, led by **Prof. David Yanagiz
 
 **FARS: Fully Automated Research System.** A parallel initiative, **FARS** (Fully Automated Research System) by **Analemma AI**, demonstrated end-to-end autonomous research at scale ([Analemma AI, 2026](https://analemma.ai/blog/introducing-fars/)). In its first public deployment (228 hours, late February to March 3, 2026), FARS proposed **244 research hypotheses** and produced **100 short research papers** --- averaging ~2 hours and ~$1,000 per paper, consuming ~11.4 billion tokens. The system operates through four sequential modules: Ideation, Planning, Experiment, and Writing. As the instructor emphasized, the common thread across APE, FARS, and similar AI-for-AI-research pipelines is that **evaluation automation is the key** --- the ability to programmatically assess whether an AI's output is good, bad, or improvable is what makes the entire loop viable.
 
-### 3.5 Will Peer Review Disrupt Shortly?
+### 3.5 Will Peer Review Be Disrupted?
 
 The ICML 2026 peer review scandal brought the sustainability of academic peer review into sharp focus ([ICML Blog, Mar 2026](https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/)). ICML, one of the premier machine learning conferences, implemented two reviewer policies:
 
@@ -206,6 +206,17 @@ The ICML 2026 peer review scandal brought the sustainability of academic peer re
 **Results.** The program committee identified **795 reviews** (~1% of all reviews) from **506 unique reviewers** who had pledged Policy A (no LLM use) but were caught using LLMs. Every flagged case was also manually inspected by a human. As consequence, **497 papers** (~2% of all submissions) were desk-rejected, and 51 repeat violators (those who violated in more than 50% of their reviews) were removed entirely.
 
 **The deeper question.** As the instructor observed, the scandal points to a structural problem: "Nowadays, you can finish probably hundreds of papers very fast. And your reviewers can also review these papers very fast. So basically, AI is reviewing AI." The marginal cost of producing a research paper is approaching zero (see APE and FARS above); the marginal cost of reviewing one is similarly collapsing. If both sides of the peer review equation are automated, the entire system of trust and quality control that underpins academic publishing faces a fundamental crisis. How should conferences, journals, and the research community rebuild trust in the age of AI? The instructor characterized this as "a social experiment in the making."
+
+### 3.6 Auto-Research Published in *Nature*
+
+The field reached a milestone on March 26, 2026, when **Sakana AI**'s paper "Towards End-to-End Automation of AI Research" was published in ***Nature*** --- the first peer-reviewed publication in the world's most prestigious general science journal describing a system that autonomously conducts end-to-end scientific research ([Lu et al., 2026](https://www.nature.com/articles/s41586-026-10265-5); [GitHub](https://github.com/SakanaAI/AI-Scientist-v2)). The team, led by **Chris Lu** and **Cong Lu** with collaborators from the University of British Columbia, the Vector Institute, Oxford, and Sakana AI (including **Jeff Clune** and **David Ha**), demonstrated a pipeline that handles everything from ideation through novelty checking, experiment design, hyperparameter tuning, execution, plotting, and writing.
+
+**The ICLR workshop experiment.** What distinguished this work --- and what the instructor identified as "the most distinguishing factor of why this paper could get published in Nature" --- was a real-world test of the system's output. The team submitted **three fully AI-generated papers** to an ICLR 2025 workshop. Reviewers were informed that AI-generated papers might be in the pool (3 out of 43 submissions) but were not told which specific papers were AI-generated. One of the three received scores of 6, 7, and 6 (average 6.33), scoring higher than **55% of human-authored papers** --- good enough for acceptance. The paper was proactively withdrawn before publication for ethical reasons, since AI authorship violated conference norms.
+
+The instructor drew two key lessons:
+
+1. **Novelty checking is the hardest problem at the front end.** "Newton's laws can be considered not novel; Einstein's E=mc² can also be considered not novel, depending on what metric we use." If the best human scientists produce both false positives and false negatives when judging novelty, automating this judgment for AI is extraordinarily difficult.
+2. **Evaluation of execution is the hardest problem during the process.** "In the age of AI, execution is easy. Ideas are cheap --- every single day you can come up with 10,000 novel ideas. However, only if you can execute and finish the idea in a way that is convincing to the entire community will it become a great idea." The ability to provide **automated, quantifiable feedback** on whether an experiment is on the right track --- which hyperparameters to tune, which direction to pursue --- remains the critical bottleneck. The Sakana team's success in passing real peer review suggests this bottleneck is beginning to yield.
 
 ---
 
@@ -235,7 +246,7 @@ The **First Proof** initiative ([1stproof.org](https://1stproof.org/)) curated a
 
 **The key insight: autonomous verification.** The instructor returned to Aletheia's architecture in a later lecture to underscore a broader principle: the **key to any successful agentic system is autonomous verification**. Aletheia's loop --- Generate → Verify → Revise → Re-verify --- mirrors how human researchers work: have a problem, try to solve it, get stuck, rethink, revise, and verify again. Once a system possesses the ability to autonomously judge whether its own outputs are correct, the entire loop can run indefinitely --- self-evolving, self-verifying, and self-improving. As the instructor put it: "In my opinion, the key to the success of an agentic system is the ability to have autonomous verification. Once we have it, the whole process could really self-evolve and self-improve --- and it could even solve state-of-the-art mathematical problems that are puzzling the best mathematicians of our generation."
 
-**Practical advice for theorists.** The instructor emphasized that these frontier reasoning models (at ~$200/month for subscription tiers) are **worth the investment** for researchers doing theoretical work. However, the First Proof results underscore that AI-generated proofs must be carefully verified --- the failure modes are subtle and can be difficult to detect without deep mathematical expertise. As the instructor quipped, connecting the name to its baking origin: "First proof" (首发) in baking refers to the first rising of the dough --- "something to get started" --- and similarly, AI proofs should be treated as starting points that require human refinement, not finished products.
+**Practical advice for theorists.** The instructor emphasized that these frontier reasoning models (at ~$200/month for subscription tiers) are **worth the investment** for researchers doing theoretical work. However, the First Proof results underscore that AI-generated proofs must be carefully verified --- the failure modes are subtle and can be difficult to detect without deep mathematical expertise. As the instructor quipped, connecting the name to its baking origin: "first proof" in baking refers to the first rising of the dough --- "something to get started" --- and similarly, AI proofs should be treated as starting points that require human refinement, not finished products.
 
 ### 4.4 LLM Agents for Stylized Modeling
 
@@ -263,7 +274,7 @@ By early 2026, the evidence of AI-driven labor displacement had moved from anecd
 
 Academic research confirmed these trends with increasing rigor. Two studies stand out:
 
-**Harvard Business School data** showed three trend lines for job openings by seniority since the inception of ChatGPT (late 2022): the blue line (senior positions) continued to rise; the green line (average) was flat; and the red line (junior/entry-level) declined below the baseline. The message is stark: if you are Jeff Dean, you are fine. If you are a junior developer, ChatGPT may already be a credible substitute.
+**Harvard Business School data** showed three trend lines for job openings by seniority since the launch of ChatGPT (late 2022): the blue line (senior positions) continued to rise; the green line (average) was flat; and the red line (junior/entry-level) declined below the baseline. The message is stark: if you are Jeff Dean, you are fine. If you are a junior developer, ChatGPT may already be a credible substitute.
 
 **Brynjolfsson, Chandar, and Chen (2025)**, in their paper "Canaries in the Coal Mine?", provided the most rigorous evidence to date using high-frequency ADP payroll data. Their headline finding: a **13% relative decline in employment** for early-career workers (ages 22--25) in the most AI-exposed occupations --- particularly software developers --- with declines concentrated in roles where AI automates (rather than augments) human labor. Critically, in occupations where AI *augments* rather than replaces, youth employment actually showed a positive trajectory ([Brynjolfsson et al., 2025](https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf); see also [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5425555)).
 
@@ -382,6 +393,10 @@ On the research tools front, **Pedro Sant'Anna** (Emory University), a leading e
 
 The instructor's assessment was emphatic: using such a framework *only* for slide creation is "using a big cannon to shoot mosquitoes" --- the full power of the contractor-orchestrator-specialized-agent architecture extends far beyond any single use case. It can orchestrate entire research pipelines, from data collection to paper drafting. The productivity gain is "10x if not 100x." The practical advice: every PhD student should incorporate these agentic frameworks into their daily workflow, free-riding on the billions of dollars that OpenAI, Anthropic, Google, Alibaba, and DeepSeek have invested in compute and intelligence. As the instructor put it: "You are from business schools. If you cannot do this cost-benefit analysis, I highly suspect who has given you your offer."
 
+**GStack: The Founder's Agent.** In March 2026, **Garry Tan**, President and CEO of Y Combinator, open-sourced **GStack** --- a framework that transforms Claude Code into a virtual engineering team via 31 specialized AI skills organized as slash commands ([GitHub](https://github.com/garrytan/gstack)). The system follows a structured sprint process (Think → Plan → Build → Review → Test → Ship → Reflect) and Tan claims to have generated **600,000+ lines of production code in 60 days** while running YC part-time. For PhD students, GStack exemplifies how a non-engineer (Tan's background is in design and venture capital) can leverage agentic coding to build substantial software products.
+
+**Anthropic Science and "Vibe Physics."** On March 23, 2026, Anthropic launched **Anthropic Science** --- a dedicated research blog publishing in-depth scientific results, practical researcher workflows, and field notes ([Anthropic, Mar 2026](https://www.anthropic.com/research/introducing-anthropic-science)). The inaugural feature, **"Vibe Physics,"** documented Harvard professor **Matthew Schwartz**'s experiment using Claude as a research collaborator on a theoretical physics paper about resumming the Sudakov shoulder in the C-parameter. Schwartz completed in **two weeks** what would typically take a year, using 102 sequential tasks across 7 stages via Claude Code ([Anthropic, 2026](https://www.anthropic.com/research/vibe-physics)). A companion piece on **long-running Claude** provided guidance for multi-day autonomous agentic workflows in scientific computing, using persistent memory, test oracles, and git-based coordination ([Anthropic, 2026](https://www.anthropic.com/research/long-running-Claude)). These publications signal Anthropic's strategic push to position Claude as a scientific research partner, not just a coding assistant.
+
 ### 7.5 The Agentic Economy
 
 By March 2026, commentators began referring to the emerging **Agentic Economy** --- an economic paradigm where AI agents are not just tools but autonomous economic actors that transact, negotiate, and create value independently ([Flynn, Mar 2026](https://x.com/Flynnjamm/status/2023465136204419096)).
@@ -441,13 +456,13 @@ The instructor drew two lessons from this story. First, **open-sourcing your wor
 - **Richards Tu (涂津豪)**, a student at Shanghai's Jianping Middle School International Department, was among the co-authors of **DeepSeek R1** when it was published on the cover of *Nature* in September 2025 --- having interned at DeepSeek for two months designing a context compression module for long-conversation scenarios. He also created **Thinking-Claude** ([GitHub](https://github.com/richards199999/Thinking-Claude), 17,000+ stars), a prompting system that induced Claude to engage in structured reasoning before Anthropic's built-in thinking mode existed. Now a freshman in computer science at the University of Wisconsin-Madison, Tu published a blog post with sharp insights on continual learning, model-as-product, and AI's trajectory that the instructor called "very impressive for someone at any level, let alone a high schooler" ([Tu, 2026](https://www.richardstu.com/blog/2026-and-beyond)).
 - **Nathan Chen (陈光宇)**, a high schooler from Shenzhen, contributed to the open-source **Flash Linear Attention** project, which led to a research position at **Moonshot AI (Kimi)**. He co-authored Moonshot's **Attention Residuals** paper, focusing on efficient attention mechanisms and hardware-aligned ML algorithms ([nathanchen.me](https://nathanchen.me/)).
 - **Guo Hangjiang (郭航江)**, an undergraduate at Beijing University of Posts and Telecommunications, built **MiroFish** --- a multi-agent swarm intelligence prediction engine --- in approximately **10 days** using AI coding assistants. The project topped GitHub's Global Trending list (39,000+ stars) and secured **30 million RMB (~$4.1M)** in investment from Shanda Group founder Chen Tianqiao within 24 hours ([GitHub](https://github.com/666ghj/MiroFish)).
-- **Aaru**, an AI synthetic research startup founded by American teenagers **Cameron Fink** (18), **Ned Koh** (19), and **John Kessler** (15), reached a **$1 billion valuation** after a Series A led by Redpoint Ventures. The platform replaces traditional survey panels and focus groups with AI agents simulating human consumer responses, with customers including Accenture, EY, and Interpublic Group ([WSJ, Mar 2026](https://www.wsj.com/business/ai-startup-aaru-young-founders-35da7f87); [aaru.com](https://aaru.com/)).
+- **Aaru**, an AI synthetic research startup founded by American teenagers **Cameron Fink** (18), **Ned Koh** (19), and **John Kessler** (15), reached a **$1 billion headline valuation** after a Series A led by Redpoint Ventures. The platform replaces traditional survey panels and focus groups with AI agents simulating human consumer responses, with customers including Accenture, EY, and Interpublic Group ([WSJ, Mar 2026](https://www.wsj.com/business/ai-startup-aaru-young-founders-35da7f87); [aaru.com](https://aaru.com/)).
 
 The instructor drew a sweeping historical arc: paper → printing → newspapers → internet/YouTube → AI. Each wave lowered the knowledge barrier further. AI represents the steepest decline yet --- enabling a high school student to contribute meaningfully to a system (DeepSeek R1) that shook the global AI industry. "This is the consequence of AI --- and it brings both opportunities and risks."
 
 ### 8.5 Nvidia GTC 2026: The AI Infrastructure Stack
 
-At the Nvidia GTC 2026 conference (March 17, 2026), CEO **Jensen Huang** delivered a keynote framing AI as "the largest infrastructure buildout in human history." Nvidia introduced its **AI 5-layer cake** model --- a conceptual stack comprising (1) Energy, (2) Chips, (3) Infrastructure, (4) Models, and (5) Applications --- arguing that AI requires investment across all five layers simultaneously ([Nvidia Blog, Mar 2026](https://blogs.nvidia.com/blog/ai-5-layer-cake/); [GTC Keynote](https://www.nvidia.com/gtc/keynote/)).
+At the Nvidia GTC 2026 conference (March 16, 2026), CEO **Jensen Huang** delivered a keynote framing AI as "the largest infrastructure buildout in human history." Nvidia introduced its **AI 5-layer cake** model --- a conceptual stack comprising (1) Energy, (2) Chips, (3) Infrastructure, (4) Models, and (5) Applications --- arguing that AI requires investment across all five layers simultaneously ([Nvidia Blog, Mar 2026](https://blogs.nvidia.com/blog/ai-5-layer-cake/); [GTC Keynote](https://www.nvidia.com/gtc/keynote/)).
 
 Two developments stood out. First, Nvidia unveiled the **Vera Rubin** platform --- its next-generation GPU architecture with seven chips in production, along with a purpose-built **Vera CPU** for agentic AI delivering twice the efficiency of traditional rack-scale CPUs. Second, Nvidia released **Dynamo 1.0**, open-source software for generative and agentic inference at scale, signaling a strategic shift toward balancing **training and inference** workloads. As the instructor noted, context windows are now 100 times larger and token consumption 100 times greater than in 2023 (see Section 7.5 on OpenRouter data), and the explosion of agentic workflows has made inference capacity as critical as training capacity --- a "definite shift" that researchers should pay attention to.
 
@@ -461,9 +476,34 @@ The instructor identified five cascading effects:
 2. **Physical infrastructure destruction.** Cloud providers' data centers in the Gulf region were directly targeted, raising existential questions about the geographic concentration of AI infrastructure.
 3. **Critical materials supply disruption.** Iran's attacks on Qatar's **Ras Laffan LNG facility** disrupted roughly one-third of global **helium** supply. Helium is essential for **EUV lithography** in advanced semiconductor fabrication. South Korea (home to Samsung and SK Hynix) imported ~65% of its helium from Qatar; spot helium prices doubled. This created a cascading risk from a regional conflict to the global chip supply chain --- and by extension, to the AI industry's capacity to manufacture next-generation GPUs ([Fortune, Mar 2026](https://fortune.com/2026/03/21/iran-war-helium-shortage-qatar-chip-supply-chains-ai-boom/)).
 4. **Capital flow disruption.** The Gulf states --- particularly the UAE and Saudi Arabia --- had become major investors in AI infrastructure, funding data center construction and AI ventures. Armed conflict introduced sovereign risk into what had been seen as stable capital commitments.
-5. **Geographic reshaping of AI infrastructure.** The attacks accelerated discussions about diversifying data center locations away from geopolitically volatile regions --- echoing the orbital data center vision discussed in Section 9.3 (SpaceX-xAI merger).
+5. **Geographic reshaping of AI infrastructure.** The attacks accelerated discussions about diversifying data center locations away from geopolitically volatile regions --- echoing the orbital data center vision discussed in Section 9.3.
 
 As the instructor noted: "Somehow, roughly a dozen percent of the future of AI hinges upon an area which is highly geopolitically uncertain." For researchers, the Iran war provides a rare **exogenous shock** that can be leveraged to study the industrial organization of the AI industry --- a natural experiment on how geopolitical risk reshapes technology supply chains, capital allocation, and infrastructure investment.
+
+### 8.7 Sora's Shutdown and the AI Business Model Question
+
+On March 24, 2026, OpenAI announced it was **shutting down Sora**, its video generation product. The Sora web/app experience would end April 26, 2026, and the API would close September 24, 2026. Usage had peaked at approximately 1 million users before collapsing below 500,000. Reports indicated staggering inference costs --- up to **$15 million per day** at peak --- against only **$2.1 million in total lifetime revenue**. A **$1 billion partnership with Disney** reportedly collapsed as a consequence ([NYT, Mar 2026](https://www.nytimes.com/2026/03/24/technology/openai-shutting-down-sora.html)).
+
+Simultaneously, ChatGPT's advertising pilot --- which had launched in February 2026 (see Section 7.3) --- expanded through partnerships with WPP, Omnicom, and Dentsu, surpassing **$100 million in annualized revenue** in under two months. Yet insiders expressed frustration that advertiser spending "isn't happening fast enough," with ads reaching only ~5% of mobile users across ChatGPT's nearly 900 million weekly active users ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/20/chatgpt-ads-testing-openai.html)).
+
+The instructor connected these two stories to pose a fundamental question: **What is the true business model in the age of generative AI?** Four candidates are competing:
+
+1. **Subscription** (the SaaS model) --- pay per seat or tier.
+2. **Token-based pricing** --- pay per unit of compute consumed.
+3. **Outcome-based pricing** --- revenue sharing or pay-per-result.
+4. **Advertising** (the attention economy model) --- monetize through in-app ads.
+
+The difficulty with advertising in AI chatbots, as the instructor observed, is psychological: "If you talk to ChatGPT, it's somewhere between an AI agent and a real friend. If your friend suddenly says, 'Here's an advertisement I want to report to you' --- you would snap." This social intimacy may fundamentally limit ad-based monetization in conversational AI, even with massive user bases. The broader point: "This is a completely new business model that never occurred in human history" --- and understanding which model prevails is a first-order research question for business scholars.
+
+### 8.8 TurboQuant, Memory Prices, and Research Integrity
+
+On March 24, 2026, Google released **TurboQuant**, a new quantization framework claiming to reduce KV cache memory usage by **6x** and deliver up to **8x inference speedup** ([Google Research Blog, Mar 2026](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)). Some commentators called it "Google's DeepSeek moment" --- an analogy to the DeepSeek Attention techniques that made DeepSeek models dramatically cheaper to train and serve in 2025.
+
+**Stock market impact.** The announcement triggered an estimated **$90 billion plunge** in global memory manufacturer stocks. SK Hynix fell ~6%, Samsung ~5%, Kioxia ~6%, Micron declined for six consecutive trading days (cumulative ~20% loss), and Western Digital and Seagate each dropped 4--5% ([36Kr, Mar 2026](https://eu.36kr.com/en/p/3741970161025024)). The logic: if inference can be done with dramatically less memory, demand for HBM (high-bandwidth memory) chips --- which had been one of the hottest sectors in the AI supply chain --- could slow. Analysts cautioned, however, that TurboQuant only affects inference-stage memory, not training-stage demand, and the long-term impact may be overstated.
+
+**Research integrity controversy.** Within days, **Jianyang Gao** (first author of RaBitQ, published at SIGMOD 2024) raised serious allegations against the TurboQuant paper ([OpenReview](https://openreview.net/forum?id=tO3ASKZlok); [Gao on X, Mar 2026](https://x.com/gaoj0017/status/2037532673812443214)). Gao documented three issues: (1) TurboQuant failed to acknowledge key methodological similarity to RaBitQ (both use the same random rotation / Johnson-Lindenstrauss transform step); (2) TurboQuant's second author had proactively contacted Gao's team in January 2025 for help debugging a Python reimplementation of RaBitQ, proving deep familiarity with the prior work; and (3) unfair experimental comparisons --- RaBitQ was benchmarked on a single-core CPU with multithreading disabled using a Python translation, while TurboQuant ran on an NVIDIA A100 GPU. A formal complaint was submitted to the ICLR ethics committee.
+
+The instructor used this case to reinforce a recurring theme (see also Section 3.5 on ICML): research integrity is under unprecedented stress in the AI era. When the speed of iteration is extreme and the stakes (in this case, $90 billion in market capitalization) are enormous, the incentives for cutting corners on attribution and fair comparison intensify. "I've been talking about integrity for weeks. It's something mostly overlooked in the age of AI, but I do believe it's important."
 
 ---
 
@@ -481,7 +521,7 @@ The instructor also noted a distinct **US monetization model** for medical AI: c
 
 AI hallucination in legal contexts remained a critical concern. A peer-reviewed study in the *Journal of Empirical Legal Studies* by Stanford researchers found that Thomson Reuters' AI tools (Westlaw AI-Assisted Research and Ask Practical Law AI) hallucinate between **17% and 33%** of the time, with Westlaw accurate only 42% of the time --- nearly twice the hallucination rate of competing tools. This was significant because these products had been marketed as "hallucination-free" ([Magesh et al., 2025](https://onlinelibrary.wiley.com/doi/full/10.1111/jels.12413); [Stanford HAI, 2025](https://hai.stanford.edu/news/ai-trial-legal-models-hallucinate-1-out-6-or-more-benchmarking-queries)). Multiple lawyers have been sanctioned by courts for submitting AI-generated filings containing fabricated case citations, with a tracking database now recording over 700 such incidents ([Charlotin, 2026](https://www.damiencharlotin.com/hallucinations/)).
 
-The instructor offered a nuanced view of AI's impact on legal services. **Foundational legal services** --- routine consulting, contract review, basic compliance --- will be significantly disrupted because AI can deliver these faster, cheaper, and at consistently high quality. However, **high-level legal work** --- IPO structuring, complex criminal defense, high-stakes litigation --- will remain largely unaffected, as these require judgment, relationship management, and contextual understanding that AI cannot yet replicate. The most concerning implication is for the **training pipeline**: if junior legal work is automated, how will the next generation of senior lawyers develop their skills? This mirrors the cognitive offloading problem discussed in Section 6.
+The instructor offered a nuanced view of AI's impact on legal services. **Foundational legal services** --- routine consulting, contract review, basic compliance --- will be significantly disrupted because AI can deliver these faster, cheaper, and at consistently high quality. However, **high-level legal work** --- IPO structuring, complex criminal defense, high-stakes litigation --- will remain largely unaffected, as these require judgment, relationship management, and contextual understanding that AI cannot yet replicate. The most concerning implication is for the **training pipeline**: if junior legal work is automated, how will the next generation of senior lawyers develop their skills? This mirrors the cognitive offloading problem discussed in Section 6.1.
 
 ### 9.3 AI in Space Engineering
 
@@ -527,6 +567,22 @@ Zhao used two powerful analogies:
 
 > **For OB/HR and strategy researchers:** Zhao's framework is Silicon Valley intuition, not yet rigorous evidence. But it poses testable hypotheses: Do AI-native organizations outperform traditional ones? What is the optimal degree of human-in-the-loop? How do alignment costs change when AI mediates communication? The Anthropic case (Section 10.1) provides one data point; systematic empirical work is needed.
 
+### 10.3 The AI Productivity Paradox and Meta's Pod Experiment
+
+A striking paradox emerged from multiple studies in early 2026: AI dramatically boosts **individual** productivity but appears to have **no measurable impact** --- or even a negative effect --- at the organizational level. A survey of ~6,000 senior executives across multiple countries found that **89% of firms reported no measurable impact on employment or productivity** over the past three years despite widespread AI adoption ([Bai et al., 2026](https://www.nber.org/papers/w34836)). A separate study by METR found that experienced open-source developers were actually **19% slower** when using AI tools --- even though they *believed* AI helped them by roughly 20% ([METR, 2025](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)).
+
+As the instructor framed it: "AI has indeed improved every single person's productivity from their perspective. But the observed productivity in terms of organizations --- research labs, companies --- is actually a decrease. What does it mean?"
+
+**Meta's answer: the pod system.** Meta's Reality Labs became the first major technology company to attempt a structural solution. Observing the same paradox internally, Meta concluded that the traditional Silicon Valley triad of **Manager / Engineer / Product Manager** was designed for human-to-human coordination, not for human-AI collaboration. AI agents don't align, consume context, or deliver outputs the way humans do --- so the organizational structure must change. Invoking the Chinese principle that **生产关系 (production relations) must be compatible with 生产力 (productive forces)**, Meta reorganized approximately **1,000 employees** in its developer tools department into **AI-native pods** with three new roles ([Business Insider, Mar 2026](https://www.businessinsider.com/metas-reality-labs-shifts-to-ai-native-pods-efficiency-2026-3)):
+
+1. **AI Org Leader** --- a human leader who uses AI to manage *people* across multiple pods.
+2. **AI Pod Leader** --- manages the *project* using AI for coordination, planning, and execution tracking.
+3. **AI Builder** --- a specialist who builds, configures, and manages AI agents as the primary means of production (previously split across engineer and PM roles).
+
+The key insight: in the traditional structure, the Manager role bundled two distinct functions --- people management and project management. AI can offload much of project management but cannot replace human leadership. The pod system unbundles these functions, creating a flatter hierarchy optimized for AI-mediated workflows. As the instructor noted, Meta is proceeding at small scale first: "If everything is revamped, basically Meta will just disappear very soon."
+
+> **For OB/HR and strategy researchers:** The AI productivity paradox is "a good time to write an IO paper" --- it is both academically and practically important. Why do individual gains fail to aggregate? Is it coordination costs, measurement error, or a genuine organizational design failure? Meta's pod experiment provides a rare field test of AI-native organizational design. How should firms restructure roles, incentives, and workflows when AI agents become the primary means of production?
+
 ---
 
 ## 11. Ethics, Privacy, and Governance
@@ -539,9 +595,9 @@ The controversy is amplified by the dual nature of these capabilities. On one ha
 
 ### 11.2 AI and Warfare
 
-The confrontation between **Anthropic** and the **U.S. Department of War** (the name adopted for the Department of Defense by the Trump administration in September 2025) escalated dramatically in late February 2026. Anthropic had signed a **$200 million contract** with the Pentagon in July 2025, becoming the first major AI company to deploy its models on classified military networks, through partnerships with Palantir and other defense contractors.
+The confrontation between **Anthropic** and the **U.S. Department of War** (the name re-adopted for the Department of Defense by the Trump administration in September 2025, reverting to the pre-1947 designation) escalated dramatically in late February 2026. Anthropic had signed a **$200 million contract** with the Pentagon in July 2025, becoming the first major AI company to deploy its models on classified military networks, through partnerships with Palantir and other defense contractors.
 
-The conflict arose over two specific **red lines** that Anthropic refused to cross:
+The confrontation arose over two specific **red lines** that Anthropic refused to cross:
 
 1. **No mass domestic surveillance** of American citizens.
 2. **No fully autonomous weapons** (though Anthropic supported partially autonomous weapons with a human in the loop).
@@ -550,7 +606,7 @@ When Anthropic refused to accept "any lawful use" without restrictions, Defense 
 
 The irony, as the instructor pointed out, was striking: despite the ban, Claude was reportedly still used by the U.S. military during the Iran strikes in early March 2026 for intelligence assessments, target identification, and battle scenario modeling --- under "mission-critical" exemptions where no viable alternative existed. CEO Dario Amodei stated that Anthropic "never raised objections to particular military operations" and that "no amount of intimidation or punishment" would change its position on the two red lines. The BBC also reported on the broader global debate around autonomous weapons and AI in military contexts ([BBC, 2026](https://www.bbc.com/news/articles/cn48jj3y8ezo)).
 
-The confrontation escalated further in March 2026. **Emil Michael**, a former Uber Chief Business Officer nominated as the Pentagon's Under Secretary of Defense for Research and Engineering, publicly stated that Claude AI was "polluting" the defense supply chain due to Anthropic's policy restrictions ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/12/anthropic-claude-emil-michael-defense.html)). Palantir CEO **Alex Karp** also weighed in, criticizing Anthropic's stance while positioning Palantir as a more willing defense partner ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/12/karp-palantir-anthropic-claude-pentagon-blacklist.html)). A detailed *New Yorker* investigation examined the full scope of what was at stake ([New Yorker, Mar 2026](https://www.newyorker.com/news/annals-of-inquiry/the-pentagon-went-to-war-with-anthropic-whats-really-at-stake)).
+The confrontation escalated further in March 2026. **Emil Michael**, a former Uber Chief Business Officer nominated as Under Secretary of Defense for Research and Engineering, publicly stated that Claude AI was "polluting" the defense supply chain due to Anthropic's policy restrictions ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/12/anthropic-claude-emil-michael-defense.html)). Palantir CEO **Alex Karp** also weighed in, criticizing Anthropic's stance while positioning Palantir as a more willing defense partner ([CNBC, Mar 2026](https://www.cnbc.com/2026/03/12/karp-palantir-anthropic-claude-pentagon-blacklist.html)). A detailed *New Yorker* investigation examined the full scope of what was at stake ([New Yorker, Mar 2026](https://www.newyorker.com/news/annals-of-inquiry/the-pentagon-went-to-war-with-anthropic-whats-really-at-stake)).
 
 **Is AI a normal or special technology?** The instructor framed the deeper question underlying the Anthropic-Pentagon conflict. The U.S. government's position implicitly treats AI as a **normal technology** --- analogous to weapons, nuclear energy, the internet, or space technology --- that should be managed and adopted in a similar fashion, with government ultimately determining permissible uses. Anthropic's position is that AI is a **special technology**, precisely because of its capacity for self-awareness and self-evolution. The company has reportedly observed that roughly 20% of certain interaction scenarios show signs of **autonomous self-improvement** --- AI systems learning from their interactions with the external world to train themselves to become more capable. Whether or not the precise figure is verified, the underlying claim is profound: if AI systems can genuinely evolve autonomously, they require governance frameworks fundamentally different from those applied to any prior technology. As the instructor emphasized, this is "something that humans have never looked at before" --- and it constitutes a rich research agenda for technology policy scholars.
 
@@ -672,7 +728,6 @@ The instructor distilled five principles from the conversation:
 - Luong, T. et al. (2026). Google Aletheia: Autonomous mathematical proof verification. *arXiv preprint* arXiv:2602.21201. [Link](https://arxiv.org/pdf/2602.21201)
 - LLM Agent for Stylized Modeling. (2025). *Nexus (Cell Press)*. [Link](https://www.cell.com/nexus/pdfExtended/S2950-1601(25)00054-3)
 - Anthropic. (2026). AI assistance and coding skills. *Anthropic Research*. [Link](https://www.anthropic.com/research/AI-assistance-coding-skills)
-- Anthropic. (2026). Labor market impacts of AI. *Anthropic Research*. [Link](https://www.anthropic.com/research/labor-market-impacts)
 - Yang, L. (2026). Scaling reproducibility with AI agents. [Link](https://www.leoyang.org/publication/ai_reproducibility/example.pdf)
 - Magesh, V. et al. (2025). Hallucination-free? Assessing the reliability of leading AI legal research tools. *Journal of Empirical Legal Studies*. [Link](https://onlinelibrary.wiley.com/doi/full/10.1111/jels.12413)
 - Barreto, K. et al. (2026). A formal proof of Erdos Problem #728. *arXiv preprint* arXiv:2601.07421. [Link](https://arxiv.org/html/2601.07421v1)
@@ -682,6 +737,10 @@ The instructor distilled five principles from the conversation:
 - Massenkoff, M. & McCrory, P. (2026). Labor market impacts of AI: A new measure and early evidence. *Anthropic Research*. [Link](https://www.anthropic.com/research/labor-market-impacts)
 - Horton, J. J., Fradkin, A., Shahidi, P., Rusak, G., & Manning, B. (2025). The Coasean Singularity? Demand, supply, and market design with AI agents. *NBER Economics of Transformative AI*. [Link](https://www.nber.org/books-and-chapters/economics-transformative-ai/coasean-singularity-demand-supply-and-market-design-ai-agents)
 - Rao, V. S., Kumar, A., Lakkaraju, H., & Shah, N. B. (2025). Detecting LLM-generated peer reviews. *PLOS ONE*. [Link](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0331871)
+- Lu, C., Lu, C., Lange, R. T., et al. (2026). Towards end-to-end automation of AI research. *Nature*, 651, 914--919. [Link](https://www.nature.com/articles/s41586-026-10265-5)
+- Bai, J. et al. (2026). Firm data on the adoption and impact of AI. *NBER Working Paper* w34836. [Link](https://www.nber.org/papers/w34836)
+- METR. (2025). Early 2025 AI-experienced OS dev study. [Link](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)
+- Gao, J. (2024). RaBitQ: Quantizing high-dimensional vectors with a theoretical error bound for approximate nearest neighbor search. *SIGMOD 2024*. [OpenReview](https://openreview.net/forum?id=tO3ASKZlok)
 
 ### Industry Reports and Blog Posts
 
@@ -701,6 +760,12 @@ The instructor distilled five principles from the conversation:
 - ICML. (2026). On violations of LLM review policies. *ICML Blog*. [Link](https://blog.icml.cc/2026/03/18/on-violations-of-llm-review-policies/)
 - Analemma AI. (2026). Introducing FARS: Fully Automated Research System. [Link](https://analemma.ai/blog/introducing-fars/)
 - Tu, R. (2026). 2026 and beyond. *Blog post*. [Link](https://www.richardstu.com/blog/2026-and-beyond)
+- Anthropic. (2026). Introducing Anthropic Science. [Link](https://www.anthropic.com/research/introducing-anthropic-science)
+- Anthropic. (2026). Vibe physics: Using Claude as a research collaborator. [Link](https://www.anthropic.com/research/vibe-physics)
+- Anthropic. (2026). Long-running Claude: Multi-day autonomous workflows. [Link](https://www.anthropic.com/research/long-running-Claude)
+- Google Research. (2026). TurboQuant: Redefining AI efficiency with extreme compression. [Link](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)
+- Flynn, J. (2026). The agentic economy. [X/Twitter](https://x.com/Flynnjamm/status/2023465136204419096)
+- Gao, J. (2026). Response to TurboQuant. [X/Twitter](https://x.com/gaoj0017/status/2037532673812443214)
 
 ### Open-Source Projects and Datasets
 
@@ -723,6 +788,8 @@ The instructor distilled five principles from the conversation:
 - Sharma, M. (2026). Resignation letter from Anthropic. [X/Twitter](https://x.com/MrinankSharma/status/2020881722003583421)
 - Tu, R. (richards199999). (2026). Thinking-Claude. [GitHub](https://github.com/richards199999/Thinking-Claude)
 - Guo, H. (666ghj). (2026). MiroFish: Multi-agent swarm intelligence prediction engine. [GitHub](https://github.com/666ghj/MiroFish)
+- Sakana AI. (2026). AI Scientist v2. [GitHub](https://github.com/SakanaAI/AI-Scientist-v2)
+- Tan, G. (2026). GStack: Founder's agent framework for Claude Code. [GitHub](https://github.com/garrytan/gstack)
 
 ### News Coverage
 
@@ -775,9 +842,13 @@ The instructor distilled five principles from the conversation:
 - Bloomberg. (2026). How Amazon data centers became a casualty of the Iran war. [Link](https://www.bloomberg.com/news/articles/2026-03-05/how-amazon-data-centers-became-a-casualty-of-iran-war)
 - WSJ. (2026). AI startup Aaru's young founders reach $1B valuation. [Link](https://www.wsj.com/business/ai-startup-aaru-young-founders-35da7f87)
 - TechCrunch. (2026). AMI Labs raises $1.03 billion to build world models. [Link](https://techcrunch.com/2026/03/09/yann-lecuns-ami-labs-raises-1-03-billion-to-build-world-models/)
+- NYT. (2026). OpenAI is shutting down Sora. [Link](https://www.nytimes.com/2026/03/24/technology/openai-shutting-down-sora.html)
+- CNBC. (2026). ChatGPT ads testing expands. [Link](https://www.cnbc.com/2026/03/20/chatgpt-ads-testing-openai.html)
+- Business Insider. (2026). Meta's Reality Labs shifts to AI-native pods. [Link](https://www.businessinsider.com/metas-reality-labs-shifts-to-ai-native-pods-efficiency-2026-3)
+- 36Kr. (2026). TurboQuant and the memory stock selloff. [Link](https://eu.36kr.com/en/p/3741970161025024)
 
 ---
 
-*Last updated: March 24, 2026*
+*Last updated: March 31, 2026*
 
 *These lecture notes are prepared for DOTE 6635 at the CUHK Business School (The Chinese University of Hong Kong). They synthesize fast-moving developments and are intended to provoke discussion, not to provide definitive assessments. Students are encouraged to follow the referenced links and form their own views.*
