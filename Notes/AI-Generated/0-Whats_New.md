@@ -740,7 +740,10 @@ The instructor distilled five principles from the conversation:
 - Lu, C., Lu, C., Lange, R. T., et al. (2026). Towards end-to-end automation of AI research. *Nature*, 651, 914--919. [Link](https://www.nature.com/articles/s41586-026-10265-5)
 - Bai, J. et al. (2026). Firm data on the adoption and impact of AI. *NBER Working Paper* w34836. [Link](https://www.nber.org/papers/w34836)
 - METR. (2025). Early 2025 AI-experienced OS dev study. [Link](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)
+<<<<<<< Updated upstream
 - Gao, J. (2024). RaBitQ: Quantizing high-dimensional vectors with a theoretical error bound for approximate nearest neighbor search. *SIGMOD 2024*. [OpenReview](https://openreview.net/forum?id=tO3ASKZlok)
+=======
+>>>>>>> Stashed changes
 
 ### Industry Reports and Blog Posts
 
@@ -764,8 +767,11 @@ The instructor distilled five principles from the conversation:
 - Anthropic. (2026). Vibe physics: Using Claude as a research collaborator. [Link](https://www.anthropic.com/research/vibe-physics)
 - Anthropic. (2026). Long-running Claude: Multi-day autonomous workflows. [Link](https://www.anthropic.com/research/long-running-Claude)
 - Google Research. (2026). TurboQuant: Redefining AI efficiency with extreme compression. [Link](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)
+<<<<<<< Updated upstream
 - Flynn, J. (2026). The agentic economy. [X/Twitter](https://x.com/Flynnjamm/status/2023465136204419096)
 - Gao, J. (2026). Response to TurboQuant. [X/Twitter](https://x.com/gaoj0017/status/2037532673812443214)
+=======
+>>>>>>> Stashed changes
 
 ### Open-Source Projects and Datasets
 
