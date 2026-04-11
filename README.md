@@ -291,7 +291,7 @@ The following schedule is tentative and subject to changes.
 
 ### 📚 Session 13. LLM Agents (Apr/14/2026)
 - 🔑 **Keywords**: LLM Agents, OpenClaw, Context Engineering, Harness Engineering
-- 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [Agentic AI](Slides/AI-PhD-S2026-8-Agentic-AI.pdf) 
+- 📊 **Slides**: [Announcement](Slides/AI-PhD-S2026-0.5-Announcement.pdf), [What's New](Slides/AI-PhD-S2026-0-WhatsNew.pdf), [Agentic AI](Slides/AI-PhD-S2026-8-Agentic-AI.pdf), [Final Words](Slides/AI-PhD-S2026-9-Final-Words.pdf) 
 - 📖✨ **Upcoming Reading Group in Summer 2026**: [Applied Empirics x AI for Research](https://github.com/rphilipzhang/Reading-Group-2026), [Click Here to Sign Up](https://docs.google.com/spreadsheets/d/1av1Zpzm4U140xW02cjVyymvDjQ8gSTv050DII3wAeE4/edit?usp=sharing)
 - ✍️ **Homework**: [Problem Set 8: RLHF with PPO and DPO](https://colab.research.google.com/drive/1Jg_9ZwlUpwQylDI0YZPAheIva493NcmD?usp=sharing), due at 9:30am, Apr/14/2026; [Problem Set 3: Training GPT-2 with GPUs](https://docs.google.com/document/d/1iQMgzj5kS93WixFxiz4omVKDJcescgq89XhkW4GDkrI/edit?usp=sharing), due at 9:30am, Apr/14/2026; [Problem Set 7: Agentic Workflow for Replication](https://docs.google.com/document/d/1edYGb-lHf0IGNdlChE9UqpXApuEIxIdoD1dKAVkctX8/edit?usp=sharing), due at 11:59pm, May/1/2026; [Problem Set 9: Auto-Research](https://docs.google.com/document/d/1-j5KrDlV_1HQLDU9kOkuG_4pDpp27vCWzIie3Wyp0sQ/edit?usp=sharing), due at 11:59pm, May/11/2026
 - 📝 **Presentation of Replication Project**: By Chloe Wang and Dream Yu
