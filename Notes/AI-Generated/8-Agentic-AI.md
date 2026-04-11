@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This article provides a comprehensive introduction to Agentic AI—the emerging paradigm in which large language models (LLMs) move beyond generating text to autonomously *acting* in the world. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin by defining what constitutes an AI agent and tracing the conceptual evolution from conversational chatbots to autonomous systems capable of planning, tool use, and multi-step reasoning. We then examine the infrastructure that enables agents—**skills** as standard operating procedures (SOPs), including the three primary skill archetypes, the anatomy of a skill, the progressive disclosure architecture for token efficiency, frontmatter-based triggering mechanisms, and the principles of nonambiguous instruction design—and the **[Model Context Protocol (MCP)](https://www.anthropic.com/news/model-context-protocol)** as a universal standard for connecting agents to external tools, data, and applications. Next, we conduct a detailed case study of **[OpenClaw](https://openclaw.ai/)**, an open-source agentic system whose viral adoption in early 2026 epitomizes both the promise and peril of consumer-facing AI agents. We analyze its architecture—unified context, self-evolving memory, and the ecosystem flywheel—before discussing security vulnerabilities (the "lethal trifecta") and a principled reimplementation strategy. Finally, we turn to **[context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)**, the discipline of curating and managing the optimal set of information delivered to an LLM at inference time, covering system prompt design, token-efficient tool definitions, progressive information retrieval, compaction strategies for long-horizon tasks, structured note-taking for agentic memory, and sub-agent architectures. Throughout, we emphasize the shift from *prompt engineering* (crafting a single instruction) to *context engineering* (managing an evolving information state across an extended agentic loop)—a shift that defines the frontier of applied AI research.
+This article provides a comprehensive introduction to Agentic AI—the emerging paradigm in which large language models (LLMs) move beyond generating text to autonomously *acting* in the world. The content is based on the lecture slides from the course "DOTE 6635: Artificial Intelligence for Business Research" and is supplemented with additional explanations and references to foundational literature. We begin by defining what constitutes an AI agent and tracing the conceptual evolution from conversational chatbots to autonomous systems capable of planning, tool use, and multi-step reasoning. We then examine the infrastructure that enables agents—**skills** as standard operating procedures (SOPs), including the three primary skill archetypes, the anatomy of a skill, the progressive disclosure architecture for token efficiency, frontmatter-based triggering mechanisms, and the principles of nonambiguous instruction design—and the **[Model Context Protocol (MCP)](https://www.anthropic.com/news/model-context-protocol)** as a universal standard for connecting agents to external tools, data, and applications. Next, we conduct a detailed case study of **[OpenClaw](https://openclaw.ai/)**, an open-source agentic system whose viral adoption in early 2026 epitomizes both the promise and peril of consumer-facing AI agents. We analyze its architecture—unified context, self-evolving memory, and the ecosystem flywheel—before discussing security vulnerabilities (the "lethal trifecta") and a principled reimplementation strategy. We then turn to **[context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)**, the discipline of curating and managing the optimal set of information delivered to an LLM at inference time, covering system prompt design, token-efficient tool definitions, progressive information retrieval, compaction strategies for long-horizon tasks, structured note-taking for agentic memory, and sub-agent architectures. Building on this foundation, we introduce **[harness engineering](https://openai.com/index/harness-engineering/)**—the design of the entire infrastructure surrounding the model (environment design, feedback loops, evaluation, permission management)—which reframes the engineer's role from code author to system architect and establishes key principles such as providing agents navigational maps rather than exhaustive manuals. Throughout, we emphasize the shift from *prompt engineering* (crafting a single instruction) to *context engineering* (managing an evolving information state across an extended agentic loop) to *harness engineering* (designing the full system that produces, evaluates, and acts on that information state)—a progression that defines the frontier of applied AI research.
 
 ## 1. Where Are We?
 
@@ -548,7 +548,65 @@ The context window grows easily—every observation, tool output, and reasoning 
 
 This question does not have a universal answer. The optimal $P_t$ depends on the task, the model, the available tools, and the interaction history. Context engineering is as much an empirical art as a theoretical discipline—and it is the defining skill for building effective AI agents.
 
-## 6. Conclusion
+## 6. Harness Engineering
+
+### 6.1. From Context Engineering to Harness Engineering
+
+Context engineering addresses *what information* to deliver to the model. But building reliable, production-grade agents requires a broader discipline: **harness engineering**—the design of the entire infrastructure that wraps around the model to make it reliable, repeatable, and safe at scale (see [OpenAI, *Harness Engineering*](https://openai.com/index/harness-engineering/) [20]; [Anthropic, *Harness Design for Long-Running Apps*](https://www.anthropic.com/engineering/harness-design-long-running-apps) [21]).
+
+The core equation is:
+
+$$\text{Agent} = \text{Model} + \text{Harness}$$
+
+The model generates responses. The harness handles *everything else*: environment design, feedback loops, permission management, tool orchestration, evaluation, and state persistence. If context engineering asks "how should we design $P_t$?", harness engineering asks the broader question: **how should we design the entire system that produces, evaluates, and acts on $P_t$?**
+
+> **Core insight:** The primary job of an engineer is no longer writing syntax. It is designing environments, specifying intent, and building feedback loops. When an agent fails, the fix is never to ask it to "try harder." The engineering response must be: *What capability is missing from the system? How do we make the environment legible and enforceable?* ([OpenAI, 2026](https://openai.com/index/harness-engineering/) [20])
+
+### 6.2. The Engineering (and Research) Paradigm Shift
+
+Harness engineering implies a fundamental paradigm shift in how software—and research—is produced. The table below contrasts the traditional, human-centric workflow with the emerging **harness (agent-first)** paradigm ([OpenAI, 2026](https://openai.com/index/harness-engineering/) [20]; [Anthropic, 2026](https://www.anthropic.com/engineering/harness-design-long-running-apps) [21]; [Karpathy, *Autoresearch*](https://github.com/karpathy/autoresearch) [22]):
+
+| Dimension | Traditional | Harness (Agent-First) |
+|-----------|:-----------:|:---------------------:|
+| **What to do** | Writing logic and syntax | Scaffolding systems and creating leverage |
+| **How to review and iterate** | Human-to-human code review | Agent-to-agent review; humans review final outcomes |
+| **Quality gates** | Heavy, blocking, manual QA gates | High-throughput, short-lived PRs; corrections are cheap and fast |
+| **Optimization target** | Optimized for human style and taste | Optimized for correctness, machine legibility, and invariants |
+
+Several implications follow:
+
+1. **The developer's role shifts from author to architect.** Rather than writing code line-by-line, the engineer designs the *environment* in which agents produce code—defining constraints, success criteria, and feedback mechanisms. The harness externalizes implicit expertise (coding conventions, design judgment, organizational alignment) into explicit, enforceable controls.
+
+2. **Review becomes outcome-oriented.** In the traditional model, humans review *process* (code style, naming conventions, architectural patterns). In the harness model, agents review each other's work against formal criteria, and humans review *outcomes*—does the system behave correctly? This mirrors the generator-evaluator pattern: separate the agent doing the work from the agent judging it.
+
+3. **Iteration becomes cheaper.** When corrections are cheap and fast—short-lived pull requests, automated testing, rapid re-generation—the optimal strategy shifts from "get it right the first time" to "iterate quickly against concrete feedback." This has direct parallels to automated research workflows (e.g., [Karpathy's Autoresearch](https://github.com/karpathy/autoresearch) [22]), where the research loop of hypothesize-experiment-analyze-revise is accelerated by agent-driven iteration.
+
+4. **Machine legibility over human aesthetics.** Code optimized for agent consumption prioritizes correctness, invariants, and legibility to automated tools over stylistic preferences. Strong typing, clear module boundaries, and established frameworks—what practitioners call **ambient affordances**—determine how effectively a codebase can be harnessed.
+
+### 6.3. Provide Agents a Map, Not a Manual
+
+A foundational principle of harness engineering is: **what agents cannot see does not exist** ([OpenAI, 2026](https://openai.com/index/harness-engineering/) [20]; [Anthropic, 2026](https://www.anthropic.com/engineering/harness-design-long-running-apps) [21]). This means that the *information structure* provided to agents is as important as the information itself.
+
+Two contrasting approaches illustrate the design space:
+
+| | The Failed Approach | The Winning Approach |
+|---|:---:|:---:|
+| **Format** | 1,000-page `AGENTS.md` | 100-line table of contents |
+| **Context impact** | Crowds out task context | Injected directly into context |
+| **Signal quality** | When everything is "important," nothing is | Acts purely as pointers to deeper, verifiable sources of truth |
+| **Maintenance** | Rots instantly; becomes an attractive nuisance | Agents navigate intentionally and explore as needed |
+
+The winning approach treats agent instructions not as exhaustive manuals but as **navigational maps**—lightweight indexes that point to deeper, authoritative sources. The agent consults the map, identifies what is relevant, and retrieves detailed information on demand. This is, in essence, the progressive disclosure principle (Section 3.4) applied to the entire agent operating environment.
+
+The implications for practitioners are concrete:
+
+- **Keep top-level instructions concise.** The `AGENTS.md` or `CLAUDE.md` file should be a table of contents, not an encyclopedia. Reserve the context window for the task at hand.
+- **Make sources of truth verifiable.** Pointers should lead to files, documentation, or code that the agent can read and verify—not to stale summaries that may have drifted from reality.
+- **Design for intentional navigation.** Structure information so that agents can efficiently find what they need without loading everything upfront. This aligns with the just-in-time retrieval strategy discussed in Section 5.6.
+
+> **Carefully manage the information structure of your agents.** The difference between a productive agent and a confused one is often not the model or the prompt—it is whether the right information is *discoverable* and *accessible* at the moment of need.
+
+## 7. Conclusion
 
 Agentic AI represents the next frontier in applied artificial intelligence—the transition from models that generate text to systems that autonomously plan, act, and learn in the world. The key themes of this lecture are:
 
@@ -562,7 +620,9 @@ Agentic AI represents the next frontier in applied artificial intelligence—the
 
 5. **The formal challenge.** Context engineering can be framed as an optimization problem: maximize the probability of the desired outcome subject to the hard constraint of context window size and the soft constraint of context rot. The ever-expanding universe of relevant information, filtered through a finite and degradation-prone window, defines the central tension that practitioners must navigate.
 
-> **The broader significance for business researchers:** Agentic AI is already transforming how research is conducted—from automated literature reviews and data analysis to experimental design and paper writing. Understanding the architecture of agents (loops, tools, memory), the standards that connect them to the world ([MCP](https://modelcontextprotocol.io/)), the risks they introduce (the lethal trifecta), and the principles that make them effective ([context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)) is essential for any researcher who wishes to leverage—or study—these systems.
+6. **Harness engineering: from writing code to designing systems.** The emerging discipline of [harness engineering](https://openai.com/index/harness-engineering/) extends context engineering to the entire infrastructure around the model—environment design, feedback loops, evaluation, and permission management. The paradigm shift is profound: the engineer's role moves from author to architect, review becomes outcome-oriented, iteration becomes cheap, and optimization targets shift from human aesthetics to machine legibility and correctness. A key practical principle—provide agents a map, not a manual—ensures that information structure enables rather than overwhelms agent reasoning.
+
+> **The broader significance for business researchers:** Agentic AI is already transforming how research is conducted—from automated literature reviews and data analysis to experimental design and paper writing. Understanding the architecture of agents (loops, tools, memory), the standards that connect them to the world ([MCP](https://modelcontextprotocol.io/)), the risks they introduce (the lethal trifecta), the principles that make them effective ([context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)), and the systems engineering that makes them reliable ([harness engineering](https://openai.com/index/harness-engineering/)) is essential for any researcher who wishes to leverage—or study—these systems.
 
 ## References
 
@@ -603,3 +663,9 @@ Agentic AI represents the next frontier in applied artificial intelligence—the
 [18] TechNode. (2026). *Alibaba Group forms Alibaba Token Hub unit; CEO Eddie Wu to lead AI push.* [https://technode.com/2026/03/17/alibaba-group-forms-alibaba-token-hub-unit-ceo-eddie-wu-to-lead-ai-push/](https://technode.com/2026/03/17/alibaba-group-forms-alibaba-token-hub-unit-ceo-eddie-wu-to-lead-ai-push/)
 
 [19] Alibaba Cloud. (2026). *Alibaba to invest RMB 380 billion in AI and cloud infrastructure over next three years.* [https://www.alibabacloud.com/blog/alibaba-to-invest-rmb380-billion-in-ai-and-cloud-infrastructure-over-next-three-years_602007](https://www.alibabacloud.com/blog/alibaba-to-invest-rmb380-billion-in-ai-and-cloud-infrastructure-over-next-three-years_602007)
+
+[20] OpenAI. (2026). *Harness Engineering: Leveraging Codex in an Agent-First World.* [https://openai.com/index/harness-engineering/](https://openai.com/index/harness-engineering/)
+
+[21] Anthropic. (2026). *Harness Design for Long-Running Apps.* [https://www.anthropic.com/engineering/harness-design-long-running-apps](https://www.anthropic.com/engineering/harness-design-long-running-apps)
+
+[22] Karpathy, A. (2026). *Autoresearch.* GitHub. [https://github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch)
