@@ -606,6 +606,39 @@ The implications for practitioners are concrete:
 
 > **Carefully manage the information structure of your agents.** The difference between a productive agent and a confused one is often not the model or the prompt—it is whether the right information is *discoverable* and *accessible* at the moment of need.
 
+### 6.4. Context, Context, and Context
+
+If harness engineering reframes the engineer's role, it also reframes what practitioners should *learn*. The single most important practical takeaway of this lecture can be stated sharply: **stop studying prompt engineering as a primary craft** ([OpenAI, 2026](https://openai.com/index/harness-engineering/) [20]; [Anthropic, 2026](https://www.anthropic.com/engineering/harness-design-long-running-apps) [21]). Prompt engineering optimizes the surface form of a single instruction; in a world where agents run long, multi-step, tool-augmented loops, the binding constraint is not the wording of any one prompt but the **informational environment** in which the agent operates.
+
+The productive replacement is disciplined attention to four levers:
+
+1. **Provide missing facts and precise specifications.** Most agent failures are not failures of intelligence—they are failures of specification. The agent cannot infer a constraint it was never told, nor can it respect an invariant it cannot see. The engineer's job is to *close the specification gap*: surface hidden assumptions, name the edge cases, and state requirements in terms the agent can verify against.
+
+2. **Design the informational environment.** A useful environment specifies, at minimum, three elements:
+   - **Goals.** What outcome is being optimized? What counts as done?
+   - **Guardrails.** What actions are out of bounds? What invariants must hold throughout execution?
+   - **Success criteria.** How will the agent (and the human reviewer) *know* the task has been completed correctly—ideally in a machine-checkable form (tests, schemas, assertions) rather than subjective judgment?
+
+3. **Make the assets reusable.** One-shot prompts decay the moment the task ends; skills, reference documents, evaluation harnesses, and checklists compound over time. Treat every well-designed context artifact as a reusable asset—versioned, documented, and discoverable by future agents—so that the marginal cost of the next task falls with each task completed.
+
+4. **Optimize the information structure, not the phrasing.** Given goals, guardrails, and success criteria, the remaining engineering work is structural: what is loaded into the system prompt, what is retrieved just in time, what is offloaded to files or sub-agents, and what is compacted away. This is precisely the context-engineering discipline of Section 5, now elevated from a tactical skill to the *core* skill.
+
+> **The shift in a sentence:** The question is no longer "how do I phrase this prompt?" but "how do I *shape the information* the agent sees—goals, guardrails, success criteria, reusable assets—so that the right behavior becomes the path of least resistance?"
+
+### 6.5. Become an AI Manager
+
+The natural endpoint of this progression—from prompt engineering to context engineering to harness engineering—is a change in the human role itself. The engineer, researcher, or executive working with capable agents increasingly functions less as an individual contributor and more as a **manager of AI workers** ([OpenAI, 2026](https://openai.com/index/harness-engineering/) [20]; [Anthropic, 2026](https://www.anthropic.com/engineering/harness-design-long-running-apps) [21]).
+
+The analogy is substantive, not metaphorical. Modern agents, like human subordinates, **operate on context and creativity, are unpredictable in detail, but can handle genuine complexity** when properly managed. The management disciplines that produce good human teams therefore transfer, with only modest adaptation, to the management of agentic systems. Three practices are central:
+
+1. **Delegate with clarity.** Effective delegation to an agent requires the same two ingredients as effective delegation to a person: a clear objective and a built-in mechanism for the delegate to verify its own work. In the agentic setting, "self-check measures" take concrete forms—unit tests the agent must run, schemas its output must satisfy, invariants it must assert, or sub-agent critics that review its work before it returns. Tasks delegated without self-check are tasks whose quality the manager must verify by hand, which does not scale.
+
+2. **Evaluate with confidence.** Managing agents at scale requires the same evidentiary discipline as managing experiments: track runs, measure outcomes against pre-specified criteria, make data-driven decisions about which agents, skills, and harness configurations are working, and report progress in terms that decision-makers can act on. Evaluation is not a post-hoc activity; it is the feedback loop that allows the manager to improve the system over time.
+
+3. **Coach for growth.** The most valuable managerial act is to convert a successful one-off coaching interaction—"here is why the agent got this wrong, and here is how I'd rather it approached similar cases"—into a **reusable SOP**: a skill, a reference document, a guardrail, or an entry in `AGENTS.md`. Institutional memory for AI workers is explicit and externalized; the manager's job is to make sure hard-won lessons are written down in a form that future agents will actually read and follow.
+
+> **The capstone principle:** The frontier of productivity with agentic AI belongs to practitioners who think like managers—delegating with clarity, evaluating with evidence, and coaching institutional knowledge into reusable artifacts—rather than to those who think like power users of a chatbot. For business researchers in particular, this is a familiar skill set being applied to a new kind of worker.
+
 ## 7. Conclusion
 
 Agentic AI represents the next frontier in applied artificial intelligence—the transition from models that generate text to systems that autonomously plan, act, and learn in the world. The key themes of this lecture are:
@@ -621,6 +654,8 @@ Agentic AI represents the next frontier in applied artificial intelligence—the
 5. **The formal challenge.** Context engineering can be framed as an optimization problem: maximize the probability of the desired outcome subject to the hard constraint of context window size and the soft constraint of context rot. The ever-expanding universe of relevant information, filtered through a finite and degradation-prone window, defines the central tension that practitioners must navigate.
 
 6. **Harness engineering: from writing code to designing systems.** The emerging discipline of [harness engineering](https://openai.com/index/harness-engineering/) extends context engineering to the entire infrastructure around the model—environment design, feedback loops, evaluation, and permission management. The paradigm shift is profound: the engineer's role moves from author to architect, review becomes outcome-oriented, iteration becomes cheap, and optimization targets shift from human aesthetics to machine legibility and correctness. A key practical principle—provide agents a map, not a manual—ensures that information structure enables rather than overwhelms agent reasoning.
+
+7. **Context over prompts; management over authorship.** The practical takeaway for practitioners is twofold. First, *stop learning prompt engineering as a primary craft*: the leverage lies in supplying missing facts and precise specifications, designing an informational environment of goals, guardrails, and success criteria, and making every context artifact a reusable asset. Second, *become an AI manager*: treat capable agents as unpredictable-but-competent workers who must be delegated to with clarity (objectives plus self-check measures), evaluated with evidence (tracked experiments and data-driven decisions), and coached for growth (successful interactions distilled into reusable SOPs). The frontier of productivity belongs to those who think like managers of AI workers, not power users of a chatbot.
 
 > **The broader significance for business researchers:** Agentic AI is already transforming how research is conducted—from automated literature reviews and data analysis to experimental design and paper writing. Understanding the architecture of agents (loops, tools, memory), the standards that connect them to the world ([MCP](https://modelcontextprotocol.io/)), the risks they introduce (the lethal trifecta), the principles that make them effective ([context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)), and the systems engineering that makes them reliable ([harness engineering](https://openai.com/index/harness-engineering/)) is essential for any researcher who wishes to leverage—or study—these systems.
 
