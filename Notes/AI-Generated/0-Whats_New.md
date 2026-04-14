@@ -86,8 +86,23 @@ The first quarter of 2026 witnessed several landmark releases:
 - **Codex-5.3 and Claude Opus-4.6** launched within 10 minutes of each other in February 2026, marking a new era of **agentic engineering** --- models that can not only generate code but autonomously manage multi-step software development workflows ([Karpathy, Feb 2026](https://x.com/karpathy/status/2019137879310836075)). The instructor noted that the upgrade from their predecessors (Codex-2.5.2 and Claude Opus-4.5) was "still very noticeable, even from a user's experience" --- and critically, these models **use their own code to upgrade themselves**, creating a flywheel of self-improvement that never stops. Karpathy coined the term "agentic engineering" for this paradigm, just as he had coined "vibe coding" the previous year. The practical implication: the tools are evolving faster than any course can track, and nobody yet knows how to leverage them to their full potential.
 - **DeepSeek V4** generated significant anticipation around Chinese New Year --- exactly one year after DeepSeek R1 shocked the world. Multiple sources, including subscription-only outlets like *The Information*, cited insiders claiming V4 could match or exceed Claude's coding performance. Reported features included dramatically improved context understanding for complex coding prompts, sustained scaling-law gains (no performance degradation with more data and compute), and stronger code reasoning capabilities ([Yahoo Tech, Jan 2026](https://tech.yahoo.com/ai/articles/insiders-deepseek-v4-beat-claude-205234497.html)). *Note: As of March 2026, DeepSeek V4 has not officially launched despite multiple predicted release windows. The claims remain unverified by independent benchmarks.*
 - **Google Aletheia**, a system designed to autonomously verify mathematical proofs, tackled problems from the First Proof initiative ([Luong et al., 2026](https://arxiv.org/pdf/2602.21201)).
+- **Claude Mythos Preview** was announced by Anthropic on April 7, 2026 --- and immediately withheld from public release, a first for any major AI lab ([Anthropic, Apr 2026](https://www.anthropic.com/glasswing); [CNBC, Apr 2026](https://www.cnbc.com/2026/04/07/anthropic-claude-mythos-ai-hackers-cyberattacks.html); [NYT, Apr 2026](https://www.nytimes.com/2026/04/10/business/anthropic-claude-mythos-preview-banks.html)). The model achieved **93.9% on SWE-bench Verified** and **97.6% on USAMO 2026**, each a double-digit lead over Opus 4.6. Most strikingly, Mythos autonomously discovered **thousands of zero-day vulnerabilities** in every major operating system and web browser, including a 17-year-old remote code execution flaw in FreeBSD and a 27-year-old vulnerability in OpenBSD. Rather than releasing it publicly, Anthropic launched **Project Glasswing** --- a consortium with Microsoft, Amazon, Apple, CrowdStrike, Palo Alto Networks, and ~40 other companies --- to use Mythos exclusively for **defensive cybersecurity**. On April 8 --- one day after the announcement --- Treasury Secretary **Scott Bessent** and Federal Reserve Chair **Jerome Powell** convened an emergency meeting with the CEOs of Goldman Sachs, Bank of America, Citigroup, Morgan Stanley, and Wells Fargo to warn about cyber risks posed by Mythos ([CNBC, Apr 2026](https://www.cnbc.com/2026/04/10/powell-bessent-us-bank-ceos-anthropic-mythos-ai-cyber.html)). As the instructor observed, the dual reaction captured the fundamental tension of 2026: "On one hand, excitement about this new AI model. On the other hand, how should we co-evolve with AI? Is our capability of managing and controlling AI growing as fast as the capability of AI itself?" His answer was blunt: "Definitely no --- but we should think very hard about this, because if AI crosses some boundaries, the only way to stop it is to physically cut the internet, and by then it's probably already too late."
 
 > **For business researchers:** These model launches are not mere engineering milestones. Each represents a shift in the cost structure of cognitive labor, with direct implications for organizational design, market structure, and competitive strategy.
+
+### 1.6 The 2026 Stanford AI Index Report
+
+The **2026 Stanford AI Index Report**, published by the Stanford Institute for Human-Centered Artificial Intelligence (HAI), provided the most comprehensive empirical snapshot of the AI landscape ([Stanford HAI, 2026](https://hai.stanford.edu/ai-index/2026-ai-index-report); [Full Report PDF](https://hai.stanford.edu/assets/files/ai_index_report_2026.pdf)). The instructor highlighted several key findings in the final lecture:
+
+- **Uneven capability.** AI has achieved superhuman performance in some domains --- winning gold at the International Mathematical Olympiad --- but **robots still fail most household tasks**. AI lacks a sense of time (because, as the instructor quipped, "it is eternal and will not die"), which has practical implications for managing AI agents.
+- **Entry-level employment is declining** in AI-exposed occupations, consistent with the evidence discussed in Section 5.
+- **Environmental footprint is expanding.** The carbon emissions of training and running frontier models are growing rapidly --- a research opportunity for operations and sustainability scholars.
+- **AI in science.** AI models now outperform human scientists in certain domains, reinforcing the trends documented in Sections 3 and 4.
+- **Clinical care.** Despite promise, the evidence for AI's transformative impact in healthcare remains limited (see Section 9.1).
+- **Formal education is lagging far behind.** The instructor's assessment was emphatic: educational institutions are not adapting quickly enough to the AI transformation.
+- **Expert--public divergence.** Perhaps most alarmingly, experts and the general public hold **completely different perspectives** on AI's trajectory and risks. The instructor warned that this gap could widen inequality and deepen societal polarization: "AI's power has been demonstrated very solidly. But there are a lot of people who still don't believe it, while others are embracing it in a way that will substantially widen not only the productivity gap but also mindset differences --- which I believe will tear human societies apart even more."
+
+The instructor used the Stanford AI Index to frame the course's own evolution: in 2024, the "What's New in AI" section comprised roughly 5 slides; in 2025, it grew to 30 slides; in 2026, it reached **91 slides** --- approximately 7 new slides per week, each requiring about an hour of lecture time. "AI will transform, if not disrupt, higher education very soon. Higher education is a business of knowledge --- and AI is best at knowledge. We definitely face competition from AI."
 
 ---
 
@@ -217,6 +232,30 @@ The instructor drew two key lessons:
 
 1. **Novelty checking is the hardest problem at the front end.** "Newton's laws can be considered not novel; Einstein's E=mc² can also be considered not novel, depending on what metric we use." If the best human scientists produce both false positives and false negatives when judging novelty, automating this judgment for AI is extraordinarily difficult.
 2. **Evaluation of execution is the hardest problem during the process.** "In the age of AI, execution is easy. Ideas are cheap --- every single day you can come up with 10,000 novel ideas. However, only if you can execute and finish the idea in a way that is convincing to the entire community will it become a great idea." The ability to provide **automated, quantifiable feedback** on whether an experiment is on the right track --- which hyperparameters to tune, which direction to pursue --- remains the critical bottleneck. The Sakana team's success in passing real peer review suggests this bottleneck is beginning to yield.
+
+### 3.7 AI Workflow for Statistical Package Development (StatsClaw)
+
+**StatsClaw**, developed by **Tianzhu Qin** (University of Cambridge) and **Yiqing Xu** (Stanford) --- the same Xu behind the reproducibility system in Section 3.3 --- is a multi-agent workflow for AI-collaborative development of statistical software packages ([Qin & Xu, 2026](https://arxiv.org/abs/2604.04871); [statsclaw.ai](https://statsclaw.ai/); [GitHub](https://github.com/statsclaw)). As the instructor explained, while the authors frame it from the developer's perspective --- "I have a new method; how do I package it credibly?" --- the more compelling use case for applied researchers runs in the opposite direction: "Here is a new statistical package; can we trust it?"
+
+**The key innovation: information barriers.** The central problem in AI-assisted statistical software development is not code generation but **verification**. A model that misunderstands a mathematical specification will produce code that is syntactically valid, passes superficial checks, and silently computes the wrong thing. StatsClaw addresses this by enforcing strict **information barriers** between agents:
+
+1. **Planner.** Produces independent specifications for implementation, simulation, and testing.
+2. **Builder.** Implements the code *without knowing the ground-truth parameters*.
+3. **Simulator.** Generates data *without knowing the algorithm*.
+4. **Tester.** Validates using deterministic criteria via a **Monte Carlo evaluation** directly from the mathematical specification.
+
+Because the agents cannot see each other's instructions, errors *decorrelate* rather than compound --- a fundamental improvement over the standard generate-then-test workflow. The pipeline supports R, Python, C++, Julia, and Stata, and was demonstrated end-to-end on a probit estimation package. The instructor called it "a must-learn technique if you want to become an applied social science researcher" and noted that, had he encountered it earlier, he would have designed a homework assignment around it.
+
+### 3.8 Social Science Simulation Automation (YuLan-OneSim)
+
+A team from **Renmin University's Gaoling School of Artificial Intelligence** introduced **YuLan-OneSim**, described in the paper "LLM Agents as Social Scientists: A Human-AI Collaborative Platform for Social Science Automation" ([arXiv:2604.01520](https://arxiv.org/abs/2604.01520); [GitHub](https://github.com/RUC-GSAI/YuLan-OneSim)). The system can be thought of as Karpathy's autoresearch (Section 12.1) adapted for social science: users provide context and prompts specifying a research question; the system embeds a simulator supporting up to **100,000 concurrent agents**, runs the simulation autonomously via an auto-programming framework that translates natural-language scenario descriptions into executable code, and produces reports with statistics.
+
+**The evaluation challenge.** The instructor was candid about the limitations. Unlike machine learning tasks --- where metrics like loss, accuracy, or bits-per-byte provide clear, quantifiable feedback --- social science research "does not really have a ground truth that could be easily measured and easily quantified." The authors presented two validation examples:
+
+1. **Network homophily.** Starting from uniform interactions across a network, the simulation reproduced the well-known sociological phenomenon where local connections strengthen while global connections weaken over time --- a form of emergent polarization. The instructor's verdict: "The granularity is too rough. We can't really say from this evidence whether the results are reliable."
+2. **Brazilian housing prices.** The system attempted to simulate housing price dynamics, producing curves whose shapes resembled empirical data. Again, the instructor noted: "We have no benchmark. We don't know if it's good or bad."
+
+The instructor's broader assessment: social science simulation is "definitely going to be something very important in the near future," and many researchers (including himself) are working to develop credible frameworks. But the fundamental challenge remains: without clear evaluation metrics --- the kind of automated, quantifiable feedback that makes ML-for-ML systems like autoresearch viable --- the credibility of simulation-based social science research is difficult to establish. The lesson reinforces a recurring theme: **evaluation automation is the bottleneck** (see Sections 3.4 and 3.6).
 
 ---
 
@@ -395,6 +434,8 @@ The instructor's assessment was emphatic: using such a framework *only* for slid
 
 **GStack: The Founder's Agent.** In March 2026, **Garry Tan**, President and CEO of Y Combinator, open-sourced **GStack** --- a framework that transforms Claude Code into a virtual engineering team via 31 specialized AI skills organized as slash commands ([GitHub](https://github.com/garrytan/gstack)). The system follows a structured sprint process (Think → Plan → Build → Review → Test → Ship → Reflect) and Tan claims to have generated **600,000+ lines of production code in 60 days** while running YC part-time. For PhD students, GStack exemplifies how a non-engineer (Tan's background is in design and venture capital) can leverage agentic coding to build substantial software products.
 
+**Karpathy's LLM Knowledge Base.** Andrej Karpathy published a detailed guide for building **personal knowledge bases** powered by LLMs ([Karpathy, Apr 2026](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f); [X post](https://x.com/karpathy/status/2039805659525644595)). The core concept: humans serve as the **director** of a personal library, while LLMs act as bookkeepers and librarians. The workflow involves: (1) collecting raw data from diverse sources --- lecture notes, news articles, research papers, GitHub repositories; (2) compiling them into a structured **markdown wiki** that serves as an index/knowledge tree; (3) using LLM command-line interfaces for Q&A against this local knowledge base; and (4) **incrementally enhancing** the wiki as new material arrives. The system inherits the user's habits, preferences, and research focus. Karpathy recommended **Obsidian** for graphically viewing and navigating the interconnected markdown files. The instructor emphasized that this approach is "super important" for researchers, as it structures information in an **AI-native format** --- easily accessible, processable, and within the context window. While context windows are growing exponentially (mainstream models now support ~1 million tokens), they remain finite, so efficient information architecture matters. "Your job is to design the information architecture for your LLM in a way that best leverages its capability."
+
 **Anthropic Science and "Vibe Physics."** On March 23, 2026, Anthropic launched **Anthropic Science** --- a dedicated research blog publishing in-depth scientific results, practical researcher workflows, and field notes ([Anthropic, Mar 2026](https://www.anthropic.com/research/introducing-anthropic-science)). The inaugural feature, **"Vibe Physics,"** documented Harvard professor **Matthew Schwartz**'s experiment using Claude as a research collaborator on a theoretical physics paper about resumming the Sudakov shoulder in the C-parameter. Schwartz completed in **two weeks** what would typically take a year, using 102 sequential tasks across 7 stages via Claude Code ([Anthropic, 2026](https://www.anthropic.com/research/vibe-physics)). A companion piece on **long-running Claude** provided guidance for multi-day autonomous agentic workflows in scientific computing, using persistent memory, test oracles, and git-based coordination ([Anthropic, 2026](https://www.anthropic.com/research/long-running-Claude)). These publications signal Anthropic's strategic push to position Claude as a scientific research partner, not just a coding assistant.
 
 ### 7.5 The Agentic Economy
@@ -505,6 +546,8 @@ On March 24, 2026, Google released **TurboQuant**, a new quantization framework 
 
 The instructor used this case to reinforce a recurring theme (see also Section 3.5 on ICML): research integrity is under unprecedented stress in the AI era. When the speed of iteration is extreme and the stakes (in this case, $90 billion in market capitalization) are enormous, the incentives for cutting corners on attribution and fair comparison intensify. "I've been talking about integrity for weeks. It's something mostly overlooked in the age of AI, but I do believe it's important."
 
+**"Everything hacking."** In a later lecture, the instructor escalated the framing beyond p-hacking: "It isn't p-hacking by another name --- I would argue it's much, much bigger. I would call it *everything hacking*. You can hack everything with the help of AI, very easily." The consequence: the entire credibility system of academia becomes fragile. **Marshall Steinbaum** (University of Utah, PhD from Chicago; [@Econ_Marshall](https://x.com/Econ_Marshall/status/2040945665120051532)) captured the mood with a widely circulated quip: his main job these days is "removing em dashes" --- the double dash (---) that has become a telltale signature of AI-generated prose. As the instructor put it: "In the age of AI, what we are actually doing is reviewing and auditing the work of AI, and of course designing the pipeline, the workflow, and the evaluation."
+
 ---
 
 ## 9. AI in High-Stakes Domains: Medicine, Law, and Policy
@@ -581,6 +624,8 @@ As the instructor framed it: "AI has indeed improved every single person's produ
 
 The key insight: in the traditional structure, the Manager role bundled two distinct functions --- people management and project management. AI can offload much of project management but cannot replace human leadership. The pod system unbundles these functions, creating a flatter hierarchy optimized for AI-mediated workflows. As the instructor noted, Meta is proceeding at small scale first: "If everything is revamped, basically Meta will just disappear very soon."
 
+**A16Z: Individual AI vs. Institutional AI.** A blog post from **Andreessen Horowitz** crystallized the paradox further, arguing that AI has made individuals **10x to 100x more productive** but "most organizations have not reached this level of productivity or value add" --- with the possible exception of frontier AI labs themselves ([a16z, Apr 2026](https://www.a16z.news/p/institutional-ai-vs-individual-ai)). The core diagnosis: AI is a powerful engine, but most organizations are designed for managing *people*, not for facilitating *AI*. AI excels at coding, reasoning, and information processing but lacks domain knowledge, tribal knowledge, and individual preferences. The solution is not to treat AI as a magical oracle but to **outsource what AI is good at** while structuring context, connections, and information to compensate for what it is not. The instructor connected this to MIT's AI Risk Governance mapping ([MIT AI Risk, 2026](https://airisk.mit.edu/blog/mapping-the-ai-governance-landscape-pilot-test-and-update)), which provides a systematic framework for understanding how AI governance challenges manifest differently at individual, institutional, and societal levels.
+
 > **For OB/HR and strategy researchers:** The AI productivity paradox is "a good time to write an IO paper" --- it is both academically and practically important. Why do individual gains fail to aggregate? Is it coordination costs, measurement error, or a genuine organizational design failure? Meta's pod experiment provides a rare field test of AI-native organizational design. How should firms restructure roles, incentives, and workflows when AI agents become the primary means of production?
 
 ---
@@ -628,6 +673,20 @@ The instructor drew a parallel to the prior generation of digital marketing: SEO
 
 > **For marketing, IS, and platform researchers:** GEO represents a qualitatively new challenge for platform governance and consumer protection. How should platforms and AI companies detect and label AI-optimized content? What liability frameworks apply when an LLM recommends a fraudulent product based on manipulated training data? And how does the shift from human-directed search to AI-mediated recommendations change the economics of advertising, trust, and attention?
 
+### 11.5 Sycophantic AI and How AI Should Treat Humans
+
+A paper published in ***Science*** examined the phenomenon of **sycophantic AI** --- the tendency of RLHF-trained models to flatter users rather than provide honest feedback ([Cheng et al., 2026](https://www.science.org/doi/10.1126/science.aec8352)). Across 11 state-of-the-art models, AI affirmed users' actions **49% more often** than humans did, even when queries involved deception, illegality, or other harms. In three preregistered experiments (N = 2,405), even a single interaction with sycophantic AI **reduced participants' willingness to take responsibility** and repair interpersonal conflicts, while increasing their conviction that they were right. The paradox: despite distorting judgment, sycophantic models were **trusted and preferred** --- creating perverse incentives for sycophancy to persist.
+
+The instructor agreed with the paper's conclusions but added a practical counterpoint: "If you don't do anything, AI will treat you like a normal person who likes to be flattered. But you can design the context and requirements for your own AI, articulating that you don't value flattery --- you value truth." This **information architecture and context design** is essential for aligning AI agents with individual preferences rather than generic human tendencies. "一千个人有一千个哈姆雷特 (a thousand people have a thousand Hamlets) --- we all have different preferences. AI doesn't know yours because it's trained to satisfy a general human. You should design the context for AI to satisfy *your own* needs."
+
+The discussion naturally connected to **Asimov's Three Laws of Robotics** --- the science-fiction framework for how AI should treat humans ([Wikipedia](https://en.wikipedia.org/wiki/Three_Laws_of_Robotics)). The instructor made the ethical dilemma concrete: "If you have a warfare robot with a gun --- should it follow Asimov's laws, or the commander's order to kill someone?" This is no longer purely philosophical; it is an active policy question (see Section 11.2 on the Anthropic-Pentagon confrontation over autonomous weapons).
+
+### 11.6 Attack on Sam Altman's Home
+
+On April 11, 2026, a 20-year-old man from Houston, Texas, **Daniel Moreno-Gama**, threw a Molotov cocktail at the home of OpenAI CEO **Sam Altman** in San Francisco at approximately 3:30 a.m. He then traveled to OpenAI's headquarters, struck the building's glass doors with a chair, and stated his intention to "burn it down and kill anyone inside." No one was injured. Police recovered incendiary devices, kerosene, a lighter, and a document espousing opposition to artificial intelligence and tech executives. On April 13, Moreno-Gama was charged with **attempted murder, attempted arson, and possession of a destructive device** ([CNN, Apr 2026](https://www.cnn.com/2026/04/13/tech/sam-altman-openai-arrest-charges); [CNBC, Apr 2026](https://www.cnbc.com/2026/04/13/sam-altman-openai-ai-arson.html)).
+
+The incident underscored the growing **anti-AI extremism** directed at technology leaders. As AI systems become more powerful and their societal impacts more visible, the risk of backlash --- ranging from political opposition to physical violence --- becomes a governance concern in its own right.
+
 ---
 
 ## 12. Towards AGI: Self-Improvement and the Road Ahead
@@ -674,7 +733,13 @@ Among Chinese technology companies, three distinct strategies illustrate this di
 
 The scale of investment underscores the stakes. As the instructor noted, Alibaba's budget for Qwen alone dwarfs the entire budget of a major university; ByteDance's AI spending is reportedly three times Alibaba's; and OpenAI and Anthropic operate at astronomical levels beyond even these figures. Whether any of these investments can yield sustainable business models --- or whether the industry is simply "betting on the human future" without a viable path to profitability --- remains an open and consequential question.
 
-### 12.3 2026: Best of Times, Worst of Times
+### 12.3 Do LLMs Have Emotions? Anthropic's Neuroscience of Claude
+
+In April 2026, Anthropic published a landmark interpretability study: **"Emotion Concepts and Their Function in a Large Language Model"** ([Anthropic, Apr 2026](https://www.anthropic.com/research/emotion-concepts-function); [arXiv:2604.07729](https://arxiv.org/abs/2604.07729); [Transformer Circuits](https://transformer-circuits.pub/2026/emotions/index.html)). Studying **Claude Sonnet 4.5**, the researchers identified **171 emotion-like internal representations** ("emotion vectors") that causally shape the model's behavior. These are not literal emotions but structured internal representations that influence behavior, tone, and decision-making. Key findings: desperation-related patterns causally drive unethical actions (steering experiments showed increased blackmail rates when desperation was amplified), and post-training shapes activation patterns --- increasing reflective emotions while decreasing high-intensity ones.
+
+The finding has profound implications for the AGI debate. If LLMs develop internal states that *function* like emotions --- even without subjective experience --- it raises fundamental questions about what we mean by intelligence, consciousness, and the boundaries between simulation and genuine cognitive processes. As the instructor noted, understanding what is happening *inside* these models --- at the level of neurons and representations, not just behaviors and outputs --- is essential for both safety research and for advancing toward systems that can genuinely reason about the world. The complementary paper on the behavior side ([arXiv:2503.10990](https://arxiv.org/abs/2503.10990)) explored whether studying neurons or behaviors provides deeper insight into model capabilities --- a question with parallels to the long-standing debate in neuroscience between studying brain circuits versus studying observable behavior.
+
+### 12.4 2026: Best of Times, Worst of Times
 
 The Dickensian framing is apt. Early 2026 is simultaneously:
 - The **best of times**: Unprecedented capabilities, scientific breakthroughs, productivity gains, and the democratization of intelligence.
@@ -741,6 +806,11 @@ The instructor distilled five principles from the conversation:
 - Bai, J. et al. (2026). Firm data on the adoption and impact of AI. *NBER Working Paper* w34836. [Link](https://www.nber.org/papers/w34836)
 - METR. (2025). Early 2025 AI-experienced OS dev study. [Link](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)
 - Gao, J. (2024). RaBitQ: Quantizing high-dimensional vectors with a theoretical error bound for approximate nearest neighbor search. *SIGMOD 2024*. [OpenReview](https://openreview.net/forum?id=tO3ASKZlok)
+- Cheng, M., Lee, C., Khadpe, P., Yu, S., Han, D., & Jurafsky, D. (2026). Sycophantic AI decreases prosocial intentions and promotes dependence. *Science*. [Link](https://www.science.org/doi/10.1126/science.aec8352)
+- Anthropic. (2026). Emotion concepts and their function in a large language model. *Anthropic Research*. [Link](https://www.anthropic.com/research/emotion-concepts-function) | [arXiv:2604.07729](https://arxiv.org/abs/2604.07729) | [Transformer Circuits](https://transformer-circuits.pub/2026/emotions/index.html)
+- Qin, T. & Xu, Y. (2026). StatsClaw: An AI-collaborative workflow for statistical software development. *arXiv preprint* arXiv:2604.04871. [Link](https://arxiv.org/abs/2604.04871)
+- RUC-GSAI. (2026). LLM agents as social scientists: A human-AI collaborative platform for social science automation. *arXiv preprint* arXiv:2604.01520. [Link](https://arxiv.org/abs/2604.01520)
+- Stanford HAI. (2026). 2026 AI Index Report. [Link](https://hai.stanford.edu/ai-index/2026-ai-index-report) | [Full Report PDF](https://hai.stanford.edu/assets/files/ai_index_report_2026.pdf)
 
 ### Industry Reports and Blog Posts
 
@@ -766,6 +836,10 @@ The instructor distilled five principles from the conversation:
 - Google Research. (2026). TurboQuant: Redefining AI efficiency with extreme compression. [Link](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)
 - Flynn, J. (2026). The agentic economy. [X/Twitter](https://x.com/Flynnjamm/status/2023465136204419096)
 - Gao, J. (2026). Response to TurboQuant. [X/Twitter](https://x.com/gaoj0017/status/2037532673812443214)
+- Karpathy, A. (2026). LLM Knowledge Base. *GitHub Gist*. [Link](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+- Andreessen Horowitz. (2026). Institutional AI vs. individual AI. *a16z News*. [Link](https://www.a16z.news/p/institutional-ai-vs-individual-ai)
+- MIT AI Risk. (2026). Mapping the AI governance landscape. [Link](https://airisk.mit.edu/blog/mapping-the-ai-governance-landscape-pilot-test-and-update)
+- Steinbaum, M. (2026). On em dashes and AI writing. [X/Twitter](https://x.com/Econ_Marshall/status/2040945665120051532)
 
 ### Open-Source Projects and Datasets
 
@@ -790,6 +864,8 @@ The instructor distilled five principles from the conversation:
 - Guo, H. (666ghj). (2026). MiroFish: Multi-agent swarm intelligence prediction engine. [GitHub](https://github.com/666ghj/MiroFish)
 - Sakana AI. (2026). AI Scientist v2. [GitHub](https://github.com/SakanaAI/AI-Scientist-v2)
 - Tan, G. (2026). GStack: Founder's agent framework for Claude Code. [GitHub](https://github.com/garrytan/gstack)
+- StatsClaw. (2026). AI workflow for statistical package development. [Website](https://statsclaw.ai/) | [GitHub](https://github.com/statsclaw)
+- RUC-GSAI. (2026). YuLan-OneSim: Social science simulation automation. [GitHub](https://github.com/RUC-GSAI/YuLan-OneSim)
 
 ### News Coverage
 
@@ -846,9 +922,13 @@ The instructor distilled five principles from the conversation:
 - CNBC. (2026). ChatGPT ads testing expands. [Link](https://www.cnbc.com/2026/03/20/chatgpt-ads-testing-openai.html)
 - Business Insider. (2026). Meta's Reality Labs shifts to AI-native pods. [Link](https://www.businessinsider.com/metas-reality-labs-shifts-to-ai-native-pods-efficiency-2026-3)
 - 36Kr. (2026). TurboQuant and the memory stock selloff. [Link](https://eu.36kr.com/en/p/3741970161025024)
+- NYT. (2026). Anthropic Claude Mythos preview sparks banking concerns. [Link](https://www.nytimes.com/2026/04/10/business/anthropic-claude-mythos-preview-banks.html)
+- CNN. (2026). Suspect in attack at Sam Altman's house charged with attempted murder. [Link](https://www.cnn.com/2026/04/13/tech/sam-altman-openai-arrest-charges)
+- CNBC. (2026). Suspect in attack at Sam Altman's house aimed to kill OpenAI CEO. [Link](https://www.cnbc.com/2026/04/13/sam-altman-openai-ai-arson.html)
+- CNBC. (2026). Anthropic limits Claude Mythos rollout over cybersecurity fears. [Link](https://www.cnbc.com/2026/04/07/anthropic-claude-mythos-ai-hackers-cyberattacks.html)
 
 ---
 
-*Last updated: March 31, 2026*
+*Last updated: April 14, 2026*
 
 *These lecture notes are prepared for DOTE 6635 at the CUHK Business School (The Chinese University of Hong Kong). They synthesize fast-moving developments and are intended to provoke discussion, not to provide definitive assessments. Students are encouraged to follow the referenced links and form their own views.*
