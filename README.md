@@ -9,7 +9,7 @@
 </div>
 
 
-- 📚 **Scribed Lecture Notes**: Available soon.
+- 📚 [**Scribed Lecture Notes**](https://rphilipzhang.github.io/rphilipzhang/Scribed_Notes-AI-PhD-S26.pdf)
 - 🎥 [**Video Recording**](https://docs.google.com/document/d/14W1XFzDbxxcqzPXEsjM4281AMXAV7Neqbbyp5m2_h5I/edit?usp=sharing) (You need to apply for the access.)
 
 ## 👥 Teaching Team
